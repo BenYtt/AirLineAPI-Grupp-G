@@ -8,11 +8,11 @@ using AirLineAPI.Db_Context;
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
-    public class FlightsController : ControllerBase
+    public class TimeTablesController : ControllerBase
     {
         private readonly AirLineContext _context;
 
-        public FlightsController(AirLineContext context)
+        public TimeTablesController(AirLineContext context)
         {
             _context = context;
         }
