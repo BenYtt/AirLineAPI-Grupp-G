@@ -20,8 +20,14 @@ namespace AirLineAPI.Db_Context
             public DbSet<Passenger> Passengers { get; set; }
             public DbSet<Route> Routes { get; set; }
             public DbSet<TimeTable> TimeTables { get; set; }
+            public DbSet<PassengerTimeTable> PassengerTimeTables { get; set; }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PassengerTimeTable>().HasKey(pt => new { pt.PassengerId, pt.TimeTableId });
+            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.Passenger).WithMany(p => p.PassengerTimeTables).HasForeignKey(pt => pt.PassengerId);
+            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.TimeTable).WithMany(t => t.PassengerTimeTables).HasForeignKey(pt => pt.TimeTableId);
+        }
     }
 }
 
