@@ -13,6 +13,6 @@ namespace AirLineAPI.Model
         public Flight Flight { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public ICollection<Passenger> Passengers { get; set; }
+        public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
     }
 }
