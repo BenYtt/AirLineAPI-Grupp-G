@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Model
 {
-    public class Passanger
+    public class Passenger
     {
         public long ID { get; set; }
         public string Name { get; set; }
