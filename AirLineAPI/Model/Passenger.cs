@@ -13,4 +13,5 @@ namespace AirLineAPI.Model
         public TimeTable TimeTable { get; set; }
         public ICollection<TimeTable> TimeTables { get; set; }
     }
+
 }
