@@ -1,4 +1,5 @@
-﻿using AirLineAPI.Model;
+﻿using AirLineAPI.Dto;
+using AirLineAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,14 @@ namespace AirLineAPI.Repository
 {
     public interface ITimeTableRepository
     {
-        Task<List<TimeTable>> GetTimeTableById(int id);
+        Task<TimeTableView> GetTimeTableById(int id);
     }
     public interface IDestinationRepository
     {
-        Task<List<Destination>> GetDestinationById(int id);
+        Task<DestinationView> GetDestinationById(int id);
     }
     public interface IRouteRepository
     {
-        Task<List<Route>> GetRouteById(int id);
+        Task<RouteView> GetRouteById(int id);
     }
 }
