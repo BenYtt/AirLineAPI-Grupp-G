@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Repository
 {
-    public class DestinationRepo
+    public class DestinationRepo: IDestinationRepository
     {
-        public class TimeTableRepo : IDestinationRepository
-        {
+        
             private readonly AirLineContext db;
-            public TimeTableRepo(AirLineContext context)
+            public DestinationRepo(AirLineContext context)
             {
                 this.db = context;
             }
@@ -41,5 +40,4 @@ namespace AirLineAPI.Repository
             }
 
         }
-    }
 }

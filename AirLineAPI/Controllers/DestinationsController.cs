@@ -9,6 +9,7 @@ using AirLineAPI.Repository;
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
+    [ApiController]
     public class DestinationsController : ControllerBase
     {
         //private readonly AirLineContext _context;
@@ -18,6 +19,7 @@ namespace AirLineAPI.Controllers
             repo = repository;
         }
 
+        [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetDestinationById(int id)
         {
             try
@@ -37,5 +39,11 @@ namespace AirLineAPI.Controllers
             }
 
         }
+        //[HttpGet]
+        //public string GetDestinationById()
+        //{
+        //    return "Hej";
+
+        //}
     }
 }
