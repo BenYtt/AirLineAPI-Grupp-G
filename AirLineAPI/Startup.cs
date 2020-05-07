@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AirLineAPI.Db_Context;
+using AirLineAPI.Model;
+using AirLineAPI.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +21,10 @@ namespace AirLineAPI
         {
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<AirLineContext>();
+            services.AddScoped<IDestinationRepository, DestinationRepo>();
+            services.AddScoped<ITimeTableRepository, TimeTableRepo>();
+            services.AddScoped<IRouteRepository, RouteRepo>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
