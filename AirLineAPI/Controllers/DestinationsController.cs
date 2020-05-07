@@ -11,11 +11,11 @@ namespace AirLineAPI.Controllers
     [Route("api/v1.0/[controller]")]
     public class DestinationsController : ControllerBase
     {
-        private readonly AirLineContext _context;
+        //private readonly AirLineContext _context;
         private IDestinationRepository repo;
-        public DestinationsController(AirLineContext context)
+        public DestinationsController(IDestinationRepository repository)
         {
-            _context = context;
+            repo = repository;
         }
 
         public async Task<IActionResult> GetDestinationById(int id)

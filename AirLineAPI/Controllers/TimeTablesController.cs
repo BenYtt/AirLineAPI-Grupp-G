@@ -12,11 +12,11 @@ namespace AirLineAPI.Controllers
     public class TimeTablesController : ControllerBase
     {
         private ITimeTableRepository repo;
-        private readonly AirLineContext _context;
+        //private readonly AirLineContext _context;
 
-        public TimeTablesController(AirLineContext context)
+        public TimeTablesController(ITimeTableRepository repository)
         {
-            _context = context;
+            repo = repository;
         }
 
         [HttpGet]
