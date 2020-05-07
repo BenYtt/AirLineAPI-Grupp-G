@@ -29,8 +29,8 @@ namespace AirLineAPI.Dto
     {
         public long ID { get; set; }
         public string Name { get; set; }
-        public string StartDestination { get; set; }
-        public string EndDestination { get; set; }
+        public Destination StartDestination { get; set; }
+        public Destination EndDestination { get; set; }
         public TimeSpan TravelTime { get; set; }
     }
 }

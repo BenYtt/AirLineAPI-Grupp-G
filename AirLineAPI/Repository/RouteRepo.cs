@@ -25,10 +25,9 @@ namespace AirLineAPI.Repository
                              {
                                  ID = r.ID,
                                  Name = r.Name,
-                                 //StartDestination=r.StartDestination,
-                                 //EndDestination=r.EndDestination,
-                                 TravelTime = r.TravelTime
-
+                                 StartDestination = r.StartDestination,
+                                 EndDestination = r.EndDestination,
+                                 TravelTime = r.TravelTime,
                              }).FirstOrDefaultAsync();
             }
             return null;
