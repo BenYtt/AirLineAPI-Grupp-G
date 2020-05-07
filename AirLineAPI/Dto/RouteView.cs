@@ -1,0 +1,17 @@
+﻿using AirLineAPI.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AirLineAPI.Dto
+{
+    public class RouteView
+    {
+        public long ID { get; set; }
+        public string Name { get; set; }
+        public Destination StartDestination { get; set; }
+        public Destination EndDestination { get; set; }
+        public TimeSpan TravelTime { get; set; }
+    }
+}
