@@ -19,4 +19,9 @@ namespace AirLineAPI.Repository
     {
         Task<RouteView> GetRouteById(int id);
     }
+
+    public interface IPassengerRepository
+    {
+        Task<PassengerView> GetPassengerById(int id);
+    }
 }
