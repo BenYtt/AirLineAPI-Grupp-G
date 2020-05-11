@@ -1,5 +1,4 @@
-﻿using AirLineAPI.Dto;
-using AirLineAPI.Model;
+﻿using AirLineAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
