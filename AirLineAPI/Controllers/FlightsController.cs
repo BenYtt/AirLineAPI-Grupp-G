@@ -10,11 +10,5 @@ namespace AirLineAPI.Controllers
     [Route("api/v1.0/[controller]")]
     public class FlightsController : ControllerBase
     {
-        private readonly AirLineContext _context;
-
-        public FlightsController(AirLineContext context)
-        {
-            _context = context;
-        }
     }
 }
