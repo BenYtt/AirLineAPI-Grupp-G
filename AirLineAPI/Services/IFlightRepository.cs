@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    interface IFlightRepository : IRepository
+    interface ITimeTableRepository : IRepository
     {
         Task<Flight[]> GetFlights();
         Task<Flight> GetFlight(long FlightID);
