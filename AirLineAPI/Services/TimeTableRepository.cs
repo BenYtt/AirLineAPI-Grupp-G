@@ -9,22 +9,16 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public class FlightRepository : Repository, ITimeTableRepository
+    public class TimeTableRepository : Repository, ITimeTableRepository
     {
-        public FlightRepository(AirLineContext airLineContext, ILogger<FlightRepository> logger) : base(airLineContext, logger)
+        public TimeTableRepository(AirLineContext airLineContext, ILogger<FlightRepository> logger) : base(airLineContext, logger)
         {
 
         }
 
-        public async Task<Flight> GetFlight(long FlightID)
+        public Task<Flight> GetFlight(long FlightID)
         {
-            //_logger.LogInformation($"Getting Flight with ID {FlightID}.");
-
-            //IQueryable<Flight> flight = _context.Flights;
-
-            //return await flight.SingleOrDefaultAsync(f => f.ID == FlightID);
             throw new NotImplementedException();
-
         }
 
         public Task<Flight[]> GetFlights()
