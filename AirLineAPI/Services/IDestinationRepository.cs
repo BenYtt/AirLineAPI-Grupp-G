@@ -8,7 +8,7 @@ namespace AirLineAPI.Services
 {
     public interface IDestinationRepository : IRepository
     {
-        Task<Destination> GetDestinationByID(int destinationID);
+        Task<Destination> GetDestinationByID(long destinationID);
 
         Task<Destination[]> GetDestinations();
     }

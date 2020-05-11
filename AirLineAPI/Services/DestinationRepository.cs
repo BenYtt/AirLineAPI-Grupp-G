@@ -16,7 +16,7 @@ namespace AirLineAPI.Services
         {
             
         }
-        public async Task<Destination> GetDestinationByID(int destinationID)
+        public async Task<Destination> GetDestinationByID(long destinationID)
         {
             _logger.LogInformation($"Getting destination with ID {destinationID}");
             
