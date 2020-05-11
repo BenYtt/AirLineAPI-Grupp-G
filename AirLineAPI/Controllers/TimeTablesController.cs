@@ -11,34 +11,6 @@ namespace AirLineAPI.Controllers
     [Route("api/v1.0/[controller]")]
     public class TimeTablesController : ControllerBase
     {
-        private ITimeTableRepository repo;
-        //private readonly AirLineContext _context;
-
-        public TimeTablesController(ITimeTableRepository repository)
-        {
-            repo = repository;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetTimeTableById(int id)
-        {
-            try
-            {
-                var timeTbale = await repo.GetTimeTableById(id);
-                if (timeTbale == null)
-                {
-                    return NotFound();
-                }
-                return Ok(timeTbale);
-
-            }
-            catch (Exception)
-            {
-
-                return BadRequest();
-            }
-        }
-
 
     }
 }
