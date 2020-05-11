@@ -9,7 +9,7 @@ namespace AirLineAPI.Model
     {
         public long ID { get; set; }
         public string Name { get; set; }
-        public int PersonalNumber { get; set; }
+        public long PersonalNumber { get; set; }
         public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
     }
 
