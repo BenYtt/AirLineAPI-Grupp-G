@@ -23,12 +23,12 @@ namespace AirLineAPI
             services.AddDbContext<AirLineContext>();
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<IPassengerRepo, PassengerRepo>();
+            services.AddScoped<ITimeTableRepository, TimeTableRepository>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
-                services.AddScoped<IFlightRepository, FlightRepository>();
             });
 
         }
