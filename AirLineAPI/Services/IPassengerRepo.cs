@@ -8,6 +8,6 @@ namespace AirLineAPI.Services
 {
     interface IPassengerRepo
     {
-        Task<Passenger[]> GetPassenger(int passengerId, bool includeTimeTable=false);
+        Task<Passenger> GetPassenger(int passengerId, bool includeTimeTable=false);
     }
 }
