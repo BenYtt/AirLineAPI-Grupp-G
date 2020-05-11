@@ -8,7 +8,7 @@ namespace AirLineAPI.Services
 {
     interface ITimeTableRepository : IRepository
     {
-        Task<TimeTable[]> GetTimeTables(bool includePassangers = false, bool includeRoute = false);
+        Task<TimeTable[]> GetTimeTables(bool includePassangers = false, bool includeRoutes = false);
         Task<TimeTable> GetTimeTable(long FlightID, bool includePassangers = false, bool includeRoute = false);
     }
 }
