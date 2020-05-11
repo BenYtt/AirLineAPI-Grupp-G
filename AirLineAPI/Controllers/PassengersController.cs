@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
-using AirLineAPI.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirLineAPI.Controllers
