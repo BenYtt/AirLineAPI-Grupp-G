@@ -21,9 +21,7 @@ namespace AirLineAPI
         {
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<AirLineContext>();
-            services.AddScoped<IDestinationRepository, DestinationRepository>();
-            services.AddScoped<ITimeTableRepository, TimeTableRepo>();
-            services.AddScoped<IRouteRepository, RouteRepo>();
+
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
