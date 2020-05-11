@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace AirLineAPI.Repository
+namespace AirLineAPI.Services
 {
     public class TimeTableRepo: ITimeTableRepository
     {

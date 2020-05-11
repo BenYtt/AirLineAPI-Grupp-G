@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AirLineAPI.Db_Context;
 using AirLineAPI.Model;
-using AirLineAPI.Repository;
+using AirLineAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +24,11 @@ namespace AirLineAPI
             services.AddScoped<IDestinationRepository, DestinationRepo>();
             services.AddScoped<ITimeTableRepository, TimeTableRepo>();
             services.AddScoped<IRouteRepository, RouteRepo>();
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
         }
 
