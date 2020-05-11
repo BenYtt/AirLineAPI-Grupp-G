@@ -1,5 +1,4 @@
 ﻿using AirLineAPI.Db_Context;
-using AirLineAPI.Dto;
 using AirLineAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public class TimeTableRepo: ITimeTableRepository
+    public class TimeTableRepo
     {
        
     }
