@@ -7,21 +7,11 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public interface ITimeTableRepository
+    public interface IRepository
     {
-        Task<TimeTableView> GetTimeTableById(int id);
-    }
-    public interface IDestinationRepository
-    {
-        Task<DestinationView> GetDestinationById(int id);
-    }
-    public interface IRouteRepository
-    {
-        Task<RouteView> GetRouteById(int id);
-    }
-
-    public interface IPassengerRepository
-    {
-        Task<PassengerView> GetPassengerById(int id);
+        void Add<T>(T entity) where T : class;
+        void Delete<T>(T entity) where T : class;
+        void Update<T>(T entity) where T : class;
+        Task<bool> Save();
     }
 }
