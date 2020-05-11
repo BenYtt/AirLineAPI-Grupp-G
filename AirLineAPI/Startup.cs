@@ -26,6 +26,8 @@ namespace AirLineAPI
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+                services.AddScoped<IFlightRepository, FlightRepository>();
             });
 
         }
