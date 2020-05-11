@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public class FlightRepository : Repository, ITimeTableRepository
+    public class FlightRepository : Repository, IFlightRepository
     {
         public FlightRepository(AirLineContext airLineContext, ILogger<FlightRepository> logger) : base(airLineContext, logger)
         {
