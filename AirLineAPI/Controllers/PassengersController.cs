@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using AirLineAPI.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace AirLineAPI.Controllers
 {
@@ -13,20 +15,51 @@ namespace AirLineAPI.Controllers
     [ApiController]
     public class PassengersController : ControllerBase
     {
-        private readonly AirLineContext _context;
+        private readonly IPassengerRepo repo;
 
-        public PassengersController(AirLineContext context)
+        public PassengersController(IPassengerRepo repo)
         {
-            _context = context;
+            this.repo = repo;
         }
 
-        
+
         [HttpGet]
-        public async Task<string> Get()
+        public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable) 
         {
-            var passenger = _context.Passengers.Where(p => p.ID == 1).FirstOrDefaultAsync();
-            return passenger.Result.Name;
+            try
+            {
+                if (repo == null)
+                {
+                    return NotFound();
+                }
+                var result = await repo.GetPassengers(timeTable);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failor: {e.Message}");
+            }
+        
         }
 
+        [Route("{id}")]
+        public async Task<ActionResult<Passenger>> GetPassengerById([FromQuery] long passengerID, bool timeTable)
+        {
+            try
+            {
+                if (repo == null)
+                {
+                    return NotFound();
+                }
+                var result = await repo.GetPassenger(passengerID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $" Database failed {e.Message}");
+            }
+        }
+        
     }
 }
