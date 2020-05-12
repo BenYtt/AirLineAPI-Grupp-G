@@ -36,11 +36,11 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByID([FromQuery]long id, bool includePassengers = false, bool includeRoute = false)
+        public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, [FromQuery]bool includePassengers = false, [FromQuery]bool includeRoutes = false)
         {
             try
             {
-                var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoute);
+                var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoutes);
                 return Ok(results);
             }
             catch (Exception e)
