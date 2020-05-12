@@ -16,15 +16,13 @@ namespace AirLineAPI.Services
 
         }
 
-        public async Task<Flight> GetFlight(long FlightID)
+        public async Task<Flight> GetFlightByID(long flightID)
         {
-            //_logger.LogInformation($"Getting Flight with ID {FlightID}.");
+            _logger.LogInformation($"Getting flight from id: {flightID}");
+            IQueryable<Flight> query = _context.Flights;
 
-            //IQueryable<Flight> flight = _context.Flights;
-
-            //return await flight.SingleOrDefaultAsync(f => f.ID == FlightID);
-            throw new NotImplementedException();
-
+            query = query.Where(f => f.ID == flightID);
+            return await query.FirstOrDefaultAsync();
         }
 
         public Task<Flight[]> GetFlights()
