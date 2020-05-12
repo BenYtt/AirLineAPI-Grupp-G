@@ -11,10 +11,18 @@ namespace AirLineAPI.Services
 {
     public class PassengerRepo : Repository, IPassengerRepo
     {
-        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger)
+        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger) { }
+        public async Task<Passenger[]> GetPassengers(bool includeTimeTable = false)
         {
+            _logger.LogInformation($"Getting passengers");
+            IQueryable<Passenger> query = _context.Passengers;
+            if (includeTimeTable)
+            {
+                query = query.Include(x => x.PassengerTimeTables);
+            }
+            return await query.ToArrayAsync();
+        
         }
-
         public async Task<Passenger> GetPassenger(int passengerId, bool includeTimeTable = false)
         {
             _logger.LogInformation($"Getting passenger by id {passengerId}");
