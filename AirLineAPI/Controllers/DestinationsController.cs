@@ -28,7 +28,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var result = _destinationRepository.GetDestinationByID(id);
+                var result = await _destinationRepository.GetDestinationByID(id);
                 return Ok(result);
             }
             catch (Exception e)
@@ -42,7 +42,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var result = _destinationRepository.GetDestinations();
+                var result = await _destinationRepository.GetDestinations();
                 return Ok(result);
             }
             catch(Exception e)
