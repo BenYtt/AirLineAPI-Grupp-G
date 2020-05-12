@@ -23,7 +23,7 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         
         }
-        public async Task<Passenger> GetPassenger(int passengerId, bool includeTimeTable = false)
+        public async Task<Passenger> GetPassenger(long passengerId, bool includeTimeTable = false)
         {
             _logger.LogInformation($"Getting passenger by id {passengerId}");
             IQueryable<Passenger> query = _context.Passengers;
