@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    interface IRouteRepository : IRepository
+    public interface IRouteRepository : IRepository
     {
-        Task<Route[]> GetRoutes(bool includeDestinations);
-        Task<Route> GetRoute(long RouteID, bool includeDestinations);
+        Task<Route[]> GetRoutes();
+        Task<Route> GetRoute(long RouteID);
     }
 }
