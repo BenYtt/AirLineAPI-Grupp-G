@@ -16,14 +16,15 @@ namespace AirLineAPI.Services
 
         }
 
-        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoute = false)
+        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
         {
             _logger.LogInformation("Getting TimeTables.");
             IQueryable<TimeTable> query = _context.TimeTables;
 
-            if (includePassengers && includeRoute)
+            if (includePassengers && includeRoutes)
             {
                 query = query.Include(a => a.PassengerTimeTables)
+                    .ThenInclude(a => a.Passenger)
                     .Include(a => a.Route);
             }
             else if (includePassengers)
@@ -31,7 +32,7 @@ namespace AirLineAPI.Services
                 query = query.Include(a => a.PassengerTimeTables)
                     .ThenInclude(a => a.Passenger);
             }
-            else if (includeRoute)
+            else if (includeRoutes)
             {
                 query = query.Include(a => a.Route);
             }
@@ -40,12 +41,14 @@ namespace AirLineAPI.Services
 
         }
 
-        public async Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoute = false)
+        public async Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false)
         {
             _logger.LogInformation($"Getting TimeTable from id: {timeTableID}.");
             IQueryable<TimeTable> query = _context.TimeTables;
             
-            if (includePassengers && includeRoute)
+            query = query.Where(t => t.ID == timeTableID);
+            
+            if (includePassengers && includeRoutes)
             {
                 query = query.Include(a => a.PassengerTimeTables)
                     .Include(a => a.Route);
@@ -55,12 +58,11 @@ namespace AirLineAPI.Services
                 query = query.Include(a => a.PassengerTimeTables)
                     .ThenInclude(a => a.Passenger);
             }
-            else if (includeRoute)
+            else if (includeRoutes)
             {
                 query = query.Include(a => a.Route);
             }
             
-            query = query.Where(t => t.ID == timeTableID);
             return await query.SingleOrDefaultAsync();
         }
     }
