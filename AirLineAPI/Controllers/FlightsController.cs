@@ -35,6 +35,7 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<Flight[]>> GetFlightById(long id)
         {
             try
