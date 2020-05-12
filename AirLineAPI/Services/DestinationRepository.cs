@@ -31,7 +31,6 @@ namespace AirLineAPI.Services
 
             IQueryable<Destination> destinations = _context.Destinations;
 
-
             return await destinations.ToArrayAsync();
         }
     }
