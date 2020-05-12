@@ -17,34 +17,22 @@ namespace AirLineAPI.Services
 
         }
 
-        public async Task<Route> GetRoute(long routeID, bool includeDestinations = false)
+        public async Task<Route> GetRoute(long routeID)
         {
             _logger.LogInformation($"Getting passenger by id {routeID}");
             IQueryable<Route> query = _context.Routes;
-            if (includeDestinations)
-            {
-                query = query.Include(s => s.StartDestination)
-                    .ThenInclude(c => c.City)
-                    .Include(e => e.EndDestination)
-                    .ThenInclude(c => c.City);
-            }
-            query = query.Where(x => x.ID == routeID);
+            query = query.Where(x => x.ID == routeID)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
+
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Route[]> GetRoutes(bool includeDestinations = false)
+        public async Task<Route[]> GetRoutes()
         {
             _logger.LogInformation("Getting events");
             IQueryable<Route> query = _context.Routes
-                .Include(r => r.Name);
-
-            if (includeDestinations)
-            {
-                query = query.Include(s => s.StartDestination)
-                    .ThenInclude(c => c.City)
-                    .Include(e => e.EndDestination)
-                    .ThenInclude(c => c.City);
-            }
+                .Include(r => r.StartDestination); 
 
             query = query.OrderBy(s => s.StartDestination);
             return await query.ToArrayAsync();
