@@ -21,6 +21,22 @@ namespace AirLineAPI.Controllers
             _destinationRepository = destinationRepository;
         }
 
+        
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<Destination>> GetDestinationByID(long id)
+        {
+            try
+            {
+                var result = _destinationRepository.GetDestinationByID(id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult<Destination[]>> GetDestinations()
         {
