@@ -16,12 +16,29 @@ namespace AirLineAPI.Services
 
         }
 
-        public Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
+        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
         {
-            throw new NotImplementedException();
-        }
+            _logger.LogInformation("Getting TimeTables.");
+            IQueryable<TimeTable> query = _context.TimeTables;
 
-        public Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false)
+            if (includePassengers && includeRoutes)
+            {
+                query = query.Include(a => a.PassengerTimeTables)
+                    .Include(a => a.Route);
+            }
+            else if (includePassengers)
+            {
+                query = query.Include(a => a.PassengerTimeTables)
+                    .ThenInclude(a => a.Passenger);
+            }
+            else if (includeRoutes)
+            {
+                query = query.Include(a => a.Route);
+            }
+
+            return await query.ToArrayAsync();
+        }
+            public Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false)
         {
             throw new NotImplementedException();
         }
