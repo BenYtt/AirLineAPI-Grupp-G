@@ -27,9 +27,13 @@ namespace AirLineAPI.Services
 
         }
 
-        public Task<Flight[]> GetFlights()
+        public async Task<Flight[]> GetFlights()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Getting flights");
+            IQueryable<Flight> query = _context.Flights;
+
+            query = query.OrderBy(f => f.Manufacturer);
+            return await query.ToArrayAsync();
         }
     }
 }
