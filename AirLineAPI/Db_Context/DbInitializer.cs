@@ -53,27 +53,27 @@ namespace AirLineAPI.Db_Context
 
             var passengers = new Passenger[]
             {
-                new Passenger {Name = "Berra", PersonalNumber = 199002128812},
-                new Passenger {Name = "Lars", PersonalNumber = 198810128912},
-                new Passenger {Name = "Moa", PersonalNumber = 197011011010},
-                new Passenger {Name = "Peter", PersonalNumber = 199005285896},
-                new Passenger {Name = "Greta", PersonalNumber = 197110316689},
-                new Passenger {Name = "Göran", PersonalNumber = 197405213880},
-                new Passenger {Name = "Felix", PersonalNumber = 198602056726},
-                new Passenger {Name = "Johanna", PersonalNumber = 197712165666},
-                new Passenger {Name = "Gösta", PersonalNumber = 196807170433},
-                new Passenger {Name = "Freja", PersonalNumber = 198310226678},
-                new Passenger {Name = "Klara", PersonalNumber = 199207295040},
-                new Passenger {Name = "Anders", PersonalNumber = 199407081570},
-                new Passenger {Name = "Pernilla", PersonalNumber = 196004135080},
-                new Passenger {Name = "Klas", PersonalNumber = 199402092317},
-                new Passenger {Name = "Hans", PersonalNumber = 198301155761},
-                new Passenger {Name = "Nils", PersonalNumber = 196711138567},
-                new Passenger {Name = "Lasse", PersonalNumber = 198505291875},
-                new Passenger {Name = "Ulla", PersonalNumber = 199403212146},
-                new Passenger {Name = "Loe", PersonalNumber = 196310315087},
-                new Passenger {Name = "Lowe", PersonalNumber = 198205313938},
-                new Passenger {Name = "Stig", PersonalNumber = 199903105287, }
+                new Passenger {Name = "Berra", IdentificationNumber = 199002128812},
+                new Passenger {Name = "Lars", IdentificationNumber = 198810128912},
+                new Passenger {Name = "Moa", IdentificationNumber = 197011011010},
+                new Passenger {Name = "Peter", IdentificationNumber = 199005285896},
+                new Passenger {Name = "Greta", IdentificationNumber = 197110316689},
+                new Passenger {Name = "Göran", IdentificationNumber = 197405213880},
+                new Passenger {Name = "Felix", IdentificationNumber = 198602056726},
+                new Passenger {Name = "Johanna", IdentificationNumber = 197712165666},
+                new Passenger {Name = "Gösta", IdentificationNumber = 196807170433},
+                new Passenger {Name = "Freja", IdentificationNumber = 198310226678},
+                new Passenger {Name = "Klara", IdentificationNumber = 199207295040},
+                new Passenger {Name = "Anders", IdentificationNumber = 199407081570},
+                new Passenger {Name = "Pernilla", IdentificationNumber = 196004135080},
+                new Passenger {Name = "Klas", IdentificationNumber = 199402092317},
+                new Passenger {Name = "Hans", IdentificationNumber = 198301155761},
+                new Passenger {Name = "Nils", IdentificationNumber = 196711138567},
+                new Passenger {Name = "Lasse", IdentificationNumber = 198505291875},
+                new Passenger {Name = "Ulla", IdentificationNumber = 199403212146},
+                new Passenger {Name = "Loe", IdentificationNumber = 196310315087},
+                new Passenger {Name = "Lowe", IdentificationNumber = 198205313938},
+                new Passenger {Name = "Stig", IdentificationNumber = 199903105287, }
             };
 
             foreach (var p in passengers)
@@ -84,8 +84,8 @@ namespace AirLineAPI.Db_Context
 
             var routes = new Route[]
            {
-                new Route{Name = "GBG-STHLM", TravelTime = new TimeSpan(0,4,0,0), StartDestination = destinations.Single(x => x.City == "Stockholm"), EndDestination = destinations.Single(x => x.City == "Gothenburg")},
-                new Route{Name = "STHLM-GBG", TravelTime = new TimeSpan(0,4,0,0), StartDestination = destinations.Single(x => x.City == "Gothenburg"), EndDestination = destinations.Single(x => x.City == "Stockholm")},
+                new Route{Name = "GBG-STHLM", TravelTime = new TimeSpan(0,4,0,0), StartDestination = destinations.Single(x => x.City == "Gothenburg"), EndDestination = destinations.Single(x => x.City == "Stockholm")},
+                new Route{Name = "STHLM-GBG", TravelTime = new TimeSpan(0,4,0,0), StartDestination = destinations.Single(x => x.City == "Stockholm"), EndDestination = destinations.Single(x => x.City == "Gothenburg")},
                 new Route{Name = "OSLO-HEL", TravelTime = new TimeSpan(0,5,0,0), StartDestination = destinations.Single(x => x.City == "Oslo"), EndDestination = destinations.Single(x => x.City == "Helsinki")},
                 new Route{Name = "HEL-OSLO", TravelTime = new TimeSpan(0,5,0,0), StartDestination = destinations.Single(x => x.City == "Helsinki"), EndDestination = destinations.Single(x => x.City == "Oslo")},
                 new Route{Name = "STHLM-STAV", TravelTime = new TimeSpan(0,7,0,0), StartDestination = destinations.Single(x => x.City == "Stockholm"), EndDestination = destinations.Single(x => x.City == "Stavanger")},
@@ -122,11 +122,11 @@ namespace AirLineAPI.Db_Context
 
             var passangerTimeTable = new PassengerTimeTable[]
            {
-                 new PassengerTimeTable{Passenger = passengers.Single(x => x.PersonalNumber == 199002128812), TimeTable = timeTables[0]},
-                 new PassengerTimeTable{Passenger = passengers.Single(x => x.PersonalNumber == 198810128912), TimeTable = timeTables[1]},
-                 new PassengerTimeTable{Passenger = passengers.Single(x => x.PersonalNumber == 197011011010), TimeTable = timeTables[1]},
-                 new PassengerTimeTable{Passenger = passengers.Single(x => x.PersonalNumber == 199005285896), TimeTable = timeTables[1]},
-                 new PassengerTimeTable{Passenger = passengers.Single(x => x.PersonalNumber == 197110316689), TimeTable = timeTables[2]},
+                 new PassengerTimeTable{Passenger = passengers.Single(x => x.IdentificationNumber == 199002128812), TimeTable = timeTables[0]},
+                 new PassengerTimeTable{Passenger = passengers.Single(x => x.IdentificationNumber == 198810128912), TimeTable = timeTables[1]},
+                 new PassengerTimeTable{Passenger = passengers.Single(x => x.IdentificationNumber == 197011011010), TimeTable = timeTables[1]},
+                 new PassengerTimeTable{Passenger = passengers.Single(x => x.IdentificationNumber == 199005285896), TimeTable = timeTables[1]},
+                 new PassengerTimeTable{Passenger = passengers.Single(x => x.IdentificationNumber == 197110316689), TimeTable = timeTables[2]},
            };
 
             foreach (var p in passangerTimeTable)
