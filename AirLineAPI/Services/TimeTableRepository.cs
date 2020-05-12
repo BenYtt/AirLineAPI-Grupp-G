@@ -21,6 +21,12 @@ namespace AirLineAPI.Services
             _logger.LogInformation("Getting TimeTables.");
             IQueryable<TimeTable> query = _context.TimeTables;
 
+
+        public async Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoute = false)
+        {
+            _logger.LogInformation($"Getting TimeTable from id: {timeTableID}");
+            IQueryable<TimeTable> query = _context.TimeTables;
+            
             if (includePassengers && includeRoutes)
             {
                 query = query.Include(a => a.PassengerTimeTables)
@@ -35,12 +41,9 @@ namespace AirLineAPI.Services
             {
                 query = query.Include(a => a.Route);
             }
-
-            return await query.ToArrayAsync();
-        }
-            public Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false)
-        {
-            throw new NotImplementedException();
+            
+            query = query.Where(t => t.ID == timeTableID);
+            return await query.FirstOrDefaultAsync();
         }
     }
 }
