@@ -52,7 +52,7 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassenger(passengerID);
+                var result = await repo.GetPassenger(passengerID, timeTable);
                 return Ok(result);
             }
             catch (Exception e)
