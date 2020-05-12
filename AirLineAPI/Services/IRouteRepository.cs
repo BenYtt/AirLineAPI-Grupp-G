@@ -8,7 +8,7 @@ namespace AirLineAPI.Services
 {
     interface IRouteRepository : IRepository
     {
-        Task<Route[]> GetFlights();
-        Task<Route> GetFlight(long FlightID);
+        Task<Route[]> GetRoutes(bool includeDestinations);
+        Task<Route> GetRoute(long RouteID, bool includeDestinations);
     }
 }
