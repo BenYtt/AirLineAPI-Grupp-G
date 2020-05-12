@@ -24,6 +24,7 @@ namespace AirLineAPI
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<IPassengerRepo, PassengerRepo>();
             services.AddScoped<ITimeTableRepository, TimeTableRepository>();
+            services.AddScoped<IDestinationRepository, DestinationRepository>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
