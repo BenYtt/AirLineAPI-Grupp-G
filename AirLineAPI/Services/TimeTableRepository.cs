@@ -51,6 +51,7 @@ namespace AirLineAPI.Services
             if (includePassengers && includeRoutes)
             {
                 query = query.Include(a => a.PassengerTimeTables)
+                    .ThenInclude(a => a.Passenger)
                     .Include(a => a.Route);
             }
             else if (includePassengers)
