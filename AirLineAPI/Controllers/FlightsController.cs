@@ -64,5 +64,20 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("model/{model}")]
+        public async Task<ActionResult<Flight[]>> GetFlightsByModel(string model)
+        {
+            try
+            {
+                var results = await _repository.GetFlightsByModel(model);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
     }
 }
