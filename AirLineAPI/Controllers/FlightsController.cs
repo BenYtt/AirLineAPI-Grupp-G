@@ -50,7 +50,7 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
-        [Route("manufacturer/{manufacturer}")]
+        [Route("manufacturer={manufacturer}")]
         public async Task<ActionResult<Flight[]>> GetFlightsByManufacturer(string manufacturer)
         {
             try
