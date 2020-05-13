@@ -64,5 +64,25 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
+        [HttpGet]
+        [Route("identityNm={identityNm}")]
+        public async Task<ActionResult<Passenger>> GetPassengerById(long identityNm)
+        {
+            try
+            {
+                if (repo == null)
+                {
+                    return NotFound();
+                }
+                var result = await repo.GetPassengerByIdentificationNumber(identityNm);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $" Database failed {e.Message}");
+            }
+        }
+
     }
 }

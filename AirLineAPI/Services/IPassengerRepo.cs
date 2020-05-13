@@ -10,5 +10,6 @@ namespace AirLineAPI.Services
     {
         Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false);
         Task<Passenger[]> GetPassengers(bool includeTimeTable = false);
+        Task<Passenger> GetPassengerByIdentificationNumber(long identitificationNm);
     }
 }
