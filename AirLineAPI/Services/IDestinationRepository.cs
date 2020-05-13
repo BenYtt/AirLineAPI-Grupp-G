@@ -13,5 +13,7 @@ namespace AirLineAPI.Services
         Task<Destination[]> GetDestinations();
 
         Task<Destination[]> GetDestinationsByCountry(string country);
+
+        Task<Destination> GetDestinationByCity(string city);
     }
 }
