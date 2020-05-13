@@ -10,10 +10,10 @@ namespace AirLineAPI.Model
     {
         public long ID { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "The CityColumn needs to be longer then 3 characters")]
+        [StringLength(100, MinimumLength = 3)]
         public string City { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "The CountryColumn needs to be longer then 3 characters")]
+        [StringLength(100, MinimumLength = 3)]
         public string Country { get; set; }
     }
 }
