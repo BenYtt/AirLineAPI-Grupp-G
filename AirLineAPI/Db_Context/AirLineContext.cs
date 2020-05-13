@@ -35,6 +35,8 @@ namespace AirLineAPI.Db_Context
             modelBuilder.Entity<PassengerTimeTable>().HasKey(pt => new { pt.PassengerId, pt.TimeTableId });
             modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.Passenger).WithMany(p => p.PassengerTimeTables).HasForeignKey(pt => pt.PassengerId);
             modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.TimeTable).WithMany(t => t.PassengerTimeTables).HasForeignKey(pt => pt.TimeTableId);
+
+            
         }
     }
 }
