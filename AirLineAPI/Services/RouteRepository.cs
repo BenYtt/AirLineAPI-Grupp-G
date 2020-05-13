@@ -17,7 +17,7 @@ namespace AirLineAPI.Services
 
         }
 
-        public async Task<Route> GetRoute(long routeID)
+        public async Task<Route> GetRouteByID(long routeID)
         {
             _logger.LogInformation($"Getting passenger by id {routeID}");
             IQueryable<Route> query = _context.Routes;
@@ -30,11 +30,35 @@ namespace AirLineAPI.Services
 
         public async Task<Route[]> GetRoutes()
         {
-            _logger.LogInformation("Getting events");
+            _logger.LogInformation("Getting all routes");
             IQueryable<Route> query = _context.Routes
                 .Include(r => r.StartDestination); 
 
             query = query.OrderBy(s => s.StartDestination);
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Route[]> GetRoutesByTimeIntervalGreatherThan(int time)
+        {
+            var timeToFind = new TimeSpan(0, time, 0, 0);
+            _logger.LogInformation("Getting routes by flight time");
+            IQueryable<Route> query = _context.Routes
+                .Where(t => t.TravelTime < timeToFind)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Route[]> GetRoutesByTimeIntervalLessThan(int time)
+        {
+            var timeToFind = new TimeSpan(0, time, 0, 0);
+            _logger.LogInformation("Getting routes by flight time");
+            IQueryable<Route> query = _context.Routes
+                .Where(t => t.TravelTime > timeToFind)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
+
             return await query.ToArrayAsync();
         }
     }
