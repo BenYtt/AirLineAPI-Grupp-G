@@ -25,6 +25,15 @@ namespace AirLineAPI.Services
             return await destination.FirstOrDefaultAsync(d => d.ID == destinationID);
         }
 
+        public async Task<Destination> GetDestinationByName(string city)
+        {
+            _logger.LogInformation($"Getting destination with name {city}");
+
+            IQueryable<Destination> destination = _context.Destinations;
+
+            return await destination.FirstOrDefaultAsync(d => d.City == city);
+        }
+
         public async Task<Destination[]> GetDestinations()
         {
             _logger.LogInformation($"Getting destinations");

@@ -49,8 +49,21 @@ namespace AirLineAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
-            
+        }
 
+        [HttpGet]
+        [Route("city={city}")]
+        public async Task<ActionResult<Destination>> GetDestinationByName([FromRoute]string city)
+        {
+            try
+            {
+                var result = await _destinationRepository.GetDestinationByName(city);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
         }
     }
 }
