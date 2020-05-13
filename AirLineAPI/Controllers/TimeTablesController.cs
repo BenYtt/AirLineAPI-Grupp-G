@@ -21,7 +21,7 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTables([FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        public async Task<ActionResult<TimeTable[]>> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, [FromQuery]bool includePassengers = false, [FromQuery]bool includeRoutes = false)
+        public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("startDestination={startDestination}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("endDestination={endDestination}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
