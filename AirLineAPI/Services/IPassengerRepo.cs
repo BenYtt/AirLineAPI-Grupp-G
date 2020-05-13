@@ -8,7 +8,7 @@ namespace AirLineAPI.Services
 {
     public interface IPassengerRepo
     {
-        Task<Passenger> GetPassenger(long passengerId, bool includeTimeTable = false);
+        Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false);
         Task<Passenger[]> GetPassengers(bool includeTimeTable = false);
     }
 }

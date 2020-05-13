@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
@@ -23,7 +24,8 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         
         }
-        public async Task<Passenger> GetPassenger(long passengerId, bool includeTimeTable = false)
+
+        public async Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false)
         {
             _logger.LogInformation($"Getting passenger by id {passengerId}");
             IQueryable<Passenger> query = _context.Passengers;
@@ -34,5 +36,6 @@ namespace AirLineAPI.Services
             query = query.Where(x => x.ID == passengerId);
             return await query.FirstOrDefaultAsync();
         }
+
     }
 }
