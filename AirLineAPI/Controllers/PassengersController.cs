@@ -22,8 +22,8 @@ namespace AirLineAPI.Controllers
             this.repo = repo;
         }
 
-
-        [HttpGet]
+        //api/v1.0/Passengers
+        [HttpGet]   
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable) 
         {
             try
@@ -43,8 +43,11 @@ namespace AirLineAPI.Controllers
         
         }
 
+        //api/v1.0/passengers?timeTable=true             Get passengers with time table
+        //api/v1.0/passengers/1                          Get a passenger
+        //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
         [Route("{id}")]
-        public async Task<ActionResult<Passenger>> GetPassengerById([FromQuery] long passengerID, bool timeTable)
+        public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
             {
@@ -52,7 +55,7 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassenger(passengerID, timeTable);
+                var result = await repo.GetPassengerById(id, timeTable);
                 return Ok(result);
             }
             catch (Exception e)
@@ -60,6 +63,6 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $" Database failed {e.Message}");
             }
         }
-        
+
     }
 }
