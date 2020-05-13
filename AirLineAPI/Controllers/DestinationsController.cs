@@ -52,5 +52,20 @@ namespace AirLineAPI.Controllers
             
 
         }
+
+        [HttpGet]
+        [Route("country={country}")]
+        public async Task<ActionResult<Destination[]>> GetDestinationsByCountry(string country)
+        {
+            try
+            {
+                var result = await _destinationRepository.GetDestinationsByCountry(country);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
     }
 }

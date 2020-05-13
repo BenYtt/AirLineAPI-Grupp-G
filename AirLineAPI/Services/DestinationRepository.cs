@@ -33,5 +33,15 @@ namespace AirLineAPI.Services
 
             return await destinations.ToArrayAsync();
         }
+
+        public async Task<Destination[]> GetDestinationsByCountry(string country)
+        {
+            _logger.LogInformation($"Getting gestinations by country {country}");
+
+            IQueryable<Destination> destinations = _context.Destinations;
+
+            return await destinations.Where(d => d.Country == country).ToArrayAsync();
+            
+        }
     }
 }
