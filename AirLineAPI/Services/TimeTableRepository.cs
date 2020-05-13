@@ -21,7 +21,9 @@ namespace AirLineAPI.Services
             {
                 query = query.Include(a => a.PassengerTimeTables)
                     .ThenInclude(a => a.Passenger)
-                    .Include(a => a.Route);
+                    .Include(a => a.Route)
+                    .Include(a => a.Route.StartDestination)
+                    .Include(a => a.Route.EndDestination);
             }
             else if (includePassengers)
             {
@@ -30,7 +32,9 @@ namespace AirLineAPI.Services
             }
             else if (includeRoutes)
             {
-                query = query.Include(a => a.Route);
+                query = query.Include(a => a.Route)
+                    .Include(a => a.Route.StartDestination)
+                    .Include(a => a.Route.EndDestination);
             }
 
             return query;
