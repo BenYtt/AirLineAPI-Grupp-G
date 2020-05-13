@@ -66,5 +66,14 @@ namespace AirLineAPI.Services
 
             return await query.ToArrayAsync();
         }
+
+        public async Task<TimeTable[]> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
+        {
+            _logger.LogInformation($"Getting TimeTable with EndDestination: {endDestination}.");
+            IQueryable<TimeTable> query = _context.TimeTables.Where(a => a.Route.EndDestination.City == endDestination);
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+
+            return await query.ToArrayAsync();
+        }
     }
 }
