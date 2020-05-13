@@ -15,12 +15,8 @@ namespace AirLineAPI.Services
         {
 
         }
-
-        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
+        private static IQueryable<TimeTable> IncludePassengersAndRoutes(bool includePassengers, bool includeRoutes, IQueryable<TimeTable> query)
         {
-            _logger.LogInformation("Getting TimeTables.");
-            IQueryable<TimeTable> query = _context.TimeTables;
-
             if (includePassengers && includeRoutes)
             {
                 query = query.Include(a => a.PassengerTimeTables)
@@ -37,9 +33,19 @@ namespace AirLineAPI.Services
                 query = query.Include(a => a.Route);
             }
 
-            return await query.ToArrayAsync();
-
+            return query;
         }
+
+        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
+        {
+            _logger.LogInformation("Getting TimeTables.");
+            IQueryable<TimeTable> query = _context.TimeTables;
+
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+
+            return await query.ToArrayAsync();
+        }
+
 
         public async Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false)
         {
@@ -47,24 +53,18 @@ namespace AirLineAPI.Services
             IQueryable<TimeTable> query = _context.TimeTables;
             
             query = query.Where(t => t.ID == timeTableID);
-            
-            if (includePassengers && includeRoutes)
-            {
-                query = query.Include(a => a.PassengerTimeTables)
-                    .ThenInclude(a => a.Passenger)
-                    .Include(a => a.Route);
-            }
-            else if (includePassengers)
-            {
-                query = query.Include(a => a.PassengerTimeTables)
-                    .ThenInclude(a => a.Passenger);
-            }
-            else if (includeRoutes)
-            {
-                query = query.Include(a => a.Route);
-            }
-            
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+
             return await query.SingleOrDefaultAsync();
+        }
+
+        public async Task<TimeTable[]> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
+        {
+            _logger.LogInformation($"Getting TimeTable with StartDestination: {startDestination}.");
+            IQueryable<TimeTable> query = _context.TimeTables.Where(a => a.Route.StartDestination.City == startDestination);
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+
+            return await query.ToArrayAsync();
         }
     }
 }

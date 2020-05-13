@@ -48,5 +48,20 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("startDestination={startDestination}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        {
+            try
+            {
+                var results = await _repository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
     }
 }
