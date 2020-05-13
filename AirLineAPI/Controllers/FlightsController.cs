@@ -49,5 +49,20 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("manufacturer/{manufacturer}")]
+        public async Task<ActionResult<Flight[]>> GetFlightsByManufacturer(string manufacturer)
+        {
+            try
+            {
+                var results = await _repository.GetFlightsByManufacturer(manufacturer);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
     }
 }

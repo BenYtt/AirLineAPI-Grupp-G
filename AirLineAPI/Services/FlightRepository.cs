@@ -33,5 +33,13 @@ namespace AirLineAPI.Services
             query = query.OrderBy(f => f.Manufacturer);
             return await query.ToArrayAsync();
         }
+        public async Task<Flight[]> GetFlightsByManufacturer(string manufacturer)
+        {
+            _logger.LogInformation($"Getting flights made by {manufacturer}.");
+            IQueryable<Flight> query = _context.Flights.Where(f => f.Manufacturer == manufacturer);
+
+            query = query.OrderBy(f => f.Manufacturer);
+            return await query.ToArrayAsync();
+        }
     }
 }
