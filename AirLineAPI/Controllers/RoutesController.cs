@@ -28,7 +28,7 @@ namespace AirLineAPI.Controllers
                 var result = await _routeRepository.GetRoutes();
                 return Ok(result);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
@@ -51,12 +51,12 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("traveltimelessthan={time}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeIntervalLessThan(int time)
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeLessThan(int time)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByTimeIntervalLessThan(time);
-                return Ok (result);
+                var result = await _routeRepository.GetRoutesByTimeLessThan(time);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -66,11 +66,11 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("traveltimegreaterthan={time}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeIntervalGreaterThan(int time)
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeGreaterThan(int time)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByTimeIntervalGreatherThan(time);
+                var result = await _routeRepository.GetRoutesByTimeGreatherThan(time);
                 return Ok(result);
             }
             catch (Exception e)
@@ -79,6 +79,36 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("startdestination={city}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByStartDestination(city);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
+
+        [HttpGet]
+        [Route("enddestination={city}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByEndDestination(string city)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByEndDestination(city);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
 
     }
 }

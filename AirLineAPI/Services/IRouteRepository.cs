@@ -10,8 +10,9 @@ namespace AirLineAPI.Services
     {
         Task<Route[]> GetRoutes();
         Task<Route> GetRouteByID(long RouteID);
-        Task<Route[]> GetRoutesByTimeIntervalLessThan(int time);
-        Task<Route[]> GetRoutesByTimeIntervalGreatherThan(int time);
-
+        Task<Route[]> GetRoutesByTimeLessThan(int time);
+        Task<Route[]> GetRoutesByTimeGreatherThan(int time);
+        Task<Route[]> GetRoutesByStartDestination(string city);
+        Task<Route[]> GetRoutesByEndDestination(string city);
     }
 }
