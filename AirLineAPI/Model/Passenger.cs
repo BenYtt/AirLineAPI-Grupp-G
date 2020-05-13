@@ -13,6 +13,7 @@ namespace AirLineAPI.Model
         [Required]
         [StringLength(30, MinimumLength =2, ErrorMessage ="Name must be longer than 2 characters and shorter than 30")]
         public string Name { get; set; }
+        [Required]
         public long IdentificationNumber { get; set; }
         public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
     }
