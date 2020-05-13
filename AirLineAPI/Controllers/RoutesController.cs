@@ -40,7 +40,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var result = await _routeRepository.GetRoute(id);
+                var result = await _routeRepository.GetRouteByID(id);
                 return Ok(result);
             }
             catch (Exception e)
@@ -48,6 +48,37 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("traveltimelessthan={time}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeIntervalLessThan(int time)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByTimeIntervalLessThan(time);
+                return Ok (result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("traveltimegreaterthan={time}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeIntervalGreaterThan(int time)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByTimeIntervalGreatherThan(time);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
 
     }
 }
