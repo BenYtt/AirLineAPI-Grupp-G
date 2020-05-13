@@ -38,7 +38,17 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetRoutesByTimeIntervalGreatherThan(int time)
+        public async Task<Route[]> GetRoutesByStartDestination(string city)
+        {
+            _logger.LogInformation("Getting routes by startdestination");
+            IQueryable<Route> query = _context.Routes
+                .Where(s => s.StartDestination.City == city)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Route[]> GetRoutesByTimeGreatherThan(int time)
         {
             var timeToFind = new TimeSpan(0, time, 0, 0);
             _logger.LogInformation("Getting routes by flight time");
@@ -50,7 +60,7 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetRoutesByTimeIntervalLessThan(int time)
+        public async Task<Route[]> GetRoutesByTimeLessThan(int time)
         {
             var timeToFind = new TimeSpan(0, time, 0, 0);
             _logger.LogInformation("Getting routes by flight time");
