@@ -46,6 +46,7 @@ namespace AirLineAPI.Controllers
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
         //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
+        [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
@@ -64,5 +65,28 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //api/v1.0/passengers/name=Greta      Get passenger by name
+        [HttpGet]
+        [Route("name={name}")]
+        public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
+        {
+            try
+            {
+                if (repo == null)
+                {
+                    return NotFound();
+                }
+
+                var result = await repo.GetPassengerByName(name);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"database failed {e.Message}");
+            }
+        
+        }
+        
     }
 }
