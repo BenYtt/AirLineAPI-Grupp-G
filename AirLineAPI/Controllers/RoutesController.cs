@@ -81,11 +81,27 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("startdestination={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByCityName(string city)
+        public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
         {
             try
             {
                 var result = await _routeRepository.GetRoutesByStartDestination(city);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
+
+        [HttpGet]
+        [Route("enddestination={city}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByEndDestination(string city)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByEndDestination(city);
                 return Ok(result);
             }
             catch (Exception e)
