@@ -78,5 +78,22 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("traveltimes={lessThanHours}&{GreaterThanHours}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalLessThan(
+            int days = 0, int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        {
+            try
+            {
+                var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
     }
 }

@@ -51,7 +51,7 @@ namespace AirLineAPI.Services
         {
             _logger.LogInformation($"Getting TimeTable from id: {timeTableID}.");
             IQueryable<TimeTable> query = _context.TimeTables;
-            
+
             query = query.Where(t => t.ID == timeTableID);
             query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
 
@@ -74,6 +74,37 @@ namespace AirLineAPI.Services
             query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
 
             return await query.ToArrayAsync();
+        }
+
+        public async Task<TimeTable[]> GetTimeTablesByIntervalLessThan(
+            int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        {
+            _logger.LogInformation($"Getting TimeTables With Travel Time Less Than '{hours}' Hours, '{minutes}'.");
+            TimeSpan travelTime = new TimeSpan(0, 0, 0, 0);
+
+            try
+            {
+                travelTime = new TimeSpan(0, hours, minutes, 0);
+                _logger.LogInformation($"Converted '{hours}' Hours, '{minutes}' Minutes to {travelTime}.");
+            }
+            catch (FormatException)
+            { 
+                _logger.LogInformation("Bad Time Format.");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Time Is Out Of Range.");
+            }
+
+            IQueryable<TimeTable> query = _context.TimeTables.Where(a => a.Route.TravelTime <= travelTime);
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+
+            return await query.ToArrayAsync();
+        }
+
+        public Task<TimeTable[]> GetTimeTablesByIntervalGreaterThan(int days = 0, int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        {
+            throw new NotImplementedException();
         }
     }
 }
