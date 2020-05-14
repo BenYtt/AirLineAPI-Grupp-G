@@ -12,5 +12,7 @@ namespace AirLineAPI.Services
         Task<TimeTable> GetTimeTableByID(long timeTableID, bool includePassengers = false, bool includeRoutes = false);
         Task<TimeTable[]> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false);
         Task<TimeTable[]> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false);
+        Task<TimeTable[]> GetTimeTablesByIntervalLessThan( int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false);
+        Task<TimeTable[]> GetTimeTablesByIntervalGreaterThan(TimeSpan minTime, bool includePassengers = false, bool includeRoutes = false);
     }
 }
