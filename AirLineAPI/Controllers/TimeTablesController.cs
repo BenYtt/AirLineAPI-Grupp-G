@@ -96,5 +96,22 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("maxtraveltime=h{hours}m{minutes}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalLesserThan(int hours, int minutes, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        {
+
+            try
+            {
+                TimeSpan maxTime = new TimeSpan(0, hours, minutes, 0);
+                var results = await _repository.GetTimeTablesByIntervalLessThan(maxTime, includePassengers, includeRoutes);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
     }
 }
