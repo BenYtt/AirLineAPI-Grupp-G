@@ -79,8 +79,8 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet("traveltimemin=h{hours}m{minutes}")]
-        //[Route("traveltimemin=h{hours}m{minutes}")]
+        [HttpGet]
+        [Route("mintraveltime=h{hours}m{minutes}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalGreaterThan(int hours, int minutes, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
         {
             
