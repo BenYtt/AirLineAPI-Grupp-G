@@ -32,7 +32,7 @@ namespace AirLineAPI.Services
         {
             _logger.LogInformation("Getting all routes");
             IQueryable<Route> query = _context.Routes
-                .Include(r => r.StartDestination); 
+                .Include(r => r.StartDestination);
 
             query = query.OrderBy(s => s.StartDestination);
             return await query.ToArrayAsync();
@@ -69,7 +69,7 @@ namespace AirLineAPI.Services
                 .Where(t => t.TravelTime >= ftime && t.TravelTime <= stime)
                 .Include(s => s.StartDestination)
                 .Include(e => e.EndDestination);
-                return null;
+            return null;
         }
 
         public async Task<Route[]> GetRoutesByTimeGreatherThan(int hours, int minutes)
@@ -94,6 +94,17 @@ namespace AirLineAPI.Services
                 .Include(s => s.StartDestination)
                 .Include(e => e.EndDestination)
                 .OrderBy(t => t.TravelTime);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Route[]> GetEndDestinationByCountry(string country)
+        {
+            _logger.LogInformation($"Getting route where end destination are equal to {country}");
+            IQueryable<Route> query = _context.Routes
+                .Where(c => c.EndDestination.Country == country)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
 
             return await query.ToArrayAsync();
         }
