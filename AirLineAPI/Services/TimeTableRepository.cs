@@ -80,27 +80,12 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<TimeTable[]> GetTimeTablesByIntervalLessThan(
-            int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        public async Task<TimeTable[]> GetTimeTablesByIntervalLessThan(TimeSpan maxTime, bool includePassengers = false, bool includeRoutes = false)
         {
-            _logger.LogInformation($"Getting TimeTables With Travel Time Less Than '{hours}' Hours, '{minutes}'.");
-            TimeSpan travelTime = new TimeSpan(0, 0, 0, 0);
+            _logger.LogInformation($"Getting TimeTables With Travel Time Less Than {maxTime}.");
+                
 
-            try
-            {
-                travelTime = new TimeSpan(0, hours, minutes, 0);
-                _logger.LogInformation($"Converted '{hours}' Hours, '{minutes}' Minutes to {travelTime}.");
-            }
-            catch (FormatException)
-            { 
-                _logger.LogInformation("Bad Time Format.");
-            }
-            catch (OverflowException)
-            {
-                Console.WriteLine("Time Is Out Of Range.");
-            }
-
-            IQueryable<TimeTable> query = _context.TimeTables.Where(a => a.Route.TravelTime <= travelTime);
+            IQueryable<TimeTable> query = _context.TimeTables.Where(a => a.Route.TravelTime <= maxTime);
             query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
 
             return await query.ToArrayAsync();
