@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AirlineAPI.Test
 {
-    public class PassengerTest
+    public class UnitTest1
     {
         [Fact]
         public async void GetPassengersFailToGetIfNoPassengerExist()
