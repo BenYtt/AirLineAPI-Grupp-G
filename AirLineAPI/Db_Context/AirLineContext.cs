@@ -10,19 +10,22 @@ namespace AirLineAPI.Db_Context
 {
     public class AirLineContext : DbContext
     {
+        public AirLineContext()
+        {
 
+        }
         private IConfiguration _configuration;
         public AirLineContext(IConfiguration config, DbContextOptions<AirLineContext> options): base(options)
         {
             this._configuration = config;
         }
 
-        public DbSet<Destination> Destinations { get; set; }
-        public DbSet<Flight> Flights { get; set; }
-        public DbSet<Passenger> Passengers { get; set; }
-        public DbSet<Route> Routes { get; set; }
-        public DbSet<TimeTable> TimeTables { get; set; }
-        public DbSet<PassengerTimeTable> PassengerTimeTables { get; set; }
+        public virtual DbSet<Destination> Destinations { get; set; }
+        public virtual DbSet<Flight> Flights { get; set; }
+        public virtual DbSet<Passenger> Passengers { get; set; }
+        public virtual DbSet<Route> Routes { get; set; }
+        public virtual DbSet<TimeTable> TimeTables { get; set; }
+        public virtual DbSet<PassengerTimeTable> PassengerTimeTables { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
