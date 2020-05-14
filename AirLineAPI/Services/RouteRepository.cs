@@ -38,6 +38,8 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
+
+
         public async Task<Route[]> GetRoutesByEndDestination(string city)
         {
             _logger.LogInformation($"Getting routes by enddestination: {city}");
@@ -57,27 +59,41 @@ namespace AirLineAPI.Services
                 .Include(e => e.EndDestination);
             return await query.ToArrayAsync();
         }
-
-        public async Task<Route[]> GetRoutesByTimeGreatherThan(int time)
+        public Task<Route[]> GetRoutesBetweenTimes(int firsthours, int firstminutes, int secondhours, int secoundminutes)
         {
-            var timeToFind = new TimeSpan(0, time, 0, 0);
-            _logger.LogInformation($"Getting routes by flight time greater than : {time}");
+            var ftime = new TimeSpan(0, firsthours, firstminutes, 0);
+            var stime = new TimeSpan(0, secondhours, secoundminutes, 0);
+
+            _logger.LogInformation($"Getting all routes between {firsthours}h:{firstminutes}m{secondhours}h:{secoundminutes}");
             IQueryable<Route> query = _context.Routes
-                .Where(t => t.TravelTime < timeToFind)
+                .Where(t => t.TravelTime >= ftime && t.TravelTime <= stime)
                 .Include(s => s.StartDestination)
                 .Include(e => e.EndDestination);
+                return null;
+        }
+
+        public async Task<Route[]> GetRoutesByTimeGreatherThan(int hours, int minutes)
+        {
+            var timeToFind = new TimeSpan(0, hours, minutes, 0);
+            _logger.LogInformation($"Getting routes by flight time greater than : {hours}:{minutes}");
+            IQueryable<Route> query = _context.Routes
+                .Where(t => t.TravelTime >= timeToFind)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination)
+                .OrderBy(t => t.TravelTime);
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetRoutesByTimeLessThan(int time)
+        public async Task<Route[]> GetRoutesByTimeLessThan(int hours, int minutes)
         {
-            var timeToFind = new TimeSpan(0, time, 0, 0);
-            _logger.LogInformation($"Getting routes by flight time less than: {time}");
+            var timeToFind = new TimeSpan(0, hours, minutes, 0);
+            _logger.LogInformation($"Getting routes by flight time less than: {hours}: {minutes}");
             IQueryable<Route> query = _context.Routes
-                .Where(t => t.TravelTime > timeToFind)
+                .Where(t => t.TravelTime <= timeToFind)
                 .Include(s => s.StartDestination)
-                .Include(e => e.EndDestination);
+                .Include(e => e.EndDestination)
+                .OrderBy(t => t.TravelTime);
 
             return await query.ToArrayAsync();
         }
