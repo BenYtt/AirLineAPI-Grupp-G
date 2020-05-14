@@ -102,9 +102,13 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public Task<TimeTable[]> GetTimeTablesByIntervalGreaterThan(int days = 0, int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        public async Task<TimeTable[]> GetTimeTablesByIntervalGreaterThan(TimeSpan minTime, bool includePassengers = false, bool includeRoutes = false)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting TimeTables With Travel Time Greater Then {minTime}");
+
+            IQueryable<TimeTable> query = _context.TimeTables.Where(t => t.Route.TravelTime >= minTime);
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
+            return await query.ToArrayAsync();
         }
     }
 }

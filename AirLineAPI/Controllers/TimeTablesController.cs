@@ -79,14 +79,15 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("traveltimes={lessThanHours}&{GreaterThanHours}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalLessThan(
-            int days = 0, int hours = 0, int minutes = 0, bool includePassengers = false, bool includeRoutes = false)
+        [HttpGet("traveltimemin=h{hours}m{minutes}")]
+        //[Route("traveltimemin=h{hours}m{minutes}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalGreaterThan(int hours, int minutes, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
         {
+            
             try
             {
-                var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                TimeSpan minTime = new TimeSpan(0, hours, minutes, 0);
+                var results = await _repository.GetTimeTablesByIntervalGreaterThan(minTime, includePassengers, includeRoutes);
                 return Ok(results);
             }
             catch (Exception e)
