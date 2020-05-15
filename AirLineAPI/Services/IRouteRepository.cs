@@ -15,5 +15,7 @@ namespace AirLineAPI.Services
         Task<Route[]> GetRoutesByStartDestination(string city);
         Task<Route[]> GetRoutesByEndDestination(string city);
         Task<Route[]> GetRoutesBetweenTimes(int firsthours, int firstminutes, int secondhours, int secoundminutes);
+        Task<Route[]> GetEndDestinationByCountry(string country);
+        Task<Route[]> GetRoutesByStartCountry(string country);
     }
 }
