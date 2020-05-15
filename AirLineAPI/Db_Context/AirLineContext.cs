@@ -10,7 +10,7 @@ namespace AirLineAPI.Db_Context
 {
     public class AirLineContext : DbContext
     {
-
+       
         private IConfiguration _configuration;
         public AirLineContext(IConfiguration config, DbContextOptions<AirLineContext> options): base(options)
         {

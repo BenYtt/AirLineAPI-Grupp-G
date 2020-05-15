@@ -34,8 +34,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
         {
             try
@@ -49,8 +48,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("startDestination={startDestination}")]
+        [HttpGet("startDestination={startDestination}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
@@ -64,13 +62,43 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("endDestination={endDestination}")]
+        [HttpGet("endDestination={endDestination}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
+        [HttpGet("mintraveltime=h{hours}m{minutes}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalGreaterThan(int hours, int minutes, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        {
+            
+            try
+            {
+                TimeSpan minTime = new TimeSpan(0, hours, minutes, 0);
+                var results = await _repository.GetTimeTablesByIntervalGreaterThan(minTime, includePassengers, includeRoutes);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
+        [HttpGet("maxtraveltime=h{hours}m{minutes}")]
+        public async Task<ActionResult<TimeTable[]>> GetTimeTablesByIntervalLesserThan(int hours, int minutes, [FromQuery]bool includePassengers = false, bool includeRoutes = false)
+        {
+            try
+            {
+                TimeSpan maxTime = new TimeSpan(0, hours, minutes, 0);
+                var results = await _repository.GetTimeTablesByIntervalLessThan(maxTime, includePassengers, includeRoutes);
                 return Ok(results);
             }
             catch (Exception e)

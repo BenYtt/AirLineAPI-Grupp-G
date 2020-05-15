@@ -50,12 +50,12 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
-        [Route("traveltimelessthan={time}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeLessThan(int time)
+        [Route("maxtraveltime=h{hours}m{minutes}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeLessThan(int hours, int minutes)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByTimeLessThan(time);
+                var result = await _routeRepository.GetRoutesByTimeLessThan(hours, minutes);
                 return Ok(result);
             }
             catch (Exception e)
@@ -65,12 +65,12 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
-        [Route("traveltimegreaterthan={time}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeGreaterThan(int time)
+        [Route("mintraveltime=h{hours}m{minutes}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByTimeGreaterThan(int hours, int minutes)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByTimeGreatherThan(time);
+                var result = await _routeRepository.GetRoutesByTimeGreatherThan(hours, minutes);
                 return Ok(result);
             }
             catch (Exception e)
@@ -79,8 +79,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
+       
         [HttpGet]
-        [Route("startdestination={city}")]
+        [Route("fromcity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
         {
             try
@@ -96,7 +97,7 @@ namespace AirLineAPI.Controllers
 
 
         [HttpGet]
-        [Route("enddestination={city}")]
+        [Route("tocity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByEndDestination(string city)
         {
             try
@@ -109,6 +110,38 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
+
+
+        [HttpGet]
+        [Route("tocountry={country}")]
+        public async Task<ActionResult<Route[]>> GetRouteByEndDestination(string country)
+        {
+            try
+            {
+                var result = await _routeRepository.GetEndDestinationByCountry(country);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("fromcountry={country}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByStartCountry(country);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
 
     }
 }

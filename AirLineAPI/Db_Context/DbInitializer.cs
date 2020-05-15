@@ -111,7 +111,7 @@ namespace AirLineAPI.Db_Context
 
             foreach (var t in timeTables)
             {
-                t.ArrivalTime = t.DepartureTime.Add(routes.Single(x => x.Name == "STHLM-GBG").TravelTime);
+                t.ArrivalTime = t.DepartureTime.Add(routes.Single(x => x.Name == t.Route.Name).TravelTime);
                 context.Add(t);
             }
             context.SaveChanges();

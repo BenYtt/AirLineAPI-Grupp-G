@@ -43,6 +43,13 @@ namespace AirLineAPI.Services
             IQueryable<Passenger> query = _context.Passengers;
             query = query.Where(x => x.Name == name);
             return await query.FirstOrDefaultAsync();
+            
+        public async Task<Passenger> GetPassengerByIdentificationNumber(long identitificationNm)
+        {
+            _logger.LogInformation($"Getting passenger by identification number {identitificationNm}");
+            IQueryable<Passenger> query = _context.Passengers.Where(a=> a.IdentificationNumber==identitificationNm);
+            return await query.FirstOrDefaultAsync();
+
         }
     }
 }

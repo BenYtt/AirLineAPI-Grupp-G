@@ -76,8 +76,8 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound();
                 }
-
                 var result = await repo.GetPassengerByName(name);
+
                 return Ok(result);
             }
             catch (Exception e)

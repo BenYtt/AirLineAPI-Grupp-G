@@ -34,8 +34,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Flight[]>> GetFlightById(long id)
         {
             try
@@ -49,8 +48,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("manufacturer={manufacturer}")]
+        [HttpGet("manufacturer={manufacturer}")]
         public async Task<ActionResult<Flight[]>> GetFlightsByManufacturer(string manufacturer)
         {
             try
@@ -64,8 +62,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("model/{model}")]
+        [HttpGet("model/{model}")]
         public async Task<ActionResult<Flight[]>> GetFlightsByModel(string model)
         {
             try
@@ -78,6 +75,5 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
-
     }
 }
