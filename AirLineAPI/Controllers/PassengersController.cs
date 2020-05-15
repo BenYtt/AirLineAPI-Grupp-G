@@ -16,15 +16,11 @@ namespace AirLineAPI.Controllers
     public class PassengersController : ControllerBase
     {
         private readonly IPassengerRepo repo;
-
-        public PassengersController(IPassengerRepo repo)
-        {
-            this.repo = repo;
-        }
+        public PassengersController(IPassengerRepo repo) => this.repo = repo;
 
         //api/v1.0/Passengers
-        [HttpGet]   
-        public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable) 
+        [HttpGet]
+        public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
             {
@@ -37,17 +33,15 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failor: {e.Message}");
             }
-        
+
         }
 
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
         //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
@@ -66,8 +60,7 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/name=Greta      Get passenger by name
-        [HttpGet]
-        [Route("name={name}")]
+        [HttpGet("name={name}")]
         public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
         {
             try
@@ -85,12 +78,11 @@ namespace AirLineAPI.Controllers
 
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"database failed {e.Message}");
             }
-        
+
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet]
-        [Route("identityNm={identityNm}")]
+        [HttpGet("identityNm={identityNm}")]
         public async Task<ActionResult<Passenger>> GetPassengerById(long identityNm)
         {
             try
