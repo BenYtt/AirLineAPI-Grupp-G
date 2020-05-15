@@ -81,7 +81,7 @@ namespace AirLineAPI.Controllers
 
        
         [HttpGet]
-        [Route("city/startdestination={city}")]
+        [Route("fromcity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
         {
             try
@@ -97,7 +97,7 @@ namespace AirLineAPI.Controllers
 
 
         [HttpGet]
-        [Route("city/enddestination={city}")]
+        [Route("tocity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByEndDestination(string city)
         {
             try
@@ -113,7 +113,7 @@ namespace AirLineAPI.Controllers
 
 
         [HttpGet]
-        [Route("country/enddestination={country}")]
+        [Route("tocountry={country}")]
         public async Task<ActionResult<Route[]>> GetRouteByEndDestination(string country)
         {
             try
