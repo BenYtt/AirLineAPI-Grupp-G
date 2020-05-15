@@ -79,7 +79,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-       
+
         [HttpGet]
         [Route("fromcity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
@@ -129,11 +129,12 @@ namespace AirLineAPI.Controllers
 
         [HttpGet]
         [Route("fromcountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country)
+        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByStartCountry(country);
+                
+                var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
                 return Ok(result);
             }
             catch (Exception e)
@@ -141,7 +142,5 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
-
-
     }
 }
