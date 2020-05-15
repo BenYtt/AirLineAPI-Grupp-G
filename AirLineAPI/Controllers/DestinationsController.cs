@@ -48,8 +48,6 @@ namespace AirLineAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
-            
-
         }
 
         [HttpGet("country={country}")]
