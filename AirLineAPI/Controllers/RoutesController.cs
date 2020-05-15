@@ -34,8 +34,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Route>> GetRoutesByID(long id)
         {
             try
@@ -49,8 +48,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("maxtraveltime=h{hours}m{minutes}")]
+        [HttpGet("maxtraveltime=h{hours}m{minutes}")]
         public async Task<ActionResult<Route[]>> GetRoutesByTimeLessThan(int hours, int minutes)
         {
             try
@@ -64,8 +62,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("mintraveltime=h{hours}m{minutes}")]
+        [HttpGet("mintraveltime=h{hours}m{minutes}")]
         public async Task<ActionResult<Route[]>> GetRoutesByTimeGreaterThan(int hours, int minutes)
         {
             try
@@ -79,14 +76,12 @@ namespace AirLineAPI.Controllers
             }
         }
 
-
-        [HttpGet]
-        [Route("fromcity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartDestination(string city)
+        [HttpGet("fromcity={city}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByStartCity(string city)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByStartDestination(city);
+                var result = await _routeRepository.GetRoutesByStartCity(city);
                 return Ok(result);
             }
             catch (Exception e)
@@ -96,13 +91,12 @@ namespace AirLineAPI.Controllers
         }
 
 
-        [HttpGet]
-        [Route("tocity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByEndDestination(string city)
+        [HttpGet("tocity={city}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByEndCity(string city)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByEndDestination(city);
+                var result = await _routeRepository.GetRoutesByEndCity(city);
                 return Ok(result);
             }
             catch (Exception e)
@@ -112,13 +106,12 @@ namespace AirLineAPI.Controllers
         }
 
 
-        [HttpGet]
-        [Route("tocountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRouteByEndDestination(string country)
+        [HttpGet("tocountry={country}")]
+        public async Task<ActionResult<Route[]>> GetRouteByEndCountry(string country)
         {
             try
             {
-                var result = await _routeRepository.GetEndDestinationByCountry(country);
+                var result = await _routeRepository.GetRoutesByEndCountry(country);
                 return Ok(result);
             }
             catch (Exception e)
@@ -127,13 +120,12 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("fromcountry={country}")]
+        [HttpGet("fromcountry={country}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
-                
+
                 var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
                 return Ok(result);
             }

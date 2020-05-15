@@ -38,9 +38,7 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-
-
-        public async Task<Route[]> GetRoutesByEndDestination(string city)
+        public async Task<Route[]> GetRoutesByEndCity(string city)
         {
             _logger.LogInformation($"Getting routes by enddestination: {city}");
             IQueryable<Route> query = _context.Routes
@@ -50,7 +48,7 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetRoutesByStartDestination(string city)
+        public async Task<Route[]> GetRoutesByStartCity(string city)
         {
             _logger.LogInformation($"Getting routes by startdestination: {city}");
             IQueryable<Route> query = _context.Routes
@@ -98,7 +96,7 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetEndDestinationByCountry(string country)
+        public async Task<Route[]> GetRoutesByEndCountry(string country)
         {
             _logger.LogInformation($"Getting route where end destination are equal to {country}");
             IQueryable<Route> query = _context.Routes
@@ -117,20 +115,19 @@ namespace AirLineAPI.Services
                 TimeSpan maxTime = new TimeSpan();
                 maxTime += TimeSpan.FromMinutes(minutes);
                 _logger.LogInformation($"Getting route where start destination are equal to {country} and max travel time {maxTime}");
-                     query = _context.Routes
-                    .Where(c => c.StartDestination.Country == country && c.TravelTime <= maxTime)
-                    .Include(s => s.StartDestination)
-                    .Include(e => e.EndDestination);
+                query = _context.Routes
+               .Where(c => c.StartDestination.Country == country && c.TravelTime <= maxTime)
+               .Include(s => s.StartDestination)
+               .Include(e => e.EndDestination);
             }
             else
             {
                 _logger.LogInformation($"Getting route where start destination are equal to {country}");
-                    query = _context.Routes
-                    .Where(c => c.StartDestination.Country == country)
-                    .Include(s => s.StartDestination)
-                    .Include(e => e.EndDestination);
+                query = _context.Routes
+                .Where(c => c.StartDestination.Country == country)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
             }
-           
 
             return await query.ToArrayAsync();
         }
