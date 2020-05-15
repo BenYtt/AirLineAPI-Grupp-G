@@ -22,8 +22,7 @@ namespace AirLineAPI.Controllers
         }
 
         
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Destination>> GetDestinationByID(long id)
         {
             try
@@ -49,12 +48,9 @@ namespace AirLineAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
-            
-
         }
 
-        [HttpGet]
-        [Route("country={country}")]
+        [HttpGet("country={country}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCountry(string country)
         {
             try
@@ -68,8 +64,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("city={city}")]
+        [HttpGet("city={city}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCity(string city)
         {
             try

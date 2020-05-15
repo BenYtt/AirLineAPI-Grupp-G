@@ -50,8 +50,7 @@ namespace AirLineAPI.Services
 
             IQueryable<Destination> destinations = _context.Destinations;
 
-            return await destinations.Where(d => d.Country == country).ToArrayAsync();
-            
+            return await destinations.Where(d => d.Country == country).ToArrayAsync();      
         }
     }
 }
