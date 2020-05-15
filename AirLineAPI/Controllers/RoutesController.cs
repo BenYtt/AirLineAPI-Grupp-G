@@ -126,7 +126,22 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
-       
+
+        [HttpGet]
+        [Route("fromcountry={country}")]
+        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country)
+        {
+            try
+            {
+                var result = await _routeRepository.GetRoutesByStartCountry(country);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+        }
+
 
     }
 }

@@ -108,5 +108,16 @@ namespace AirLineAPI.Services
 
             return await query.ToArrayAsync();
         }
+
+        public async Task<Route[]> GetRoutesByStartCountry(string country)
+        {
+            _logger.LogInformation($"Getting route where start destination are equal to {country}");
+            IQueryable<Route> query = _context.Routes
+                .Where(c => c.StartDestination.Country == country)
+                .Include(s => s.StartDestination)
+                .Include(e => e.EndDestination);
+
+            return await query.ToArrayAsync();
+        }
     }
 }
