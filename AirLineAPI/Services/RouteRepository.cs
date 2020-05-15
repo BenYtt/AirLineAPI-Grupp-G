@@ -109,13 +109,28 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Route[]> GetRoutesByStartCountry(string country)
+        public async Task<Route[]> GetRoutesByStartCountry(string country, double minutes)
         {
-            _logger.LogInformation($"Getting route where start destination are equal to {country}");
-            IQueryable<Route> query = _context.Routes
-                .Where(c => c.StartDestination.Country == country)
-                .Include(s => s.StartDestination)
-                .Include(e => e.EndDestination);
+            IQueryable<Route> query = _context.Routes;
+            if (minutes > 0)
+            {
+                TimeSpan maxTime = new TimeSpan();
+                maxTime += TimeSpan.FromMinutes(minutes);
+                _logger.LogInformation($"Getting route where start destination are equal to {country} and max travel time {maxTime}");
+                     query = _context.Routes
+                    .Where(c => c.StartDestination.Country == country && c.TravelTime <= maxTime)
+                    .Include(s => s.StartDestination)
+                    .Include(e => e.EndDestination);
+            }
+            else
+            {
+                _logger.LogInformation($"Getting route where start destination are equal to {country}");
+                    query = _context.Routes
+                    .Where(c => c.StartDestination.Country == country)
+                    .Include(s => s.StartDestination)
+                    .Include(e => e.EndDestination);
+            }
+           
 
             return await query.ToArrayAsync();
         }
