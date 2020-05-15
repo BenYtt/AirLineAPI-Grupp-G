@@ -31,7 +31,6 @@ namespace AirlineAPI.Test
             //assert
             Assert.Equal(1, (int)thePassengers.Length);
 
-
         }
         public static IList<Passenger> GeneratePassengers()
         {
