@@ -15,7 +15,7 @@ namespace AirLineAPI.Services
         {
         }
 
-        private static IQueryable<TimeTable> IncludePassengersAndRoutes(bool includePassengers, bool includeRoutes, IQueryable<TimeTable> query)
+        private IQueryable<TimeTable> IncludePassengersAndRoutes(bool includePassengers, bool includeRoutes, IQueryable<TimeTable> query)
         {
             if (includePassengers && includeRoutes)
             {
@@ -40,11 +40,38 @@ namespace AirLineAPI.Services
             return query;
         }
 
-        public async Task<TimeTable[]> GetTimeTables(bool includePassengers = false, bool includeRoutes = false)
+        private IQueryable<TimeTable> IncludeTravelTime(int minMinutes, int maxMinutes, IQueryable<TimeTable> query)
+        {
+            var minTime = new TimeSpan(0,0,minMinutes,0);
+            var maxTime = new TimeSpan(0,0,maxMinutes,0);
+
+            if (minMinutes > 0 && maxMinutes > 0)
+            {
+                _logger.LogInformation($"Getting TimeTables With Travel Time Between {minMinutes} And {maxMinutes} Minutes.");
+                query = _context.TimeTables.Where(a => a.Route.TravelTime >= minTime && a.Route.TravelTime <= maxTime);
+            }
+            else if (minMinutes > 0)
+            {
+                _logger.LogInformation($"Getting TimeTables With Travel Time More Than {minMinutes} Minutes.");
+                query = _context.TimeTables.Where(a => a.Route.TravelTime >= minTime);
+            }
+            else if (maxMinutes > 0)
+            {
+                _logger.LogInformation($"Getting TimeTables With Travel Time Less Than {maxMinutes} Minutes.");
+                query = _context.TimeTables.Where(a => a.Route.TravelTime <= maxTime);
+            }
+
+            return query;
+        }
+
+
+        public async Task<TimeTable[]> GetTimeTables(int minMinutes, int maxMinutes,
+                                                        bool includePassengers = false, bool includeRoutes = false)
         {
             _logger.LogInformation("Getting TimeTables.");
             
             IQueryable<TimeTable> query = _context.TimeTables;
+            query = IncludeTravelTime(minMinutes, maxMinutes, query);
             query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
 
             return await query.ToArrayAsync();
@@ -91,14 +118,5 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<TimeTable[]> GetTimeTablesByIntervalGreaterThan(TimeSpan minTime, bool includePassengers = false, bool includeRoutes = false)
-        {
-            _logger.LogInformation($"Getting TimeTables With Travel Time Greater Then {minTime}");
-
-            IQueryable<TimeTable> query = _context.TimeTables.Where(t => t.Route.TravelTime >= minTime);
-            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
-           
-            return await query.ToArrayAsync();
-        }
     }
 }
