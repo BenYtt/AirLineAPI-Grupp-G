@@ -82,8 +82,8 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet("identityNm={identityNm}")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(long identityNm)
+        [HttpGet("idnumber={idNumber}")]
+        public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassengerByIdentificationNumber(identityNm);
+                var result = await repo.GetPassengerByIdentificationNumber(idNumber);
                 return Ok(result);
             }
             catch (Exception e)
