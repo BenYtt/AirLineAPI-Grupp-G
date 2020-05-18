@@ -5,9 +5,12 @@ using AirLineAPI.Dto;
 
 namespace AirLineAPI.Configuration
 {
-    public class MappedProfile
+    public class MappedProfile : Profile
     {
+        public MappedProfile()
+        {
         CreateMap<Passenger, PassengerDto>()
                 .ReverseMap();
+        }
     }
 }
