@@ -71,8 +71,8 @@ namespace AirLineAPI.Services
             _logger.LogInformation("Getting TimeTables.");
             
             IQueryable<TimeTable> query = _context.TimeTables;
-            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
             query = IncludeTravelTime(minMinutes, maxMinutes, query);
+            query = IncludePassengersAndRoutes(includePassengers, includeRoutes, query);
 
             return await query.ToArrayAsync();
         }
