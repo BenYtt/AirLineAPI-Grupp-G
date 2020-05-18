@@ -21,11 +21,11 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Route[]>> GetRoutes()
+        public async Task<ActionResult<Route[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
             try
             {
-                var result = await _routeRepository.GetRoutes();
+                var result = await _routeRepository.GetRoutes(minMinutes, maxMinutes);
                 return Ok(result);
             }
             catch (Exception e)
@@ -40,34 +40,6 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _routeRepository.GetRouteByID(id);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
-            }
-        }
-
-        [HttpGet("maxtraveltime=h{hours}m{minutes}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeLessThan(int hours, int minutes)
-        {
-            try
-            {
-                var result = await _routeRepository.GetRoutesByTimeLessThan(hours, minutes);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
-            }
-        }
-
-        [HttpGet("mintraveltime=h{hours}m{minutes}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByTimeGreaterThan(int hours, int minutes)
-        {
-            try
-            {
-                var result = await _routeRepository.GetRoutesByTimeGreatherThan(hours, minutes);
                 return Ok(result);
             }
             catch (Exception e)
@@ -125,7 +97,6 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-
                 var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
                 return Ok(result);
             }
