@@ -28,13 +28,14 @@ namespace AirLineAPI.Services
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Route[]> GetRoutes()
+        public async Task<Route[]> GetRoutes(int minTime, int maxTime)
         {
             _logger.LogInformation("Getting all routes");
             IQueryable<Route> query = _context.Routes
                 .Include(r => r.StartDestination);
 
             query = query.OrderBy(s => s.StartDestination);
+            query = GetRoutesBetweenTimes(minTime, maxTime, query);
             return await query.ToArrayAsync();
         }
 
@@ -57,44 +58,7 @@ namespace AirLineAPI.Services
                 .Include(e => e.EndDestination);
             return await query.ToArrayAsync();
         }
-        public Task<Route[]> GetRoutesBetweenTimes(int firsthours, int firstminutes, int secondhours, int secoundminutes)
-        {
-            var ftime = new TimeSpan(0, firsthours, firstminutes, 0);
-            var stime = new TimeSpan(0, secondhours, secoundminutes, 0);
-
-            _logger.LogInformation($"Getting all routes between {firsthours}h:{firstminutes}m{secondhours}h:{secoundminutes}");
-            IQueryable<Route> query = _context.Routes
-                .Where(t => t.TravelTime >= ftime && t.TravelTime <= stime)
-                .Include(s => s.StartDestination)
-                .Include(e => e.EndDestination);
-            return null;
-        }
-
-        public async Task<Route[]> GetRoutesByTimeGreatherThan(int hours, int minutes)
-        {
-            var timeToFind = new TimeSpan(0, hours, minutes, 0);
-            _logger.LogInformation($"Getting routes by flight time greater than : {hours}:{minutes}");
-            IQueryable<Route> query = _context.Routes
-                .Where(t => t.TravelTime >= timeToFind)
-                .Include(s => s.StartDestination)
-                .Include(e => e.EndDestination)
-                .OrderBy(t => t.TravelTime);
-
-            return await query.ToArrayAsync();
-        }
-
-        public async Task<Route[]> GetRoutesByTimeLessThan(int hours, int minutes)
-        {
-            var timeToFind = new TimeSpan(0, hours, minutes, 0);
-            _logger.LogInformation($"Getting routes by flight time less than: {hours}: {minutes}");
-            IQueryable<Route> query = _context.Routes
-                .Where(t => t.TravelTime <= timeToFind)
-                .Include(s => s.StartDestination)
-                .Include(e => e.EndDestination)
-                .OrderBy(t => t.TravelTime);
-
-            return await query.ToArrayAsync();
-        }
+       
 
         public async Task<Route[]> GetRoutesByEndCountry(string country)
         {
@@ -130,6 +94,38 @@ namespace AirLineAPI.Services
             }
 
             return await query.ToArrayAsync();
+        }
+
+        private IQueryable<Route> GetRoutesBetweenTimes(int minMinutes, int maxMinutes, IQueryable<Route> query)
+        {
+            var minTime = new TimeSpan(0, 0, minMinutes, 0);
+            var maxTime = new TimeSpan(0, 0, maxMinutes, 0);
+            if (minMinutes > 0 && maxMinutes > 0)
+            {
+                _logger.LogInformation($"Getting routes with traveltime between {minMinutes} and {maxMinutes} minutes.");
+                query = _context.Routes.Where(r => r.TravelTime >= minTime && r.TravelTime <= maxTime)
+                    .OrderBy(t => t.TravelTime);
+            }
+
+            else if (minMinutes > 0)
+            {
+                _logger.LogInformation($"Getting routes with traveltime more than {minMinutes} minutes.");
+                query = _context.Routes.Where(r => r.TravelTime <= minTime)
+                    .OrderBy(t => t.TravelTime);
+            }
+
+            else if (maxMinutes > 0)
+            {
+                _logger.LogInformation($"Getting routes with traveltime less than {maxMinutes} minutes.");
+                query = _context.Routes.Where(r => r.TravelTime <= maxTime)
+                    .OrderBy(t => t.TravelTime);
+            }
+           
+
+            _logger.LogInformation($"Get all routes where traveltime are minimum {minTime} and maximum {maxTime}");
+            
+
+            return query;
         }
     }
 }
