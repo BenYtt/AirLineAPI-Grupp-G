@@ -9,8 +9,11 @@ namespace AirLineAPI.Configuration
     {
         public MappedProfile()
         {
-        CreateMap<Passenger, PassengerDto>()
+            CreateMap<Passenger, PassengerDto>()
                 .ReverseMap();
+            CreateMap<Destination, DestinationDto>()
+                .ReverseMap();
+
         }
     }
 }
