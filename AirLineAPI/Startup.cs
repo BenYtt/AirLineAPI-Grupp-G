@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
 
 namespace AirLineAPI
 {
@@ -26,6 +27,7 @@ namespace AirLineAPI
             services.AddScoped<ITimeTableRepository, TimeTableRepository>();
             services.AddScoped<IDestinationRepository, DestinationRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
