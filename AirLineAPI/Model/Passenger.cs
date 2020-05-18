@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirLineAPI.Model
 {
@@ -17,6 +17,7 @@ namespace AirLineAPI.Model
         [Required(ErrorMessage ="Identification number is required")]
         [Index(IsUnique =true)]
         public long IdentificationNumber { get; set; }
+
         public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
     }
 
