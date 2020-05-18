@@ -7,7 +7,6 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
-using AirLineAPI.Dto;
 using AutoMapper;
 using AirLineAPI.Dto;
 
@@ -20,15 +19,13 @@ namespace AirLineAPI.Controllers
         private readonly IDestinationRepository _destinationRepository;
         private readonly IMapper _mapper;
 
-
-
         public DestinationsController(IDestinationRepository destinationRepository, IMapper mapper)
         {
             _destinationRepository = destinationRepository;
             _mapper = mapper;
         }
 
-
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Destination>> GetDestinationByID(long id)
         {
@@ -51,7 +48,7 @@ namespace AirLineAPI.Controllers
                 var result = await _destinationRepository.GetDestinations();
                 return Ok(result);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
@@ -84,5 +81,24 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
-    }   
+
+        [HttpPost]
+        public async Task<ActionResult<DestinationDto>> PostEvent(DestinationDto destinationDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<Destination>(destinationDto);
+                _destinationRepository.Add(mappedEntity);
+                if (await _destinationRepository.Save())
+                {
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+    }
 }
