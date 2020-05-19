@@ -13,7 +13,7 @@ namespace AirLineAPI.Configuration
                 .ReverseMap();
             CreateMap<Destination, DestinationDto>()
                 .ReverseMap();
-
+          
         }
     }
 }
