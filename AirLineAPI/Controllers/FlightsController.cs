@@ -80,5 +80,25 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult<FlightDto>> PostEvent([FromBody]FlightDto flightDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<Flight>(flightDto);
+                _repository.Add(mappedEntity);
+                if (await _repository.Save())
+                {
+                    return Created($"/api/v1.0/Flights/{mappedEntity.ID}", _mapper.Map<Flight>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
