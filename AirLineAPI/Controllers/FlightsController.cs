@@ -7,6 +7,8 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using AirLineAPI.Dto;
 
 namespace AirLineAPI.Controllers
 {
@@ -14,10 +16,12 @@ namespace AirLineAPI.Controllers
     public class FlightsController : ControllerBase
     {
         private readonly IFlightRepository _repository;
+        private readonly IMapper _mapper;
 
-        public FlightsController(IFlightRepository repository)
+        public FlightsController(IFlightRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -26,7 +30,8 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetFlights();
-                return Ok(results);
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
