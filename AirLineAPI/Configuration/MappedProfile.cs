@@ -19,6 +19,8 @@ namespace AirLineAPI.Configuration
               .ForMember(s => s.StartDestination, o => o.Ignore());
             CreateMap<Flight, FlightDto>()
                 .ReverseMap();
+            CreateMap<TimeTable, TimeTableDto>()
+                .ReverseMap();
         }
     }
 }
