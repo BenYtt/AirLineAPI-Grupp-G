@@ -9,6 +9,7 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
+using System.Data.OleDb;
 
 namespace AirLineAPI.Controllers
 {
@@ -45,6 +46,7 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetFlightByID(id);
+
                 return Ok(results);
             }
             catch (Exception e)
@@ -100,5 +102,34 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
+        //PUT: api/v1.0/flights                                 PUT Flight
+        [HttpPut]
+        public async Task<ActionResult<FlightDto>> PutEvent(long id, FlightDto flightDto)
+        {
+            try
+            {
+                var oldFlight = _repository.GetFlightByID(id);
+
+                if (oldFlight == null)
+                {
+                    return NotFound($"Couldn't find any flight with id: {id}");
+                }
+
+                var newFlight = _mapper.Map(flightDto, oldFlight);
+                _repository.Update(newFlight);
+               
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+  
     }
 }
