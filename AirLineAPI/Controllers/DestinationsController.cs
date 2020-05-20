@@ -74,6 +74,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _destinationRepository.GetDestinationByCity(city);
+                if (result == null)
+                {
+                    return NotFound($"Could not find any destination with city name {city}");
+                }
                 return Ok(result);
             }
             catch (Exception e)
