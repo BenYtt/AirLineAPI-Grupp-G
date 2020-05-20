@@ -7,6 +7,8 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using AirLineAPI.Dto;
 
 namespace AirLineAPI.Controllers
 {
@@ -14,19 +16,23 @@ namespace AirLineAPI.Controllers
     public class FlightsController : ControllerBase
     {
         private readonly IFlightRepository _repository;
+        private readonly IMapper _mapper;
 
-        public FlightsController(IFlightRepository repository)
+        public FlightsController(IFlightRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<Flight[]>> GetFlights()
+        public async Task<ActionResult<FlightDto[]>> GetFlights()
         {
             try
             {
                 var results = await _repository.GetFlights();
-                return Ok(results);
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
+
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
@@ -35,12 +41,14 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Flight[]>> GetFlightById(long id)
+        public async Task<ActionResult<FlightDto[]>> GetFlightById(long id)
         {
             try
             {
                 var results = await _repository.GetFlightByID(id);
-                return Ok(results);
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
+
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
@@ -49,12 +57,14 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet("manufacturer={manufacturer}")]
-        public async Task<ActionResult<Flight[]>> GetFlightsByManufacturer(string manufacturer)
+        public async Task<ActionResult<FlightDto[]>> GetFlightsByManufacturer(string manufacturer)
         {
             try
             {
                 var results = await _repository.GetFlightsByManufacturer(manufacturer);
-                return Ok(results);
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
+
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
@@ -63,12 +73,14 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet("model/{model}")]
-        public async Task<ActionResult<Flight[]>> GetFlightsByModel(string model)
+        public async Task<ActionResult<FlightDto[]>> GetFlightsByModel(string model)
         {
             try
             {
                 var results = await _repository.GetFlightsByModel(model);
-                return Ok(results);
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
+
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
