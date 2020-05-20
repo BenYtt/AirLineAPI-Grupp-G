@@ -73,7 +73,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpGet("model/{model}")]
+        [HttpGet("model={model}")]
         public async Task<ActionResult<FlightDto[]>> GetFlightsByModel(string model)
         {
             try
