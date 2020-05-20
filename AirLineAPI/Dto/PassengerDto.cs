@@ -1,4 +1,5 @@
 ﻿using System;
+using AirLineAPI.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +12,7 @@ namespace AirLineAPI.Dto
         [Required]
         public string Name { get; set; }
         public long IdentificationNumber { get; set; }
-        public ICollection<PassengerTimeTableDto> PassengerTimeTables { get; set; }
+        public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
 
     }
 }
