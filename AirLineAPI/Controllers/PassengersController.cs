@@ -51,12 +51,16 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
-            {
-                if (_passengerRepo == null)
-                {
-                    return NotFound();
-                }
+
+            {  
                 var result = await _passengerRepo.GetPassengerById(id, timeTable);
+                
+                if (result == null)
+
+                {
+                    return NotFound($"There is no passenger with id:{id}");
+                }
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -124,34 +128,5 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
-
-        //PUT: api/v1.0/passengers                                 PUT passenger
-        [HttpPut]
-        public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
-        {
-            try
-            {
-                var oldpassenger = _passengerRepo.GetPassengerById(id);
-
-                if (oldpassenger == null)
-                {
-                    return NotFound($"Couldn't find any passenger with id: {id}");
-                }
-
-                var newPassenger = _mapper.Map(passengerDto, oldpassenger);
-                _passengerRepo.Update(newPassenger);
-
-                if (await _passengerRepo.Save())
-                {
-                    return NoContent();
-                }
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
-            }
-            return BadRequest();
-        }
-
     }
 }
