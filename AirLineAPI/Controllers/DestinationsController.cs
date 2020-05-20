@@ -148,6 +148,7 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
+
         [HttpDelete("{destinationId}")]
         public async Task<ActionResult> DeleteDestination(int destinationId)
         {
