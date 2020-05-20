@@ -48,9 +48,14 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var results = await _flightRepository.GetFlightByID(id);
-                var mappedResult = _mapper.Map<FlightDto>(results);
+                var result = await _flightRepository.GetFlightByID(id);
+                
+                if (result == null)
+                {
+                    return NotFound($"Couldn't find any flight with ID: {id}");
+                }
 
+                var mappedResult = _mapper.Map<FlightDto>(result);
                 return Ok(mappedResult);
             }
             catch (Exception e)
@@ -65,9 +70,15 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var results = await _flightRepository.GetFlightsByManufacturer(manufacturer);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
 
+                var results = await _repository.GetFlightsByManufacturer(manufacturer);
+                
+                if (results == null)
+                {
+                    return NotFound($"Couldn't find destination {manufacturer}.");
+                }
+
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
                 return Ok(mappedResult);
             }
             catch (Exception e)
