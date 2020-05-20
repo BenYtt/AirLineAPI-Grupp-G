@@ -63,8 +63,13 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetFlightsByManufacturer(manufacturer);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
+                
+                if (results == null)
+                {
+                    return NotFound($"Couldn't find destination {manufacturer}.");
+                }
 
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
                 return Ok(mappedResult);
             }
             catch (Exception e)
