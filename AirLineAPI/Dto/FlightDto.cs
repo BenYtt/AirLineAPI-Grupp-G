@@ -10,7 +10,9 @@ namespace AirLineAPI.Dto
     {
         [Required]
         public long ID { get; set; }
+        [Required]
         public string Manufacturer { get; set; }
+        [Required]
         public string Model { get; set; }
     }
 }
