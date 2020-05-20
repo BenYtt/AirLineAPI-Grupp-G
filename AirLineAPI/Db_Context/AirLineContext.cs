@@ -32,9 +32,9 @@ namespace AirLineAPI.Db_Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PassengerTimeTable>().HasKey(pt => new { pt.PassengerId, pt.TimeTableId });
-            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.Passenger).WithMany(p => p.PassengerTimeTables).HasForeignKey(pt => pt.PassengerId);
-            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.TimeTable).WithMany(t => t.PassengerTimeTables).HasForeignKey(pt => pt.TimeTableId);
+            modelBuilder.Entity<PassengerTimeTable>().HasKey(pt => new { pt.PassengerID, pt.TimeTableID });
+            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.Passenger).WithMany(p => p.PassengerTimeTables).HasForeignKey(pt => pt.PassengerID);
+            modelBuilder.Entity<PassengerTimeTable>().HasOne(pt => pt.TimeTable).WithMany(t => t.PassengerTimeTables).HasForeignKey(pt => pt.TimeTableID);
 
             modelBuilder.Entity<TimeTable>().Property(t => t.DepartureTime).HasColumnType("SMALLDATETIME");
             modelBuilder.Entity<TimeTable>().Property(t => t.ArrivalTime).HasColumnType("SMALLDATETIME");
