@@ -46,6 +46,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _destinationRepository.GetDestinations();
+                if (result.Any())
+                {
+                    return NotFound($"Could not find any destinations");
+                }
                 return Ok(result);
             }
             catch(Exception e)
