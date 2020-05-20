@@ -100,7 +100,7 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
-
+        //https:/localhost:44333/api/v1.0/destinations/
         [HttpPut("{destinationId}")]
         public async Task<ActionResult> PutDestination(int destinationId, DestinationDto destinationDto)
         {
