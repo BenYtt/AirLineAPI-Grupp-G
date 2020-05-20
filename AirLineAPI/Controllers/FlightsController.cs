@@ -124,7 +124,7 @@ namespace AirLineAPI.Controllers
 
                 var newFlight = _mapper.Map(flightDto, oldFlight);
                 _repository.Update(newFlight);
-               
+
                 if (await _repository.Save())
                 {
                     return NoContent();
@@ -137,11 +137,13 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
+        //PUT: api/v1.0/flights/1                                Delete Flight
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEvent(long id)
         {
             try
             {
-                var oldFlight = _repository.GetFlightByID(id);
+                var oldFlight = await _repository.GetFlightByID(id);
 
                 if (oldFlight == null)
                 {
