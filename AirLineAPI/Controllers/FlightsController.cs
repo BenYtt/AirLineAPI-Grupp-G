@@ -16,23 +16,31 @@ namespace AirLineAPI.Controllers
     [Route("api/v1.0/[controller]")]
     public class FlightsController : ControllerBase
     {
-        private readonly IFlightRepository _repository;
+
+        private readonly IFlightRepository _flightRepository;
         private readonly IMapper _mapper;
 
-        public FlightsController(IFlightRepository repository, IMapper mapper)
+        public FlightsController(IFlightRepository flightRepository, IMapper mapper)
         {
-            _repository = repository;
+            _flightRepository = flightRepository;
             _mapper = mapper;
         }
 
+        //GET: api/v1.0/flights                                 Get Flights
         [HttpGet]
         public async Task<ActionResult<FlightDto[]>> GetFlights()
         {
             try
             {
-                var results = await _repository.GetFlights();
+                var results = await _flightRepository.GetFlights();
                 var mappedResult = _mapper.Map<FlightDto[]>(results);
 
+                if (results == null)
+                {
+                    return NotFound("Could not find any flights.");
+                }
+
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
                 return Ok(mappedResult);
             }
             catch (Exception e)
@@ -41,14 +49,20 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //GET: api/v1.0/flights/i                                 Get flights by id
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlightDto[]>> GetFlightById(long id)
+        public async Task<ActionResult<FlightDto>> GetFlightById(long id)
         {
             try
             {
-                var results = await _repository.GetFlightByID(id);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
+                var result = await _flightRepository.GetFlightByID(id);
+                
+                if (result == null)
+                {
+                    return NotFound($"Couldn't find any flight with ID: {id}");
+                }
 
+                var mappedResult = _mapper.Map<FlightDto>(result);
                 return Ok(mappedResult);
             }
             catch (Exception e)
@@ -57,14 +71,21 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //GET: api/v1.0/flights/manufacturer=boeing                                 Get flights by manufacturer
         [HttpGet("manufacturer={manufacturer}")]
         public async Task<ActionResult<FlightDto[]>> GetFlightsByManufacturer(string manufacturer)
         {
             try
             {
-                var results = await _repository.GetFlightsByManufacturer(manufacturer);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
 
+                var results = await _repository.GetFlightsByManufacturer(manufacturer);
+                
+                if (results == null)
+                {
+                    return NotFound($"Couldn't find destination {manufacturer}.");
+                }
+
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
                 return Ok(mappedResult);
             }
             catch (Exception e)
@@ -73,12 +94,13 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //GET: api/v1.0/flights/model=F-92                                 Get flights by model
         [HttpGet("model/{model}")]
         public async Task<ActionResult<FlightDto[]>> GetFlightsByModel(string model)
         {
             try
             {
-                var results = await _repository.GetFlightsByModel(model);
+                var results = await _flightRepository.GetFlightsByModel(model);
                 var mappedResult = _mapper.Map<FlightDto[]>(results);
 
                 return Ok(mappedResult);
@@ -91,13 +113,14 @@ namespace AirLineAPI.Controllers
 
         //POST: api/v1.0/flights                                 POST Flight
         [HttpPost]
-        public async Task<ActionResult<FlightDto>> PostEvent([FromBody]FlightDto flightDto)
+        public async Task<ActionResult<FlightDto>> PostFlightByID([FromBody]FlightDto flightDto)
         {
             try
             {
                 var mappedEntity = _mapper.Map<Flight>(flightDto);
-                _repository.Add(mappedEntity);
-                if (await _repository.Save())
+
+                _flightRepository.Add(mappedEntity);
+                if (await _flightRepository.Save())
                 {
                     return Created($"/api/v1.0/Flights/{mappedEntity.ID}", _mapper.Map<Flight>(mappedEntity));
                 }
@@ -110,12 +133,13 @@ namespace AirLineAPI.Controllers
         }
 
         //PUT: api/v1.0/flights                                 PUT Flight
-        [HttpPut]
-        public async Task<ActionResult<FlightDto>> PutEvent(long id, FlightDto flightDto)
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<FlightDto>> PutFlightByID(long id, [FromBody]FlightDto flightDto)
         {
             try
             {
-                var oldFlight = _repository.GetFlightByID(id);
+                var oldFlight = await _flightRepository.GetFlightByID(id);
 
                 if (oldFlight == null)
                 {
@@ -123,9 +147,10 @@ namespace AirLineAPI.Controllers
                 }
 
                 var newFlight = _mapper.Map(flightDto, oldFlight);
-                _repository.Update(newFlight);
+                _flightRepository.Update(newFlight);
                
-                if (await _repository.Save())
+                if (await _flightRepository.Save())
+
                 {
                     return NoContent();
                 }
@@ -137,20 +162,23 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        public async Task<ActionResult> DeleteEvent(long id)
+
+        //DELETE: api/v1.0/flights/1                                 Delete Flight
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteFlightByID(long id)
         {
             try
             {
-                var oldFlight = _repository.GetFlightByID(id);
+                var oldFlight = await _flightRepository.GetFlightByID(id);
 
                 if (oldFlight == null)
                 {
                     return NotFound($"Couldn't find any flight with id: {id}");
                 }
 
-                _repository.Delete(oldFlight);
+                _flightRepository.Delete(oldFlight);
 
-                if (await _repository.Save())
+                if (await _flightRepository.Save())
                 {
                     return NoContent();
                 }
