@@ -46,9 +46,14 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var results = await _repository.GetFlightByID(id);
-                var mappedResult = _mapper.Map<FlightDto>(results);
+                var result = await _repository.GetFlightByID(id);
 
+                if (result == null)
+                {
+                    return NotFound($"Couldn't find any flight with ID: {id}");
+                }
+
+                var mappedResult = _mapper.Map<FlightDto>(result);
                 return Ok(mappedResult);
             }
             catch (Exception e)
