@@ -19,7 +19,6 @@ namespace AirLineAPI.Configuration
                 .ReverseMap();
             CreateMap<TimeTable, TimeTableDto>()
                 .ReverseMap();
-
         }
     }
 }
