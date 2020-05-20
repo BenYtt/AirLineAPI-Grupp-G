@@ -17,6 +17,8 @@ namespace AirLineAPI.Configuration
               .ReverseMap();
             CreateMap<Flight, FlightDto>()
                 .ReverseMap();
+            CreateMap<TimeTable, TimeTableDto>()
+                .ReverseMap();
 
         }
     }
