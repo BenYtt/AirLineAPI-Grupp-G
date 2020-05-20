@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using AirLineAPI.Model;
 
 namespace AirLineAPI.Dto
 {
     public class PassengerDto
     {
-       
+        [Required]
+        public long ID { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public long IdentificationNumber { get; set; }
+        public ICollection<PassengerTimeTableDto> PassengerTimeTables { get; set; }
+
     }
 }
