@@ -104,12 +104,12 @@ namespace AirLineAPI.Controllers
         }
 
         //PUT: api/v1.0/flights                                 PUT Flight
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<FlightDto>> PutEvent(long id, FlightDto flightDto)
         {
             try
             {
-                var oldFlight = _repository.GetFlightByID(id);
+                var oldFlight = await _repository.GetFlightByID(id);
 
                 if (oldFlight == null)
                 {
