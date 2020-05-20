@@ -45,6 +45,12 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRouteByID(id);
                 var mappedResult = _mapper.Map<RouteDto>(result);
+
+                if (mappedResult == null)
+                {
+                    return NotFound($"There is no ID with id:{id}");
+                }
+
                 return Ok(mappedResult);
             }
             catch (Exception e)
