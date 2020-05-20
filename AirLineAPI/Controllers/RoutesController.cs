@@ -126,6 +126,10 @@ namespace AirLineAPI.Controllers
                 var oldRoute = await _routeRepository.GetRouteByID(routeid);
                 if (oldRoute == null)
                 {
+                    return NotFound($"there is no routes with id:{routeid}");
+                }
+                var newRoute =  _mapper.Map(routeDto, oldRoute);
+                _routeRepository.Update(newRoute);
                     return NotFound($"There is no routes with id:{routeid}");
                 }
 

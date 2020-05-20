@@ -19,7 +19,7 @@ namespace AirLineAPI.Services
 
         public async Task<Route> GetRouteByID(long routeID)
         {
-            _logger.LogInformation($"Getting passenger by id: {routeID}");
+            _logger.LogInformation($"Getting Route by id: {routeID}");
             IQueryable<Route> query = _context.Routes;
             query = query.Where(x => x.ID == routeID)
                 .Include(s => s.StartDestination)
