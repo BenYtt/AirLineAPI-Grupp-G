@@ -72,13 +72,12 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
         {
             try
-            {
-                if (_passengerRepo == null)
-                {
-                    return NotFound();
-                }
+            { 
                 var result = await _passengerRepo.GetPassengerByName(name);
-
+                if (result == null)
+                {
+                    return NotFound($"There is no passenger with name:{name}");
+                }
                 return Ok(result);
             }
             catch (Exception e)

@@ -16,6 +16,7 @@ namespace AirLineAPI.Controllers
     [Route("api/v1.0/[controller]")]
     public class FlightsController : ControllerBase
     {
+
         private readonly IFlightRepository _flightRepository;
         private readonly IMapper _mapper;
 
@@ -117,6 +118,7 @@ namespace AirLineAPI.Controllers
             try
             {
                 var mappedEntity = _mapper.Map<Flight>(flightDto);
+
                 _flightRepository.Add(mappedEntity);
                 if (await _flightRepository.Save())
                 {
@@ -131,6 +133,7 @@ namespace AirLineAPI.Controllers
         }
 
         //PUT: api/v1.0/flights                                 PUT Flight
+
         [HttpPut("{id}")]
         public async Task<ActionResult<FlightDto>> PutFlightByID(long id, [FromBody]FlightDto flightDto)
         {
@@ -147,6 +150,7 @@ namespace AirLineAPI.Controllers
                 _flightRepository.Update(newFlight);
                
                 if (await _flightRepository.Save())
+
                 {
                     return NoContent();
                 }
@@ -157,6 +161,7 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
 
         //DELETE: api/v1.0/flights/1                                 Delete Flight
         [HttpDelete("{id}")]
