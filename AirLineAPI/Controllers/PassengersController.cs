@@ -56,7 +56,7 @@ namespace AirLineAPI.Controllers
                 
                 if (result == null)
                 {
-                    return NotFound($"There is no passenger with ID:{id}");
+                    return NotFound($"There is no passenger with Id:{id}");
                 }
               
                 return Ok(result);
