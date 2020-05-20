@@ -130,6 +130,30 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
-  
+
+        public async Task<ActionResult> DeleteEvent(long id)
+        {
+            try
+            {
+                var oldFlight = _repository.GetFlightByID(id);
+
+                if (oldFlight == null)
+                {
+                    return NotFound($"Couldn't find any flight with id: {id}");
+                }
+
+                _repository.Delete(oldFlight);
+
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
