@@ -116,5 +116,31 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
+
+
+        [HttpPut("{routeid}")]
+        public async Task<ActionResult<RouteDto>> PutRoute(int routeid,[FromBody] RouteDto routeDto)
+        {
+            try
+            {
+                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                if (oldRoute == null)
+                {
+                    return NotFound($"there is no routes with id:{routeid}");
+                }
+                var newRoute =  _mapper.Map(routeDto, oldRoute);
+                _routeRepository.Update(newRoute);
+
+                if (await _routeRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
