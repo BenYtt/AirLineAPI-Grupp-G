@@ -17,7 +17,6 @@ namespace AirLineAPI.Configuration
               .ReverseMap();
             CreateMap<Flight, FlightDto>()
                 .ReverseMap();
-
         }
     }
 }
