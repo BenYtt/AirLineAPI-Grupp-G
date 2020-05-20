@@ -42,12 +42,12 @@ namespace AirLineAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlightDto[]>> GetFlightById(long id)
+        public async Task<ActionResult<FlightDto>> GetFlightById(long id)
         {
             try
             {
                 var results = await _repository.GetFlightByID(id);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
+                var mappedResult = _mapper.Map<FlightDto>(results);
 
                 return Ok(mappedResult);
             }
@@ -110,12 +110,12 @@ namespace AirLineAPI.Controllers
         }
 
         //PUT: api/v1.0/flights                                 PUT Flight
-        [HttpPut]
-        public async Task<ActionResult<FlightDto>> PutEvent(long id, FlightDto flightDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<FlightDto>> PutEvent(long id, [FromBody]FlightDto flightDto)
         {
             try
             {
-                var oldFlight = _repository.GetFlightByID(id);
+                var oldFlight = await _repository.GetFlightByID(id);
 
                 if (oldFlight == null)
                 {
