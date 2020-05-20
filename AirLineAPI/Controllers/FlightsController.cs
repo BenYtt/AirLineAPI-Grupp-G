@@ -45,6 +45,11 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetFlightByID(id);
+
+                if (results.ID != id)
+                {
+                    return NotFound(results);
+                }
                 return Ok(results);
             }
             catch (Exception e)

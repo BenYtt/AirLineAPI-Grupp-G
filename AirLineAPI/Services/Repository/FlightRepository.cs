@@ -17,10 +17,12 @@ namespace AirLineAPI.Services
 
         public async Task<Flight> GetFlightByID(long flightID)
         {
-            _logger.LogInformation($"Getting flight from id: {flightID}");
+            _logger.LogInformation($"Getting flight from id: {flightID}.");
            
-            IQueryable<Flight> query = _context.Flights;
-            query = query.Where(f => f.ID == flightID);
+            IQueryable<Flight> query = _context.Flights
+                .Where(f => f.ID == flightID)
+                .OrderBy(f => f.ID);
+
             return await query.FirstOrDefaultAsync();
         }
 
@@ -30,6 +32,7 @@ namespace AirLineAPI.Services
            
             IQueryable<Flight> query = _context.Flights;
             query = query.OrderBy(f => f.Manufacturer);
+
             return await query.ToArrayAsync();
         }
         public async Task<Flight[]> GetFlightsByManufacturer(string manufacturer)
