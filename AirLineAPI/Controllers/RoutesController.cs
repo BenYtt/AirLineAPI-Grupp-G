@@ -122,7 +122,6 @@ namespace AirLineAPI.Controllers
             }
         }
 
-
         //Put: api/v1.0/Routes/<id>                                 Put Route
         [HttpPut("{routeid}")]
         public async Task<ActionResult<RouteDto>> PutRoute(int routeid, [FromBody] RouteDto routeDto)
