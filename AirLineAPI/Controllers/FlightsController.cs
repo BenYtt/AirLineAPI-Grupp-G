@@ -35,7 +35,6 @@ namespace AirLineAPI.Controllers
             {
 
                 var results = await _flightRepository.GetFlights();
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
 
                 if (results == null)
                 {
@@ -80,7 +79,7 @@ namespace AirLineAPI.Controllers
             try
             {
 
-                var results = await _repository.GetFlightsByManufacturer(manufacturer);
+                var results = await _flightRepository.GetFlightsByManufacturer(manufacturer);
                 
                 if (results == null)
                 {
