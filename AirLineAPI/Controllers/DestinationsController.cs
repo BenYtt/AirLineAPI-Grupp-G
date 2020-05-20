@@ -101,16 +101,22 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<ActionResult<DestinationDto>> PutEvent(DestinationDto destinationDto)
+        [HttpPut("{destinationId}")]
+        public async Task<ActionResult> PutDestination(int destinationId, DestinationDto destinationDto)
         {
             try
             {
-                var mappedEntity = _mapper.Map<Destination>(destinationDto);
-                _destinationRepository.Add(mappedEntity);
+                var oldDestination = await _destinationRepository.GetDestinationByID(destinationId);
+                if (oldDestination == null)
+                {
+                    return NotFound($"Could not find destination with id {destinationId}");
+                }
+
+                var newDestination = _mapper.Map(destinationDto, oldDestination);
+                _destinationRepository.Update(newDestination);
                 if (await _destinationRepository.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                    return NoContent();
                 }
             }
             catch (Exception e)
