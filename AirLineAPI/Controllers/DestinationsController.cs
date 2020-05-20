@@ -100,5 +100,24 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPut]
+        public async Task<ActionResult<DestinationDto>> PutEvent(DestinationDto destinationDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<Destination>(destinationDto);
+                _destinationRepository.Add(mappedEntity);
+                if (await _destinationRepository.Save())
+                {
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
