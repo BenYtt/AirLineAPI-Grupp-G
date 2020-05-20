@@ -60,6 +60,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _destinationRepository.GetDestinationsByCountry(country);
+                if (result == null)
+                {
+                    return NotFound($"Could not find any destination with name {country}");
+                }
                 return Ok(result);
             }
             catch (Exception e)
