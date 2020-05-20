@@ -117,5 +117,30 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+        //https:/localhost:44333/api/v1.0/destinations/
+        [HttpPut("{destinationId}")]
+        public async Task<ActionResult> PutDestination(int destinationId, DestinationDto destinationDto)
+        {
+            try
+            {
+                var oldDestination = await _destinationRepository.GetDestinationByID(destinationId);
+                if (oldDestination == null)
+                {
+                    return NotFound($"Could not find destination with id {destinationId}");
+                }
+
+                var newDestination = _mapper.Map(destinationDto, oldDestination);
+                _destinationRepository.Update(newDestination);
+                if (await _destinationRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
