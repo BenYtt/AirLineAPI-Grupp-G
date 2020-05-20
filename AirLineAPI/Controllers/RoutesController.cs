@@ -48,7 +48,7 @@ namespace AirLineAPI.Controllers
 
                 if (mappedResult == null)
                 {
-                    return NotFound($"There is no ID with id:{id}");
+                    return NotFound($"There is no route with id:{id}");
                 }
 
                 return Ok(mappedResult);
