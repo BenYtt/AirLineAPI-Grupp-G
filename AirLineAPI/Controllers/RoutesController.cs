@@ -7,6 +7,8 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using AirLineAPI.Dto;
 
 namespace AirLineAPI.Controllers
 {
@@ -14,10 +16,12 @@ namespace AirLineAPI.Controllers
     public class RoutesController : ControllerBase
     {
         private readonly IRouteRepository _routeRepository;
+        private readonly IMapper _mapper;
 
-        public RoutesController(IRouteRepository routeRepository)
+        public RoutesController(IRouteRepository routeRepository, IMapper mapper)
         {
             _routeRepository = routeRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -40,7 +44,14 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _routeRepository.GetRouteByID(id);
-                return Ok(result);
+                var mappedResult = _mapper.Map<RouteDto>(result);
+
+                if (mappedResult == null)
+                {
+                    return NotFound($"There is no route with id:{id}");
+                }
+
+                return Ok(mappedResult);
             }
             catch (Exception e)
             {
