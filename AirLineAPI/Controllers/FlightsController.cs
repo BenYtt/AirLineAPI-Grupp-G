@@ -34,6 +34,12 @@ namespace AirLineAPI.Controllers
                 var results = await _flightRepository.GetFlights();
                 var mappedResult = _mapper.Map<FlightDto[]>(results);
 
+                if (results == null)
+                {
+                    return NotFound("Could not find any flights.");
+                }
+
+                var mappedResult = _mapper.Map<FlightDto[]>(results);
                 return Ok(mappedResult);
             }
             catch (Exception e)
