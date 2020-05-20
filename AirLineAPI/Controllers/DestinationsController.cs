@@ -53,7 +53,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
-        //api/v1.0/destinations/country=Sweden      Get destination by name
+        //api/v1.0/destinations/country=Sweden      Get destination by Country
         [HttpGet("country={country}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCountry(string country)
         {
@@ -67,7 +67,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
-        //api/v1.0/destinations/city=stockholm      Get destination by name
+        //api/v1.0/destinations/city=stockholm      Get destination by City
         [HttpGet("city={city}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCity(string city)
         {
