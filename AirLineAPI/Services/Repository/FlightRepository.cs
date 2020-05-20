@@ -19,9 +19,9 @@ namespace AirLineAPI.Services
         {
             _logger.LogInformation($"Getting flight from id: {flightID}");
            
-            IQueryable<Flight> query = _context.Flights;
-            query = query.Where(f => f.ID == flightID);
-            return await query.FirstOrDefaultAsync();
+            IQueryable<Flight> query = _context.Flights.Where(f => f.ID == flightID);
+
+            return await query.SingleOrDefaultAsync();
         }
 
         public async Task<Flight[]> GetFlights()

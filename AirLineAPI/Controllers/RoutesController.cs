@@ -45,6 +45,12 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRouteByID(id);
                 var mappedResult = _mapper.Map<RouteDto>(result);
+
+                if (mappedResult == null)
+                {
+                    return NotFound($"There is no route with id:{id}");
+                }
+
                 return Ok(mappedResult);
             }
             catch (Exception e)
@@ -109,6 +115,32 @@ namespace AirLineAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
+        }
+
+        //Delete: api/v1.0/Routes/<id>                                 Delete Route
+        [HttpDelete("{routeid}")]
+        public async Task<ActionResult> DeleteRoute(long routeid)
+        {
+            try
+            {
+                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                if (oldRoute == null)
+                {
+                    return NotFound($"There is no routes with id:{routeid}");
+                }
+
+                _routeRepository.Delete(oldRoute);
+
+                if (await _routeRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
         }
     }
 }
