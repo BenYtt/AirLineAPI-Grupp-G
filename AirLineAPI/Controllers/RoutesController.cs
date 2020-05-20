@@ -117,6 +117,32 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpPut("{routeid}")]
+        public async Task<ActionResult<RouteDto>> PutRoute(int routeid, [FromBody] RouteDto routeDto)
+        {
+            try
+            {
+                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                if (oldRoute == null)
+                {
+                    return NotFound($"there is no routes with id:{routeid}");
+                }
+                var newRoute = _mapper.Map(routeDto, oldRoute);
+                _routeRepository.Update(newRoute);
+
+                if (await _routeRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
+        }
+
+
         //Delete: api/v1.0/Routes/<id>                                 Delete Route
         [HttpDelete("{routeid}")]
         public async Task<ActionResult> DeleteRoute(long routeid)
@@ -127,10 +153,6 @@ namespace AirLineAPI.Controllers
                 if (oldRoute == null)
                 {
                     return NotFound($"there is no routes with id:{routeid}");
-                }
-                var newRoute =  _mapper.Map(routeDto, oldRoute);
-                _routeRepository.Update(newRoute);
-                    return NotFound($"There is no routes with id:{routeid}");
                 }
 
                 _routeRepository.Delete(oldRoute);
