@@ -29,12 +29,13 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
-            {
-                if (_passengerRepo == null)
+            { 
+                var result = await _passengerRepo.GetPassengers(timeTable);
+                if (result == null)
                 {
                     return NotFound();
                 }
-                var result = await _passengerRepo.GetPassengers(timeTable);
+               
                 return Ok(result);
             }
             catch (Exception e)
