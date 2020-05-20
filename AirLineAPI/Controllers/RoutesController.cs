@@ -117,6 +117,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //Delete: api/v1.0/Routes/<id>                                 Delete Route
         [HttpDelete("{routeid}")]
         public async Task<ActionResult> DeleteRoute(long routeid)
         {
