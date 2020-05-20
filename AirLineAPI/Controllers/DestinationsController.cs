@@ -43,6 +43,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
         //api/v1.0/destinations     Get all destinations
         [HttpGet]
         public async Task<ActionResult<Destination[]>> GetDestinations()
@@ -61,6 +62,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
         //api/v1.0/destinations/country=Sweden      Get destination by Country
         [HttpGet("country={country}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCountry(string country)
@@ -79,6 +81,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
         //api/v1.0/destinations/city=stockholm      Get destination by City
         [HttpGet("city={city}")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCity(string city)
@@ -97,6 +100,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
          // {"city": "name",
         //"country": "name"}
         [HttpPost]
@@ -117,6 +121,7 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
         //https:/localhost:44333/api/v1.0/destinations/
         [HttpPut("{destinationId}")]
         public async Task<ActionResult> PutDestination(int destinationId, DestinationDto destinationDto)
@@ -138,6 +143,31 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        //https:/localhost:44333/api/v1.0/destinations/Id
+        [HttpDelete("{destinationId}")]
+        public async Task<ActionResult> DeleteDestination(int destinationId)
+        {
+            try
+            {
+                var OldDestination = await _destinationRepository.GetDestinationByID(destinationId);
+                if (OldDestination == null)
+                {
+                    return NotFound($"Counld not find destination with id {destinationId}");
+                }
+                _destinationRepository.Delete(OldDestination);
+                if (await _destinationRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
