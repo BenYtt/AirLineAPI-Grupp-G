@@ -29,13 +29,14 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
-            { 
-                var result = await _passengerRepo.GetPassengers(timeTable);
-                if (result == null)
+
+            {
+                if (_passengerRepo == null)
                 {
                     return NotFound();
                 }
-               
+                var result = await _passengerRepo.GetPassengers(timeTable);
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -52,12 +53,17 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
-            {
-                if (_passengerRepo == null)
-                {
-                    return NotFound();
-                }
+
+            {  
                 var result = await _passengerRepo.GetPassengerById(id, timeTable);
+                
+                if (result == null)
+
+                {
+                    return NotFound($"There is no passenger with id:{id}");
+                }
+
+
                 return Ok(result);
             }
             catch (Exception e)
