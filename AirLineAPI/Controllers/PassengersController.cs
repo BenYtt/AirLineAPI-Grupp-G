@@ -97,12 +97,13 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
-            {
-                if (_passengerRepo == null)
+            { 
+                var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+                if (result == null)
                 {
                     return NotFound();
                 }
-                var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+               
                 return Ok(result);
             }
             catch (Exception e)
