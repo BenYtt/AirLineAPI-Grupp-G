@@ -34,7 +34,7 @@ namespace AirLineAPI.Controllers
                 var result = await _destinationRepository.GetDestinationByID(id);
                 if(result == null)
                 {
-                    return NotFound();
+                    return NotFound($"Could not find any destination with id {id}");
                 }
                 return Ok(result);
             }
