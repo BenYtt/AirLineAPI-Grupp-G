@@ -24,6 +24,7 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
 
+        //Get: api/v1.0/Routes/                                 Get Routes
         [HttpGet]
         public async Task<ActionResult<Route[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
@@ -38,6 +39,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //Get: api/v1.0/Routes/<id>                                 Get Route
         [HttpGet("{id}")]
         public async Task<ActionResult<Route>> GetRoutesByID(long id)
         {
@@ -59,6 +61,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route
         [HttpGet("fromcity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartCity(string city)
         {
@@ -74,6 +77,7 @@ namespace AirLineAPI.Controllers
         }
 
 
+        //Get: api/v1.0/Routes/tocity=<city>                                 Get Route
         [HttpGet("tocity={city}")]
         public async Task<ActionResult<Route[]>> GetRoutesByEndCity(string city)
         {
@@ -88,7 +92,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-
+        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route
         [HttpGet("tocountry={country}")]
         public async Task<ActionResult<Route[]>> GetRouteByEndCountry(string country)
         {
@@ -103,6 +107,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route
         [HttpGet("fromcountry={country}")]
         public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
@@ -115,6 +120,59 @@ namespace AirLineAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
+        }
+
+
+        //Put: api/v1.0/Routes/<id>                                 Put Route
+        [HttpPut("{routeid}")]
+        public async Task<ActionResult<RouteDto>> PutRoute(int routeid, [FromBody] RouteDto routeDto)
+        {
+            try
+            {
+                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                if (oldRoute == null)
+                {
+                    return NotFound($"there is no routes with id:{routeid}");
+                }
+                var newRoute = _mapper.Map(routeDto, oldRoute);
+                _routeRepository.Update(newRoute);
+
+                if (await _routeRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
+        }
+
+        //Delete: api/v1.0/Routes/<id>                                 Delete Route
+        [HttpDelete("{routeid}")]
+        public async Task<ActionResult> DeleteRoute(long routeid)
+        {
+            try
+            {
+                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                if (oldRoute == null)
+                {
+                    return NotFound($"there is no routes with id:{routeid}");
+                }
+
+                _routeRepository.Delete(oldRoute);
+
+                if (await _routeRepository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
         }
     }
 }
