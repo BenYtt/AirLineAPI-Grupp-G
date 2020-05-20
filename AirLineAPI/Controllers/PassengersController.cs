@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
-using Microsoft.EntityFrameworkCore;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using AirLineAPI.Dto;
 
 namespace AirLineAPI.Controllers
 {
@@ -15,20 +16,25 @@ namespace AirLineAPI.Controllers
     [ApiController]
     public class PassengersController : ControllerBase
     {
-        private readonly IPassengerRepo repo;
-        public PassengersController(IPassengerRepo repo) => this.repo = repo;
-
+        private readonly IPassengerRepo _passengerRepo;
+        private readonly IMapper _mapper;
+       
+        public PassengersController(IPassengerRepo passengerRepo, IMapper mapper)
+        {
+            _passengerRepo = passengerRepo;
+            _mapper = mapper;
+        }
         //api/v1.0/Passengers
         [HttpGet]
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
             {
-                if (repo == null)
+                if (_passengerRepo == null)
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassengers(timeTable);
+                var result = await _passengerRepo.GetPassengers(timeTable);
                 return Ok(result);
             }
             catch (Exception e)
@@ -45,12 +51,14 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
-            {
-                if (repo == null)
+            {  
+                var result = await _passengerRepo.GetPassengerById(id, timeTable);
+                
+                if (result == null)
                 {
-                    return NotFound();
+                    return NotFound($"There is no passenger with id:{id}");
                 }
-                var result = await repo.GetPassengerById(id, timeTable);
+              
                 return Ok(result);
             }
             catch (Exception e)
@@ -65,11 +73,11 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                if (repo == null)
+                if (_passengerRepo == null)
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassengerByName(name);
+                var result = await _passengerRepo.GetPassengerByName(name);
 
                 return Ok(result);
             }
@@ -87,11 +95,11 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                if (repo == null)
+                if (_passengerRepo == null)
                 {
                     return NotFound();
                 }
-                var result = await repo.GetPassengerByIdentificationNumber(idNumber);
+                var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
                 return Ok(result);
             }
             catch (Exception e)
@@ -100,5 +108,23 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<PassengerDto>> PostEvent(PassengerDto passengerDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<Passenger>(passengerDto);
+                _passengerRepo.Add(mappedEntity);
+                if (await _passengerRepo.Save())
+                {
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }

@@ -117,9 +117,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-
-        [HttpPut("{routeid}")]
-        public async Task<ActionResult<RouteDto>> PutRoute(int routeid,[FromBody] RouteDto routeDto)
+        //Delete: api/v1.0/Routes/<id>                                 Delete Route
+        [HttpDelete("{routeid}")]
+        public async Task<ActionResult> DeleteRoute(long routeid)
         {
             try
             {
@@ -130,6 +130,10 @@ namespace AirLineAPI.Controllers
                 }
                 var newRoute =  _mapper.Map(routeDto, oldRoute);
                 _routeRepository.Update(newRoute);
+                    return NotFound($"There is no routes with id:{routeid}");
+                }
+
+                _routeRepository.Delete(oldRoute);
 
                 if (await _routeRepository.Save())
                 {
