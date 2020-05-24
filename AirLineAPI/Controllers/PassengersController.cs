@@ -120,7 +120,7 @@ namespace AirLineAPI.Controllers
                 _passengerRepo.Add(mappedEntity);
                 if (await _passengerRepo.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Passenger>(mappedEntity));
                 }
             }
             catch (Exception e)
@@ -129,5 +129,35 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
+        //PUT: api/v1.0/passengers                                 PUT passenger
+        [HttpPut]
+        public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
+        {
+            try
+            {
+                var oldpassenger = await _passengerRepo.GetPassengerById(id);
+
+                if (oldpassenger == null)
+                {
+                    return NotFound($"Couldn't find any passenger with id: {id}");
+                }
+
+                var newPassenger = _mapper.Map(passengerDto, oldpassenger);
+                _passengerRepo.Update(newPassenger);
+
+                if (await _passengerRepo.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+
     }
 }
