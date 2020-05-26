@@ -75,5 +75,28 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+        [HttpDelete("{timeTableId}")]
+        public async Task<ActionResult> DeleteTimeTable(int timeTableId)
+        {
+            try
+            {
+                var OldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                if (OldTimeTable == null)
+                {
+                    return NotFound($"Counld not find timetable with id {timeTableId}");
+                }
+                _repository.Delete(OldTimeTable);
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
