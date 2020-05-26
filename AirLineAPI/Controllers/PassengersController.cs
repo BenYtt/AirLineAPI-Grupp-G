@@ -24,7 +24,7 @@ namespace AirLineAPI.Controllers
             _passengerRepo = passengerRepo;
             _mapper = mapper;
         }
-        //api/v1.0/Passengers
+        //api/v1.0/Passengers    Get all Passengers
         [HttpGet]
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
@@ -131,8 +131,8 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //PUT: api/v1.0/passengers                                 PUT passenger
-        [HttpPut]
+        //https:/localhost:44333/api/v1.0/passengers/
+        [HttpPut("{id}")]
         public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
         {
             try
