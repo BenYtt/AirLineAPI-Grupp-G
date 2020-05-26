@@ -9,16 +9,19 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AirLineAPI.Dto;
 
+
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
     public class TimeTablesController : ControllerBase
     {
         private readonly ITimeTableRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository)
+        public TimeTablesController(ITimeTableRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -81,6 +84,24 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<TimeTableDto>> PostEvent(TimeTableDto timetableDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<TimeTable>(timetableDto);
+                _repository.Add(mappedEntity);
+                if (await _repository.Save())
+                {
+                    return Created($"/api/v1.0/Timetables/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+            
         //https:/localhost:44333/api/v1.0/timetables/
         [HttpPut("{timetableId}")]
         public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
