@@ -79,9 +79,9 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
-                if(results == null)
+                if (results == null)
                 {
-                   return NotFound($"There is no flight with the enddestination : {endDestination}");
+                    return NotFound($"There is no flight with the enddestination : {endDestination}");
                 }
                 return Ok(results);
             }
@@ -108,7 +108,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
-            
+        }
         //https:/localhost:44333/api/v1.0/timetables/
         [HttpPut("{timetableId}")]
         public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
@@ -130,6 +130,30 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("{timeTableId}")]
+        public async Task<ActionResult> DeleteTimeTable(int timeTableId)
+        {
+            try
+            {
+                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                if (oldTimeTable == null)
+                {
+                    return NotFound($"Counld not find timetable with id {timeTableId}");
+                }
+                _repository.Delete(oldTimeTable);
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
