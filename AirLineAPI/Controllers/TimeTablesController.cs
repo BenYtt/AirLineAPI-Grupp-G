@@ -40,6 +40,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoutes);
+                if (results == null)
+                {
+                    return NotFound($"Could not find any timetable with id {id}");
+                }
                 return Ok(results);
             }
             catch (Exception e)
