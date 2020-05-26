@@ -9,24 +9,34 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AirLineAPI.Dto;
 
+
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
     public class TimeTablesController : ControllerBase
     {
         private readonly ITimeTableRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository)
+        public TimeTablesController(ITimeTableRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
+        //api/v1.0/timetables           get all timetables
         [HttpGet]
         public async Task<ActionResult<TimeTable[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
+               
+                if(results == null)
+                {
+                    return NotFound($"Could not find any timetables");
+                }
+
                 return Ok(results);
             }
             catch (Exception e)
@@ -81,30 +91,24 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        [HttpDelete("{timeTableId}")]
-        public async Task<ActionResult> DeleteTimeTable(int timeTableId)
+        [HttpPost]
+        public async Task<ActionResult<TimeTableDto>> PostEvent(TimeTableDto timetableDto)
         {
             try
             {
-                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
-                if (oldTimeTable == null)
-                {
-                    return NotFound($"Counld not find timetable with id {timeTableId}");
-                }
-                _repository.Delete(oldTimeTable);
+                var mappedEntity = _mapper.Map<TimeTable>(timetableDto);
+                _repository.Add(mappedEntity);
                 if (await _repository.Save())
                 {
-                    return NoContent();
+                    return Created($"/api/v1.0/Timetables/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
                 }
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
         }
-
         //https:/localhost:44333/api/v1.0/timetables/
         [HttpPut("{timetableId}")]
         public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
@@ -126,6 +130,30 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("{timeTableId}")]
+        public async Task<ActionResult> DeleteTimeTable(int timeTableId)
+        {
+            try
+            {
+                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                if (oldTimeTable == null)
+                {
+                    return NotFound($"Counld not find timetable with id {timeTableId}");
+                }
+                _repository.Delete(oldTimeTable);
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
