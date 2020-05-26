@@ -68,6 +68,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                if(results == null)
+                {
+                   return NotFound($"There is no flight with the enddestination : {endDestination}");
+                }
                 return Ok(results);
             }
             catch (Exception e)
