@@ -8,7 +8,7 @@ using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AirLineAPI.Dto;
-
+using AutoMapper;
 
 namespace AirLineAPI.Controllers
 {
