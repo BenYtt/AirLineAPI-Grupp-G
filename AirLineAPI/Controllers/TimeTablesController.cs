@@ -86,7 +86,7 @@ namespace AirLineAPI.Controllers
                 var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
                 if (oldTimeTable == null)
                 {
-                    return NotFound($"Could not find destination with id {timeTableId}");
+                    return NotFound($"Could not find timetable with id {timeTableId}");
                 }
 
                 var newTimeTable = _mapper.Map(timeTableDto, oldTimeTable);
