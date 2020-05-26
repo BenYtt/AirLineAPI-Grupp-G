@@ -121,7 +121,7 @@ namespace AirLineAPI.Controllers
                 _passengerRepo.Add(mappedEntity);
                 if (await _passengerRepo.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Passenger>(mappedEntity));
                 }
             }
             catch (Exception e)
@@ -131,28 +131,29 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //Delete: api/v1.0/Passenger/<id>                                 Delete Passenger
-        [HttpDelete("{passengerid}")]
-        public async Task<ActionResult> DeletePassenger(long passengerid)
+        //PUT: api/v1.0/passengers                                 PUT passenger
+        [HttpPut]
+        public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
         {
             try
             {
-                var oldpassenger = await _passengerRepo.GetPassengerById(passengerid);
+                var oldpassenger = await _passengerRepo.GetPassengerById(id);
+
                 if (oldpassenger == null)
                 {
-                    return NotFound($"there is no pasenger with id:{passengerid}");
+                    return NotFound($"Couldn't find any passenger with id: {id}");
                 }
 
-                _passengerRepo.Delete(oldpassenger);
-
-                if (await _passengerRepo.Save())
+                var newPassenger = _mapper.Map(passengerDto, oldpassenger);
+                _passengerRepo.Update(newPassenger);
+               if (await _passengerRepo.Save())
                 {
                     return NoContent();
                 }
             }
             catch (Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
         }
