@@ -24,12 +24,19 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
 
+        //api/v1.0/timetables           get all timetables
         [HttpGet]
         public async Task<ActionResult<TimeTable[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
+               
+                if(results == null)
+                {
+                    return NotFound($"Could not find any timetables");
+                }
+
                 return Ok(results);
             }
             catch (Exception e)
