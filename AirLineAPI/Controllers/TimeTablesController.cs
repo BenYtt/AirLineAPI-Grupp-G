@@ -24,7 +24,8 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
 
-        //api/v1.0/timetables           get all timetables
+        // /API/v1.0/timetables     Get all timetabels
+        
         [HttpGet]
         public async Task<ActionResult<TimeTable[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
         {
@@ -45,6 +46,8 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //    /API/v1.0/timetables/1    Get timetable by id
+
         [HttpGet("{id}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
         {
@@ -58,6 +61,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+        // API/v1.0/timetables/startdestination=gothenburg     Get timtables with startdestination gothenburg
 
         [HttpGet("startDestination={startDestination}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
@@ -72,6 +76,8 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
+        // API/v1.0/timetables/enddestination=gothenburg     Get timtables with enddestination= gothenburg
 
         [HttpGet("endDestination={endDestination}")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
