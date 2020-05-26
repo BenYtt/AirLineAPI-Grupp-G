@@ -7,6 +7,8 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AirLineAPI.Dto;
+using AutoMapper;
 
 namespace AirLineAPI.Controllers
 {
@@ -14,10 +16,12 @@ namespace AirLineAPI.Controllers
     public class TimeTablesController : ControllerBase
     {
         private readonly ITimeTableRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository)
+        public TimeTablesController(ITimeTableRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         
         [HttpGet]
@@ -75,5 +79,26 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<TimeTableDto>> PostEvent(TimeTableDto timetableDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<TimeTable>(timetableDto);
+                _repository.Add(mappedEntity);
+                if (await _repository.Save())
+                {
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+
     }
 }
