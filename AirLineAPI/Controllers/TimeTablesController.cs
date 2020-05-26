@@ -89,7 +89,7 @@ namespace AirLineAPI.Controllers
                 _repository.Add(mappedEntity);
                 if (await _repository.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
+                    return Created($"/api/v1.0/Timetables/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
                 }
             }
             catch (Exception e)
