@@ -7,6 +7,8 @@ using AirLineAPI.Db_Context;
 using AirLineAPI.Services;
 using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
+using AirLineAPI.Dto;
+
 
 namespace AirLineAPI.Controllers
 {
@@ -14,10 +16,12 @@ namespace AirLineAPI.Controllers
     public class TimeTablesController : ControllerBase
     {
         private readonly ITimeTableRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository)
+        public TimeTablesController(ITimeTableRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         //api/v1.0/timetables           get all timetables
@@ -75,12 +79,60 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                if(results == null)
+                {
+                   return NotFound($"There is no flight with the enddestination : {endDestination}");
+                }
                 return Ok(results);
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TimeTableDto>> PostEvent(TimeTableDto timetableDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<TimeTable>(timetableDto);
+                _repository.Add(mappedEntity);
+                if (await _repository.Save())
+                {
+                    return Created($"/api/v1.0/Timetables/{mappedEntity.ID}", _mapper.Map<TimeTable>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+            
+        //https:/localhost:44333/api/v1.0/timetables/
+        [HttpPut("{timetableId}")]
+        public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
+        {
+            try
+            {
+                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                if (oldTimeTable == null)
+                {
+                    return NotFound($"Could not find timetable with id {timeTableId}");
+                }
+
+                var newTimeTable = _mapper.Map(timeTableDto, oldTimeTable);
+                _repository.Update(newTimeTable);
+                if (await _repository.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
         }
     }
 }

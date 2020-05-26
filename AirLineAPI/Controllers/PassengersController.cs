@@ -29,14 +29,14 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
-
             {
-                if (_passengerRepo == null)
+                var result = await _passengerRepo.GetPassengers(timeTable);
+
+                if (result == null)
                 {
                     return NotFound();
                 }
-                var result = await _passengerRepo.GetPassengers(timeTable);
-
+               
                 return Ok(result);
             }
             catch (Exception e)
@@ -97,12 +97,13 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
-            {
-                if (_passengerRepo == null)
-                {
-                    return NotFound();
-                }
+            { 
                 var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+                if (result == null)
+                {
+                    return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
+                }
+               
                 return Ok(result);
             }
             catch (Exception e)
@@ -120,7 +121,34 @@ namespace AirLineAPI.Controllers
                 _passengerRepo.Add(mappedEntity);
                 if (await _passengerRepo.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Passenger>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
+        //PUT: api/v1.0/passengers                                 PUT passenger
+        [HttpPut]
+        public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
+        {
+            try
+            {
+                var oldpassenger = await _passengerRepo.GetPassengerById(id);
+
+                if (oldpassenger == null)
+                {
+                    return NotFound($"Couldn't find any passenger with id: {id}");
+                }
+
+                var newPassenger = _mapper.Map(passengerDto, oldpassenger);
+                _passengerRepo.Update(newPassenger);
+               if (await _passengerRepo.Save())
+                {
+                    return NoContent();
                 }
             }
             catch (Exception e)
