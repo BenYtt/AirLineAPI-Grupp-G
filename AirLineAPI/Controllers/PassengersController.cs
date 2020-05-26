@@ -29,14 +29,14 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger[]>> GetPassenger([FromQuery] bool timeTable)
         {
             try
-
             {
-                if (_passengerRepo == null)
+                var result = await _passengerRepo.GetPassengers(timeTable);
+
+                if (result == null)
                 {
                     return NotFound();
                 }
-                var result = await _passengerRepo.GetPassengers(timeTable);
-
+               
                 return Ok(result);
             }
             catch (Exception e)
@@ -97,12 +97,13 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
-            {
-                if (_passengerRepo == null)
-                {
-                    return NotFound();
-                }
+            { 
                 var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+                if (result == null)
+                {
+                    return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
+                }
+               
                 return Ok(result);
             }
             catch (Exception e)
@@ -145,8 +146,7 @@ namespace AirLineAPI.Controllers
 
                 var newPassenger = _mapper.Map(passengerDto, oldpassenger);
                 _passengerRepo.Update(newPassenger);
-
-                if (await _passengerRepo.Save())
+               if (await _passengerRepo.Save())
                 {
                     return NoContent();
                 }
@@ -157,7 +157,5 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
-
-
     }
 }
