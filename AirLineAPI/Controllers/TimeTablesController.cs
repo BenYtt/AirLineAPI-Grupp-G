@@ -19,7 +19,7 @@ namespace AirLineAPI.Controllers
         {
             _repository = repository;
         }
-        
+
         [HttpGet]
         public async Task<ActionResult<TimeTable[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
         {
@@ -54,6 +54,10 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
+                if (results == null)
+                {
+                    return NotFound($"Could not find Timetable at start destination");
+                }
                 return Ok(results);
             }
             catch (Exception e)
