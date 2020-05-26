@@ -80,12 +80,12 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var OldTimeTable = await _repository.GetTimeTableByID(timeTableId);
-                if (OldTimeTable == null)
+                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                if (oldTimeTable == null)
                 {
                     return NotFound($"Counld not find timetable with id {timeTableId}");
                 }
-                _repository.Delete(OldTimeTable);
+                _repository.Delete(oldTimeTable);
                 if (await _repository.Save())
                 {
                     return NoContent();
