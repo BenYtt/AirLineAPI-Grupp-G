@@ -37,10 +37,7 @@ namespace AirLineAPI
             });
 
 
-            services.AddSwaggerGen(swagger =>
-            {
-                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "AirLineAPI" });
-            });
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "AirLineAPI", Version = "v1" }));
 
 
         }
