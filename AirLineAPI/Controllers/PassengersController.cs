@@ -157,5 +157,32 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+        //Delete: api/v1.0/Passenger/<id>                                 Delete Passenger
+        [HttpDelete("{passengerid}")]
+        public async Task<ActionResult> DeletePassenger(long passengerid)
+        {
+            try
+            {
+                var oldpassenger = await _passengerRepo.GetPassengerById(passengerid);
+                if (oldpassenger == null)
+                {
+                    return NotFound($"there is no pasenger with id:{passengerid}");
+                }
+
+
+                _passengerRepo.Delete(oldpassenger);
+
+
+                if (await _passengerRepo.Save())
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
