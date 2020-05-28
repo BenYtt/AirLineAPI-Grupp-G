@@ -1,8 +1,43 @@
 # Standups 
 
+## Onsdag 27/5 Irvin)
+
+**Summering av gårdagen**
+
+Vi blev klara med våran sprint och avslutade den. Vi gjorde klart alla våra issues förutom 3 som vi förstod riktig.
+
+**under dagens möte delas dessa arbetsuppgifter ut:**
+
+Vi började med att ha lektion började vi alla att läsa på om swagger och hateoas.
+
+**Irvin**
+
+Läste på om swagger och hateoas
+
+gjorde en test branch för att testa att göra hateoas
+
+**Andre**
+
+Uppdaterade documentationen
+
+Läste på om swagger och hateoas
+
+**Anders**
+
+Läste på om swagger och hateoas
+**Jakob**
+
+Läste på om swagger och hateoas
+
+installerade swagger 
 
 
-## Måndag 26/5 Irvin)
+
+
+
+
+
+## Tisdag 26/5 Irvin)
 
 **Summering av gårdagen**
 
