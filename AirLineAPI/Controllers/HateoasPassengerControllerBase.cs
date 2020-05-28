@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using AirLineAPI.HATEOAS;
 using AirLineAPI.Dto;
 using AirLineAPI.Model;
+using AutoMapper;
 
-namespace MammalAPI.Controllers
+namespace AirLineAPI.Controllers
 {
     public class HateoasPassengerControllerBase : ControllerBase
     {
@@ -19,6 +20,10 @@ namespace MammalAPI.Controllers
         public HateoasPassengerControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
         {
             _routes = actionDescriptorCollectionProvider.ActionDescriptors.Items;
+        }
+
+        public HateoasPassengerControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IMapper mapper) : this(actionDescriptorCollectionProvider)
+        {
         }
 
         internal Link UrlLink(string relation, string routeName, object values)

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using MammalAPI.Controllers;
+using AirLineAPI.Controllers;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Castle.Core.Internal;
 
@@ -77,12 +77,11 @@ namespace AirLineAPI.Controllers
             try
             { 
                 var result = await _passengerRepo.GetPassengerByName(name);
-                var mappedResult = _mapper.Map<List<PassengerDto>>(result);
                 if (result == null)
                 {
                     return NotFound($"There is no passenger with name:{name}");
                 }
-                return Ok(mappedResult);
+                return Ok(result);
             }
             catch (Exception e)
             {
