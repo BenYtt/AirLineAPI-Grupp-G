@@ -2,10 +2,11 @@
 using AirLineAPI.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AirLineAPI.HATEOAS;
 
 namespace AirLineAPI.Dto
 {
-    public class PassengerDto
+    public class PassengerDto : HateoasLinkBase
     {
         [Required]
         public long ID { get; set; }
