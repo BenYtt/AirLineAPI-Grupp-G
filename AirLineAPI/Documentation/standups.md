@@ -1,5 +1,58 @@
 # Standups 
 
+
+
+## Onsdag 28/5  
+
+## Sekriterare: André
+
+**Summering av gårdagen**
+
+### Hela Gruppen:
+
+Hade lektion och avstämning. Vi fixade dokumentationen, fixade även swagger, läste på HATEOAS.
+
+**Irvin**
+
+Läste på om swagger och hateoas
+
+gjorde en test branch för att testa att göra hateoas
+
+**Andre**
+
+Uppdaterade documentationen
+
+Läste på om swagger och hateoas
+
+**Anders**
+
+Läste på om swagger och hateoas
+**Jakob**
+
+Läste på om swagger och hateoas
+
+installerade swagger 
+
+## Vad ska vi göra idag
+
+**André:**
+
+Kommer att läsa på mer om HATEOAS. Kanske kolla hur vi kan göra Db Context mer flexibel.
+
+**Irvin:**
+
+Kommer att läsa på mer om HATEOAS. Läsa på om Swagger om tid finns.
+
+**Jakob:**
+
+Kommer att läsa på mer om HATEOAS. Läsa på om Swagger om tid finns.
+
+**Anders:**
+
+Kommer att läsa på mer om HATEOAS. Läsa på om Swagger om tid finns.
+
+
+
 ## Onsdag 27/5 Irvin)
 
 **Summering av gårdagen**
