@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using MammalAPI.Controllers;
+using Microsoft.CodeAnalysis.FlowAnalysis;
+using Castle.Core.Internal;
 
 namespace AirLineAPI.Controllers
 {
@@ -26,14 +28,14 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
         //api/v1.0/Passengers    Get all Passengers
-        [HttpGet("GetAll", Name = "GetAll")]
-        public async Task<IActionResult>Get()
+         [HttpGet(Name = "GetAll")]
+         public async Task<IActionResult> Get()
         {
             try
             {
-                var result = await _passengerRepo.GetPassengers();
-                IEnumerable<PassengerDto> mappedResult = _mapper.Map<PassengerDto[]>(result);
-                IEnumerable<PassengerDto> passengerresult = mappedResult.Select(m => HateoasMainLinks(m));
+               var result = await _passengerRepo.GetPassengers();
+               var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
+              
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -46,7 +48,7 @@ namespace AirLineAPI.Controllers
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
         //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
-        [HttpGet("{id:int}", Name = "GetpassengerAsync")]
+        [HttpGet("{id}", Name = "GetpassengerAsync")]
         public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
