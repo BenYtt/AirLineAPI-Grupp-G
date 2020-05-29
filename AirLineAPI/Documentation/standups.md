@@ -1,8 +1,55 @@
 # Standups 
 
+## Fredag 29/5  
+
+## Sekriterare: Anders
+
+**Summering av gårdagen**
+
+### Hela Gruppen:
+
+Läste och provade koda med Swagger och Hateoas
+
+**Irvin**
+
+Läste på om swagger och hateoas
+
+**Andre**
+
+Läste på om swagger och hateoas
+
+Ändrade lite i DbContext skall diskutera det med resten av gruppen 
+
+**Anders**
+
+Läste på om swagger och hateoas
+**Jakob**
+
+Läste på om swagger och hateoas
+
+## Vad ska vi göra idag
+
+**André:**
+
+Skapa en sprint och ta några Issues där ifrån, samt  frotsätta studera Hateoas och Swagger
+
+**Irvin:**
+
+Skapa en sprint och ta några Issues där ifrån, samt  frotsätta studera Hateoas och Swagger
+
+**Jakob:**
+
+Skapa en sprint och ta några Issues där ifrån, samt  frotsätta studera Hateoas och Swagger
+
+**Anders:**
+
+Skapa en sprint och ta några Issues där ifrån, samt  frotsätta studera Hateoas och Swagger
 
 
-## Onsdag 28/5  
+
+
+
+## Torsdag 28/5  
 
 ## Sekriterare: André
 
@@ -381,4 +428,4 @@ Introducerat två nya medlemmar till projektet planerat för framtiden och delat
   **Samir:** 
 
   Ska jobba med följande issues:
-  FLIGT-75 Create Dependincy Injection in StartUp Class and UseMvc()FLIGT-73 Migrate Database
+  FLIGT-75 Create Dependincy Injection in StartUp Class and UseMvc()FLIGT-73 Migrate Database-
