@@ -49,17 +49,18 @@ namespace AirLineAPI.Controllers
 
         //    /API/v1.0/timetables/1    Get timetable by id
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
+        [HttpGet("{id}", Name = "GettimetablesId")]
+        public async Task<ActionResult<TimeTable>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoutes);
+                var passengerresult = _mapper.Map<TimeTableDto>(results);
                 if (results == null)
                 {
                     return NotFound($"Could not find any timetable with id {id}");
                 }
-                return Ok(results);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
