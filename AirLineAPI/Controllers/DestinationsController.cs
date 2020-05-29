@@ -9,17 +9,17 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
-
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
-    public class DestinationsController : ControllerBase
+    public class DestinationsController : HateoasControllerBase
     {
         private readonly IDestinationRepository _destinationRepository;
         private readonly IMapper _mapper;
 
-        public DestinationsController(IDestinationRepository destinationRepository, IMapper mapper)
+        public DestinationsController(IDestinationRepository destinationRepository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _destinationRepository = destinationRepository;
             _mapper = mapper;
@@ -45,17 +45,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destinations     Get all destinations
-        [HttpGet]
+        [HttpGet(Name = "GetDestinations")]
         public async Task<ActionResult<Destination[]>> GetDestinations()
         {
             try
             {
                 var result = await _destinationRepository.GetDestinations();
+                var destinationresult = _mapper.Map<FlightDto[]>(result).Select(m => HateoasMainLinksFlight(m));
                 if (result == null)
                 {
                     return NotFound($"Could not find any destinations");
                 }
-                return Ok(result);
+                return Ok(destinationresult);
             }
             catch(Exception e)
             {
