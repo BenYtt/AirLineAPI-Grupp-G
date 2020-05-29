@@ -51,6 +51,15 @@ namespace AirLineAPI.Controllers
 
             return flightDto;
         }
+        internal RouteDto HateoasMainLinksRoute(RouteDto route)
+        {
+            var routeDto = route;
+
+            routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
+            routeDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = routeDto.ID }));
+
+            return routeDto;
+        }
 
         internal PassengerDto HateoasSideLinks(PassengerDto passenger)
         {
