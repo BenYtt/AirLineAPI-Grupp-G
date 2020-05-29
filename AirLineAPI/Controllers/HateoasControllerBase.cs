@@ -52,6 +52,15 @@ namespace AirLineAPI.Controllers
             return flightDto;
         }
 
+        internal DestinationDto HateoasMainLinksDestinations(DestinationDto destination)
+        {
+            var destinationDto = destination;
+
+            destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationAsync", new { id = destinationDto.ID }));
+
+            return destinationDto;
+        }  
         internal RouteDto HateoasMainLinksRoute(RouteDto route)
         {
             var routeDto = route;
@@ -67,6 +76,7 @@ namespace AirLineAPI.Controllers
             var timeTableDto = timeTable;
 
             timeTableDto.Links.Add(UrlLink("all", "GetTimeTables", null));
+
             timeTableDto.Links.Add(UrlLink("_self", "GettimetablesId", new { id = timeTableDto.ID }));
 
             return timeTableDto;
@@ -78,5 +88,7 @@ namespace AirLineAPI.Controllers
 
             throw new System.NotImplementedException();
         }
+
+
     }
 }
