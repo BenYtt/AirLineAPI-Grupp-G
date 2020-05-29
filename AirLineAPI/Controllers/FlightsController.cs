@@ -10,39 +10,36 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
 using System.Data.OleDb;
-
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
-    public class FlightsController : ControllerBase
+    public class FlightsController : HateoasControllerBase
     {
-
         private readonly IFlightRepository _flightRepository;
         private readonly IMapper _mapper;
 
-        public FlightsController(IFlightRepository flightRepository, IMapper mapper)
+        public FlightsController(IFlightRepository flightRepository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _flightRepository = flightRepository;
             _mapper = mapper;
         }
 
         //GET: api/v1.0/flights                                 Get Flights
-        [HttpGet]
+        [HttpGet(Name = "GetFlights")]
         public async Task<ActionResult<FlightDto[]>> GetFlights()
         {
             try
             {
-
                 var results = await _flightRepository.GetFlights();
+                var passengerresult = _mapper.Map<FlightDto[]>(results).Select(m => HateoasMainLinksFlight(m));
 
                 if (results == null)
                 {
                     return NotFound("Could not find any flights.");
                 }
-
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
-                return Ok(mappedResult);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -57,7 +54,7 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _flightRepository.GetFlightByID(id);
-                
+
                 if (result == null)
                 {
                     return NotFound($"Couldn't find any flight with ID: {id}");
@@ -78,9 +75,8 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-
                 var results = await _flightRepository.GetFlightsByManufacturer(manufacturer);
-                
+
                 if (results == null)
                 {
                     return NotFound($"Couldn't find destination {manufacturer}.");
@@ -149,7 +145,7 @@ namespace AirLineAPI.Controllers
 
                 var newFlight = _mapper.Map(flightDto, oldFlight);
                 _flightRepository.Update(newFlight);
-               
+
                 if (await _flightRepository.Save())
 
                 {
@@ -162,7 +158,6 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
-
 
         //DELETE: api/v1.0/flights/1                                 Delete Flight
         [HttpDelete("{id}")]

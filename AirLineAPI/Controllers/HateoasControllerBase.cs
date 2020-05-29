@@ -5,24 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-
 using AirLineAPI.HATEOAS;
 using AirLineAPI.Dto;
-using AirLineAPI.Model;
 using AutoMapper;
 
 namespace AirLineAPI.Controllers
 {
-    public class HateoasPassengerControllerBase : ControllerBase
+    public class HateoasControllerBase : ControllerBase
     {
         private readonly IReadOnlyList<ActionDescriptor> _routes;
 
-        public HateoasPassengerControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
+        public HateoasControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
         {
             _routes = actionDescriptorCollectionProvider.ActionDescriptors.Items;
         }
 
-        public HateoasPassengerControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IMapper mapper) : this(actionDescriptorCollectionProvider)
+        public HateoasControllerBase(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IMapper mapper) : this(actionDescriptorCollectionProvider)
         {
         }
 
@@ -34,7 +32,6 @@ namespace AirLineAPI.Controllers
             return new Link(url, relation, method);
         }
 
-       
         internal PassengerDto HateoasMainLinks(PassengerDto passenger)
         {
             PassengerDto passengerDto = passenger;
@@ -45,14 +42,21 @@ namespace AirLineAPI.Controllers
             return passengerDto;
         }
 
-      
+        internal FlightDto HateoasMainLinksFlight(FlightDto flight)
+        {
+            var flightDto = flight;
+
+            flightDto.Links.Add(UrlLink("all", "GetFlights", null));
+            flightDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = flightDto.ID }));
+
+            return flightDto;
+        }
+
         internal PassengerDto HateoasSideLinks(PassengerDto passenger)
         {
             PassengerDto passengerDto = passenger;
 
             throw new System.NotImplementedException();
-
-         
         }
     }
 }

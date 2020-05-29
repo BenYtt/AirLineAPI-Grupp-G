@@ -17,7 +17,7 @@ namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
-    public class PassengersController : HateoasPassengerControllerBase
+    public class PassengersController : HateoasControllerBase
     {
         private readonly IPassengerRepo _passengerRepo;
         private readonly IMapper _mapper;

@@ -13,7 +13,7 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class HomeController : HateoasPassengerControllerBase
+    public class HomeController : HateoasControllerBase
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -27,7 +27,7 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
         public IActionResult GetRoot()
         {
             PassengerDto passengerDto = new PassengerDto();
-           
+
             passengerDto.Links.Add(
                 UrlLink("passengers", "GetAll", null));
 
