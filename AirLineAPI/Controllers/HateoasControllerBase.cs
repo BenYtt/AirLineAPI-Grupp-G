@@ -52,11 +52,23 @@ namespace AirLineAPI.Controllers
             return flightDto;
         }
 
+        internal DestinationDto HateoasMainLinksDestinations(DestinationDto destination)
+        {
+            var destinationDto = destination;
+
+            destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationAsync", new { id = destinationDto.ID }));
+
+            return destinationDto;
+        }
+
         internal PassengerDto HateoasSideLinks(PassengerDto passenger)
         {
             PassengerDto passengerDto = passenger;
 
             throw new System.NotImplementedException();
         }
+
+
     }
 }

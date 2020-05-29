@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
@@ -26,17 +27,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destination/1      Get destination by id
-        [HttpGet("{id}")]
+        [HttpGet("{id}" , Name = "GetDestinationsAsync")]
         public async Task<ActionResult<Destination>> GetDestinationByID(long id)
         {
             try
             {
                 var result = await _destinationRepository.GetDestinationByID(id);
-                if(result == null)
+                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
+                if (result == null)
                 {
                     return NotFound($"Could not find any destination with id {id}");
                 }
-                return Ok(result);
+                return Ok(destinationresult);
             }
             catch (Exception e)
             {
@@ -51,7 +53,7 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _destinationRepository.GetDestinations();
-                var destinationresult = _mapper.Map<FlightDto[]>(result).Select(m => HateoasMainLinksFlight(m));
+                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
                 if (result == null)
                 {
                     return NotFound($"Could not find any destinations");
