@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Dto
 {
-    public class TimeTableDto
+    public class TimeTableDto 
     {
         [Required]
         public long ID { get; set; }

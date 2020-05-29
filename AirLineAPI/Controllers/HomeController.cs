@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using AutoMapper;
 
-using AirLineAPI.HATEOAS;
+using AirLineAPI.Model;
 using AirLineAPI.Controllers;
 using AirLineAPI.Dto;
 
@@ -29,8 +29,8 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
             PassengerDto passengerDto = new PassengerDto();
            
             passengerDto.Links.Add(
-                UrlLink("passengers", "GetAll", null));
-
+                UrlLink("passenger", "GetAll", null));
+            
             return Ok(passengerDto);
         }
     }

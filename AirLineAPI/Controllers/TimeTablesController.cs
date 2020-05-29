@@ -31,8 +31,8 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
-               
-                if(results == null)
+
+                if (results == null)
                 {
                     return NotFound($"Could not find any timetables");
                 }

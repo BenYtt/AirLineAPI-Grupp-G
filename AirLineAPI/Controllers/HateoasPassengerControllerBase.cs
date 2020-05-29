@@ -41,18 +41,15 @@ namespace AirLineAPI.Controllers
 
             passengerDto.Links.Add(UrlLink("all", "GetAll", null));
             passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.ID }));
-
+     
             return passengerDto;
         }
-
-      
         internal PassengerDto HateoasSideLinks(PassengerDto passenger)
         {
             PassengerDto passengerDto = passenger;
 
             throw new System.NotImplementedException();
 
-         
         }
     }
 }

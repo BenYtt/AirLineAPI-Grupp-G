@@ -6,12 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using AirLineAPI.Controllers;
-using Microsoft.CodeAnalysis.FlowAnalysis;
-using Castle.Core.Internal;
+
 
 namespace AirLineAPI.Controllers
 {
@@ -29,11 +26,11 @@ namespace AirLineAPI.Controllers
         }
         //api/v1.0/Passengers    Get all Passengers
          [HttpGet(Name = "GetAll")]
-         public async Task<IActionResult> Get()
+        public async Task<ActionResult<Passenger[]>> GetAllPassenger([FromQuery] bool timeTable)
         {
             try
             {
-               var result = await _passengerRepo.GetPassengers();
+               var result = await _passengerRepo.GetPassengers(timeTable);
                var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
               
                 return Ok(passengerresult);
