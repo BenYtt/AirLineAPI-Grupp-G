@@ -76,8 +76,9 @@ namespace AirLineAPI.Controllers
             var timeTableDto = timeTable;
 
             timeTableDto.Links.Add(UrlLink("all", "GetTimeTables", null));
-            timeTableDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = timeTableDto.ID }));
-      
+
+            timeTableDto.Links.Add(UrlLink("_self", "GettimetablesId", new { id = timeTableDto.ID }));
+
             return timeTableDto;
         }
 
