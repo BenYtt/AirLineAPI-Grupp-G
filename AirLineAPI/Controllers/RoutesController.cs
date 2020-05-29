@@ -9,29 +9,31 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
-    public class RoutesController : ControllerBase
+    public class RoutesController : HateoasControllerBase
     {
         private readonly IRouteRepository _routeRepository;
         private readonly IMapper _mapper;
 
-        public RoutesController(IRouteRepository routeRepository, IMapper mapper)
+        public RoutesController(IRouteRepository routeRepository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _routeRepository = routeRepository;
             _mapper = mapper;
         }
 
         //Get: api/v1.0/Routes/                                 Get Routes
-        [HttpGet]
+        [HttpGet(Name= "GetRoutes")]
         public async Task<ActionResult<Route[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
             try
             {
                 var result = await _routeRepository.GetRoutes(minMinutes, maxMinutes);
-                return Ok(result);
+                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -46,14 +48,14 @@ namespace AirLineAPI.Controllers
             try
             {
                 var result = await _routeRepository.GetRouteByID(id);
-                var mappedResult = _mapper.Map<RouteDto>(result);
+                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
 
-                if (mappedResult == null)
+                if (result == null)
                 {
                     return NotFound($"There is no route with id:{id}");
                 }
 
-                return Ok(mappedResult);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {

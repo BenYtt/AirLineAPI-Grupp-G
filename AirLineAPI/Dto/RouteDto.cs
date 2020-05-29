@@ -1,13 +1,14 @@
-﻿using AirLineAPI.Model;
+﻿using AirLineAPI.HATEOAS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace AirLineAPI.Dto
 {
-    public class RouteDto
+    public class RouteDto : HateoasLinkBase
     {
         [Required]
         public long ID { get; set; }

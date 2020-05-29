@@ -1,4 +1,5 @@
-﻿using AirLineAPI.Model;
+﻿using AirLineAPI.HATEOAS;
+using AirLineAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Dto
 {
-    public class TimeTableDto
+    public class TimeTableDto : HateoasLinkBase
     {
         [Required]
         public long ID { get; set; }
