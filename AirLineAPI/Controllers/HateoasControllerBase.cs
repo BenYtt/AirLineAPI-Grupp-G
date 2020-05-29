@@ -51,6 +51,7 @@ namespace AirLineAPI.Controllers
 
             return flightDto;
         }
+
         internal RouteDto HateoasMainLinksRoute(RouteDto route)
         {
             var routeDto = route;
@@ -60,11 +61,12 @@ namespace AirLineAPI.Controllers
 
             return routeDto;
         }
-         internal TimeTableDto HateoasMainLinksTimeTable(TimeTableDto timeTable)
+
+        internal TimeTableDto HateoasMainLinksTimeTable(TimeTableDto timeTable)
         {
             var timeTableDto = timeTable;
 
-            timeTableDto.Links.Add(UrlLink("all", "GetTimeTable", null));
+            timeTableDto.Links.Add(UrlLink("all", "GetTimeTables", null));
             timeTableDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = timeTableDto.ID }));
 
             return timeTableDto;

@@ -9,35 +9,37 @@ using AirLineAPI.Model;
 using Microsoft.AspNetCore.Http;
 using AirLineAPI.Dto;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AirLineAPI.Controllers
 {
     [Route("api/v1.0/[controller]")]
-    public class TimeTablesController : ControllerBase
+    public class TimeTablesController : HateoasControllerBase
     {
         private readonly ITimeTableRepository _repository;
         private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository, IMapper mapper)
+        public TimeTablesController(ITimeTableRepository repository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
         // /API/v1.0/timetables     Get all timetabels
-        [HttpGet]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
+        [HttpGet(Name = "GetTimeTables")]
+        public async Task<ActionResult<TimeTableDto[]>> GetTimeTables(int minMinutes, int maxMinutes, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
-               
-                if(results == null)
+                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
+
+                if (results == null)
                 {
                     return NotFound($"Could not find any timetables");
                 }
 
-                return Ok(results);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -64,6 +66,7 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
         }
+
         // API/v1.0/timetables/startdestination=gothenburg     Get timtables with startdestination gothenburg
 
         [HttpGet("startDestination={startDestination}")]
@@ -122,6 +125,7 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
         //https:/localhost:44333/api/v1.0/timetables/
         [HttpPut("{timetableId}")]
         public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
@@ -166,7 +170,6 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();
