@@ -8,6 +8,7 @@ using AutoMapper;
 using AirLineAPI.HATEOAS;
 using AirLineAPI.Controllers;
 using AirLineAPI.Dto;
+using AirLineAPI.Model;
 
 namespace BaldBeardedBuilder.HATEOAS.Controllers
 {
@@ -26,12 +27,15 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
         [HttpGet(Name = "GetRoot")]
         public IActionResult GetRoot()
         {
-            PassengerDto passengerDto = new PassengerDto();
+            ///rootmodel för att kunna ha länkar i början av program
+            RootModel rootModel = new RootModel();
 
-            passengerDto.Links.Add(
+            rootModel.Links.Add(
                 UrlLink("passengers", "GetAll", null));
+            rootModel.Links.Add(
+               UrlLink("timetable", "GetTimeTables", null));
 
-            return Ok(passengerDto);
+            return Ok(rootModel);
         }
     }
 }

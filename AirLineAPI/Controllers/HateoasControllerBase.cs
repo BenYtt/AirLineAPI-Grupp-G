@@ -38,6 +38,8 @@ namespace AirLineAPI.Controllers
 
             passengerDto.Links.Add(UrlLink("all", "GetAll", null));
             passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.ID }));
+            passengerDto.Links.Add(UrlLink("name", "GetNameAsync", new { id = passengerDto.Name }));
+            passengerDto.Links.Add(UrlLink("identificationNumber", "GetIdnumberAsync", new { id = passengerDto.IdentificationNumber }));
 
             return passengerDto;
         }
