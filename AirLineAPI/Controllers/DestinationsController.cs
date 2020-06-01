@@ -27,18 +27,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destination/1      Get destination by id
-        [HttpGet("{id}" , Name = "GetDestinationsAsync")]
+        [HttpGet("{id}" , Name = "GetDestinationById")]
         public async Task<ActionResult<Destination>> GetDestinationByID(long id)
         {
             try
             {
                 var result = await _destinationRepository.GetDestinationByID(id);
-                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
+                var destinationresult = _mapper.Map<DestinationDto>(result);
                 if (result == null)
                 {
                     return NotFound($"Could not find any destination with id {id}");
                 }
-                return Ok(destinationresult);
+                return Ok(HateoasMainLinksDestinations(destinationresult));
             }
             catch (Exception e)
             {
