@@ -21,28 +21,28 @@ namespace AirLineAPI.Controllers
     {
         private readonly IPassengerRepo _passengerRepo;
         private readonly IMapper _mapper;
-       
+
         public PassengersController(IPassengerRepo passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _passengerRepo = passengerRepo;
             _mapper = mapper;
         }
+
         //api/v1.0/Passengers    Get all Passengers
-         [HttpGet(Name = "GetAll")]
-         public async Task<IActionResult> Get()
+        [HttpGet(Name = "GetAll")]
+        public async Task<IActionResult> Get()
         {
             try
             {
-               var result = await _passengerRepo.GetPassengers();
-               var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
-              
+                var result = await _passengerRepo.GetPassengers();
+                var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
+
                 return Ok(passengerresult);
             }
             catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failor: {e.Message}");
             }
-
         }
 
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
@@ -53,7 +53,7 @@ namespace AirLineAPI.Controllers
         {
             try
 
-            {  
+            {
                 var result = await _passengerRepo.GetPassengerById(id, timeTable);
                 var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
@@ -75,7 +75,7 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
         {
             try
-            { 
+            {
                 var result = await _passengerRepo.GetPassengerByName(name);
                 if (result == null)
                 {
@@ -85,10 +85,8 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"database failed {e.Message}");
             }
-
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
@@ -96,13 +94,13 @@ namespace AirLineAPI.Controllers
         public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
-            { 
+            {
                 var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
                 if (result == null)
                 {
                     return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
                 }
-               
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -145,7 +143,7 @@ namespace AirLineAPI.Controllers
 
                 var newPassenger = _mapper.Map(passengerDto, oldpassenger);
                 _passengerRepo.Update(newPassenger);
-               if (await _passengerRepo.Save())
+                if (await _passengerRepo.Save())
                 {
                     return NoContent();
                 }
@@ -156,6 +154,7 @@ namespace AirLineAPI.Controllers
             }
             return BadRequest();
         }
+
         //Delete: api/v1.0/Passenger/<id>                                 Delete Passenger
         [HttpDelete("{Id}")]
         public async Task<ActionResult> DeletePassenger(long passengerid)
@@ -168,9 +167,7 @@ namespace AirLineAPI.Controllers
                     return NotFound($"there is no pasenger with id:{passengerid}");
                 }
 
-
                 _passengerRepo.Delete(oldpassenger);
-
 
                 if (await _passengerRepo.Save())
                 {
