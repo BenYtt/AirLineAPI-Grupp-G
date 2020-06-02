@@ -47,7 +47,8 @@ namespace AirLineAPI.Controllers
             var flightDto = flight;
 
             flightDto.Links.Add(UrlLink("all", "GetFlights", null));
-            flightDto.Links.Add(UrlLink("_self", "GetFlightById", new { id = flightDto.ID }));
+            flightDto.Links.Add(UrlLink("_self", "GetFlightById", new { id = flightDto.Id }));
+            flightDto.Links.Add(UrlLink("_next", "GetFlightById", new { id = flightDto.Id + 1 }));
 
             return flightDto;
         }

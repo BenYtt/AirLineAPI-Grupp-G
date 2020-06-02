@@ -9,8 +9,11 @@ namespace AirLineAPI.Services
     public interface IFlightRepository : IRepository
     {
         Task<Flight[]> GetFlights();
-        Task<Flight> GetFlightByID(long flightID);
+
+        Task<Flight> GetFlightById(long flightID);
+
         Task<Flight[]> GetFlightsByManufacturer(string manufacturer);
+
         Task<Flight[]> GetFlightsByModel(string model);
     }
 }
