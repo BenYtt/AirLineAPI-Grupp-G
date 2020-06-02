@@ -11,6 +11,7 @@ using AutoMapper;
 using AirLineAPI.Dto;
 using System.Data.OleDb;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AirLineAPI.Controllers
 {
@@ -28,6 +29,7 @@ namespace AirLineAPI.Controllers
 
         //GET: api/v1.0/flights                                 Get Flights
         [HttpGet(Name = "GetFlights")]
+        [Authorize]
         public async Task<ActionResult<FlightDto[]>> GetFlights()
         {
             try

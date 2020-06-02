@@ -35,6 +35,7 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
             rootModel.Links.Add(
                UrlLink("timetable", "GetTimeTables", null));
 
+
             return Ok(rootModel);
         }
     }
