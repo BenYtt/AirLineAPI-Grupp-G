@@ -48,11 +48,11 @@ namespace AirLineAPI.Controllers
 
         //api/v1.0/destination/1      Get destination by id
         [HttpGet("{id}" , Name = "GetDestinationById")]
-        public async Task<ActionResult<Destination>> GetDestinationByID(long id)
+        public async Task<ActionResult<Destination>> GetDestinationById(long id)
         {
             try
             {
-                var result = await _destinationRepository.GetDestinationByID(id);
+                var result = await _destinationRepository.GetDestinationById(id);
                 var destinationresult = _mapper.Map<DestinationDto>(result);
                 if (result == null)
                 {
@@ -131,7 +131,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var oldDestination = await _destinationRepository.GetDestinationByID(destinationId);
+                var oldDestination = await _destinationRepository.GetDestinationById(destinationId);
                 if (oldDestination == null)
                 {
                     return NotFound($"Could not find destination with id {destinationId}");
@@ -157,7 +157,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var OldDestination = await _destinationRepository.GetDestinationByID(destinationId);
+                var OldDestination = await _destinationRepository.GetDestinationById(destinationId);
                 if (OldDestination == null)
                 {
                     return NotFound($"Counld not find destination with id {destinationId}");

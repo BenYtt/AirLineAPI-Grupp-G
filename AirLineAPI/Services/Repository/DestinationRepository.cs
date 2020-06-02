@@ -26,7 +26,7 @@ namespace AirLineAPI.Services
             return await destinations.ToArrayAsync();
         }
 
-        public async Task<Destination> GetDestinationByID(long destinationID)
+        public async Task<Destination> GetDestinationById(long destinationID)
         {
             _logger.LogInformation($"Getting destination with ID {destinationID}");
 
