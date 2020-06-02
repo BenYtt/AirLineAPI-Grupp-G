@@ -42,20 +42,20 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/<id>                                 Get Route
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name= "GetRouteById")]
         public async Task<ActionResult<Route>> GetRoutesByID(long id)
         {
             try
             {
                 var result = await _routeRepository.GetRouteByID(id);
-                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                var routeResult = _mapper.Map<RouteDto>(result);
 
                 if (result == null)
                 {
                     return NotFound($"There is no route with id:{id}");
                 }
 
-                return Ok(passengerresult);
+                return Ok(HateoasMainLinksRoute(routeResult));
             }
             catch (Exception e)
             {
