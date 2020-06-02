@@ -7,7 +7,7 @@ namespace AirLineAPI.Model
 {
     public class Route
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public Destination StartDestination { get; set; }
         public Destination EndDestination { get; set; }
