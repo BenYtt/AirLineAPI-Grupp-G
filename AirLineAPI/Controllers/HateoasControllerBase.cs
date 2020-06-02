@@ -66,7 +66,8 @@ namespace AirLineAPI.Controllers
             var routeDto = route;
 
             routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
-            routeDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = routeDto.ID }));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.ID}));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.ID +1}));
 
             return routeDto;
         }
