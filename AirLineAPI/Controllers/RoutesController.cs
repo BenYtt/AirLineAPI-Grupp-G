@@ -43,11 +43,11 @@ namespace AirLineAPI.Controllers
 
         //Get: api/v1.0/Routes/<id>                                 Get Route by id
         [HttpGet("{id}", Name= "GetRouteById")]
-        public async Task<ActionResult<RouteDto>> GetRoutesByID(long id)
+        public async Task<ActionResult<RouteDto>> GetRoutesById(long id)
         {
             try
             {
-                var result = await _routeRepository.GetRouteByID(id);
+                var result = await _routeRepository.GetRouteById(id);
                 var routeResult = _mapper.Map<RouteDto>(result);
 
                 if (result == null)
@@ -126,14 +126,14 @@ namespace AirLineAPI.Controllers
 
         //Put: api/v1.0/Routes/<id>                                 Put Route
         [HttpPut("{routeid}")]
-        public async Task<ActionResult<RouteDto>> PutRoute(int routeid, [FromBody] RouteDto routeDto)
+        public async Task<ActionResult<RouteDto>> PutRoute(int routeId, [FromBody] RouteDto routeDto)
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                var oldRoute = await _routeRepository.GetRouteById(routeId);
                 if (oldRoute == null)
                 {
-                    return NotFound($"there is no routes with id:{routeid}");
+                    return NotFound($"there is no routes with id:{routeId}");
                 }
                 var newRoute = _mapper.Map(routeDto, oldRoute);
                 _routeRepository.Update(newRoute);
@@ -156,7 +156,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                var oldRoute = await _routeRepository.GetRouteById(routeid);
                 if (oldRoute == null)
                 {
                     return NotFound($"there is no routes with id:{routeid}");
