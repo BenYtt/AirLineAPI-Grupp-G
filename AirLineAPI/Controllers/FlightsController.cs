@@ -33,13 +33,13 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _flightRepository.GetFlights();
-                var passengerresult = _mapper.Map<FlightDto[]>(results).Select(m => HateoasMainLinksFlight(m));
+                var flightResults = _mapper.Map<FlightDto[]>(results).Select(m => HateoasMainLinksFlight(m));
 
                 if (results == null)
                 {
                     return NotFound("Could not find any flights.");
                 }
-                return Ok(passengerresult);
+                return Ok(flightResults);
             }
             catch (Exception e)
             {
@@ -48,20 +48,19 @@ namespace AirLineAPI.Controllers
         }
 
         //GET: api/v1.0/flights/i                                 Get flights by id
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetFlightById")]
         public async Task<ActionResult<FlightDto>> GetFlightById(long id)
         {
             try
             {
                 var result = await _flightRepository.GetFlightByID(id);
-
+                var flightResults = _mapper.Map<FlightDto>(result);
                 if (result == null)
                 {
                     return NotFound($"Couldn't find any flight with ID: {id}");
                 }
 
-                var mappedResult = _mapper.Map<FlightDto>(result);
-                return Ok(mappedResult);
+                return Ok(HateoasMainLinksFlight(flightResults));
             }
             catch (Exception e)
             {
