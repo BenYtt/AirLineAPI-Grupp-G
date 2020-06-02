@@ -19,17 +19,17 @@ namespace AirLineAPI.Controllers
     [ApiController]
     public class PassengersController : HateoasControllerBase
     {
-        private readonly IPassengerRepo _passengerRepo;
+        private readonly IPassengerRepository _passengerRepo;
         private readonly IMapper _mapper;
        
-        public PassengersController(IPassengerRepo passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
+        public PassengersController(IPassengerRepository passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _passengerRepo = passengerRepo;
             _mapper = mapper;
         }
         //api/v1.0/Passengers    Get all Passengers
          [HttpGet(Name = "GetAll")]
-        public async Task<ActionResult<Passenger[]>> GetAllPassengers([FromQuery] bool timeTable)
+        public async Task<ActionResult<PassengerDto[]>> GetAllPassengers([FromQuery] bool timeTable)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace AirLineAPI.Controllers
         //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
         [HttpGet("{id}", Name = "GetpassengerAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
+        public async Task<ActionResult<PassengerDto>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
 
@@ -76,7 +76,7 @@ namespace AirLineAPI.Controllers
 
         //api/v1.0/passengers/name=Greta      Get passenger by name
         [HttpGet("{id}/name", Name = "GetNameAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
+        public async Task<ActionResult<PassengerDto>> GetPassengerByName(string name)
         {
             try
             { 
@@ -98,7 +98,7 @@ namespace AirLineAPI.Controllers
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
         [HttpGet("{id}/idNumber", Name = "GetIdnumberAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
+        public async Task<ActionResult<PassengerDto>> GetPassengerById(long idNumber)
         {
             try
             { 
@@ -126,7 +126,7 @@ namespace AirLineAPI.Controllers
                 _passengerRepo.Add(mappedEntity);
                 if (await _passengerRepo.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Passenger>(mappedEntity));
+                    return Created($"/api/v1.0/Passengers/{mappedEntity.Id}", _mapper.Map<Passenger>(mappedEntity));
                 }
             }
             catch (Exception e)

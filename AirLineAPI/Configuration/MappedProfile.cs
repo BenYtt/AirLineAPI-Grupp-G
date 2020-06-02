@@ -11,6 +11,8 @@ namespace AirLineAPI.Configuration
         {
             CreateMap<Passenger, PassengerDto>()
                 .ReverseMap();
+            CreateMap<PassengerTimeTable, PassengerTimeTableDto>()
+                .ReverseMap();
             CreateMap<Destination, DestinationDto>()
                 .ReverseMap();
             CreateMap<Route, RouteDto>()

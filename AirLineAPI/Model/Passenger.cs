@@ -10,7 +10,7 @@ namespace AirLineAPI.Model
     public class Passenger
     {
         [Key]
-        public long ID { get; set; }
+        public long Id { get; set; }
         [Required(ErrorMessage ="Name is required")]
         [StringLength(30, MinimumLength =2, ErrorMessage ="Name must be longer than 2 characters and shorter than 30")]
         public string Name { get; set; }

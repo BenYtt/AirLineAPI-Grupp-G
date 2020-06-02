@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public interface IPassengerRepo : IRepository
+    public interface IPassengerRepository : IRepository
     {
         Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false);
         Task<Passenger[]> GetPassengers(bool includeTimeTable = false);

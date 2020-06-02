@@ -9,11 +9,11 @@ namespace AirLineAPI.Dto
     public class PassengerDto : HateoasLinkBase
     {
         [Required]
-        public long ID { get; set; }
+        public long Id { get; set; }
         [Required]
         public string Name { get; set; }
         public long IdentificationNumber { get; set; }
-        public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }
+        public ICollection<PassengerTimeTableDto> PassengerTimeTables { get; set; }
 
     }
 }

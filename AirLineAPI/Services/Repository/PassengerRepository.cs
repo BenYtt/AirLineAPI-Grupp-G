@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public class PassengerRepo : Repository, IPassengerRepo
+    public class PassengerRepository : Repository, IPassengerRepository
     {
-        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger) { }
+        public PassengerRepository(AirLineContext context, ILogger<Repository> logger) : base(context, logger) { }
         public async Task<Passenger[]> GetPassengers(bool includeTimeTable = false)
         {
             _logger.LogInformation($"Getting passengers");
@@ -32,7 +32,7 @@ namespace AirLineAPI.Services
             {
                 query = query.Include(t => t.PassengerTimeTables);
             }
-            query = query.Where(x => x.ID == passengerId);
+            query = query.Where(x => x.Id == passengerId);
             return await query.FirstOrDefaultAsync();
         }
 
