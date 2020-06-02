@@ -1,5 +1,47 @@
 # Standups 
 
+## Tisdag 02/6
+
+## Sekriterare: Jakob Fjälling
+
+**Summering av gårdagen**
+
+* Vi läste igenom de olika Autentisering kraven och valde att gå vidare med filter.
+* Vi började koda filter tillsammans men blev inte helt färdiga.
+
+### Hela Gruppen:
+
+* Idag ska vi skapa en sprint och fortsätta jobbar med filter och köra en del code clean upp.
+
+## Vad ska vi göra idag
+
+**André:**
+
+* Code clean upp Flights 
+* add hateoas to flights get by Id
+* Add abit to hateoas
+
+**Irvin:**
+
+* Code clean upp passengers
+* Add abit of functionality to hateoas
+
+**Jakob:**
+
+* Code clean upp Destinations
+* Add abit of functionality to hateoas
+
+**Anders:**
+
+* Code clean upp Routes
+* Add abit of functionality to hateoas
+
+
+
+
+
+
+
 ## Fredag 29/5  
 
 ## Sekriterare: Anders
