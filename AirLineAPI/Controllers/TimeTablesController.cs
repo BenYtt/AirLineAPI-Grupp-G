@@ -60,7 +60,7 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound($"Could not find any timetable with id {id}");
                 }
-                return Ok(passengerresult);
+                return Ok(HateoasMainLinksTimeTable(passengerresult));
             }
             catch (Exception e)
             {
