@@ -15,39 +15,41 @@ namespace AirLineAPI.Services
         {
         }
 
-        public async Task<Flight> GetFlightByID(long flightID)
+        public async Task<Flight[]> GetFlights()
+        {
+            _logger.LogInformation("Getting flights");
+
+            IQueryable<Flight> query = _context.Flights;
+            query = query.OrderBy(f => f.Id);
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Flight> GetFlightById(long flightID)
         {
             _logger.LogInformation($"Getting flight from id: {flightID}");
-           
-            IQueryable<Flight> query = _context.Flights.Where(f => f.ID == flightID);
+
+            IQueryable<Flight> query = _context.Flights.Where(f => f.Id == flightID);
 
             return await query.SingleOrDefaultAsync();
         }
 
-        public async Task<Flight[]> GetFlights()
-        {
-            _logger.LogInformation("Getting flights");
-           
-            IQueryable<Flight> query = _context.Flights;
-            query = query.OrderBy(f => f.Manufacturer);
-            return await query.ToArrayAsync();
-        }
         public async Task<Flight[]> GetFlightsByManufacturer(string manufacturer)
         {
             _logger.LogInformation($"Getting flights made by {manufacturer}.");
-           
+
             IQueryable<Flight> query = _context.Flights.Where(f => f.Manufacturer == manufacturer);
             query = query.OrderBy(f => f.Manufacturer);
-           
+
             return await query.ToArrayAsync();
         }
+
         public async Task<Flight[]> GetFlightsByModel(string model)
         {
             _logger.LogInformation($"Getting flights with model {model}.");
-           
+
             IQueryable<Flight> query = _context.Flights.Where(f => f.Model == model);
             query = query.OrderBy(f => f.Model);
-           
+
             return await query.ToArrayAsync();
         }
     }

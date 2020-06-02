@@ -10,7 +10,7 @@ namespace AirLineAPI.Dto
     public class FlightDto : HateoasLinkBase
     {
         [Required]
-        public long ID { get; set; }
+        public long Id { get; set; }
 
         [Required]
         public string Manufacturer { get; set; }

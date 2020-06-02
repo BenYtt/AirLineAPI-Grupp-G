@@ -53,7 +53,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var result = await _flightRepository.GetFlightByID(id);
+                var result = await _flightRepository.GetFlightById(id);
                 var flightResults = _mapper.Map<FlightDto>(result);
                 if (result == null)
                 {
@@ -109,7 +109,7 @@ namespace AirLineAPI.Controllers
 
         //POST: api/v1.0/flights                                 POST Flight
         [HttpPost]
-        public async Task<ActionResult<FlightDto>> PostFlightByID([FromBody]FlightDto flightDto)
+        public async Task<ActionResult<FlightDto>> PostFlightById([FromBody]FlightDto flightDto)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace AirLineAPI.Controllers
                 _flightRepository.Add(mappedEntity);
                 if (await _flightRepository.Save())
                 {
-                    return Created($"/api/v1.0/Flights/{mappedEntity.ID}", _mapper.Map<Flight>(mappedEntity));
+                    return Created($"/api/v1.0/Flights/{mappedEntity.Id}", _mapper.Map<Flight>(mappedEntity));
                 }
             }
             catch (Exception e)
@@ -131,11 +131,11 @@ namespace AirLineAPI.Controllers
         //PUT: api/v1.0/flights                                 PUT Flight
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<FlightDto>> PutFlightByID(long id, [FromBody]FlightDto flightDto)
+        public async Task<ActionResult<FlightDto>> PutFlightById(long id, [FromBody]FlightDto flightDto)
         {
             try
             {
-                var oldFlight = await _flightRepository.GetFlightByID(id);
+                var oldFlight = await _flightRepository.GetFlightById(id);
 
                 if (oldFlight == null)
                 {
@@ -160,11 +160,11 @@ namespace AirLineAPI.Controllers
 
         //DELETE: api/v1.0/flights/1                                 Delete Flight
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteFlightByID(long id)
+        public async Task<ActionResult> DeleteFlightById(long id)
         {
             try
             {
-                var oldFlight = await _flightRepository.GetFlightByID(id);
+                var oldFlight = await _flightRepository.GetFlightById(id);
 
                 if (oldFlight == null)
                 {
