@@ -11,7 +11,7 @@ namespace AirLineAPI.Dto
     public class RouteDto : HateoasLinkBase
     {
         [Required]
-        public long ID { get; set; }
+        public long Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

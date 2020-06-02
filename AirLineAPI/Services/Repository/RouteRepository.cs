@@ -21,7 +21,7 @@ namespace AirLineAPI.Services
         {
             _logger.LogInformation($"Getting Route by id: {routeID}");
             IQueryable<Route> query = _context.Routes;
-            query = query.Where(x => x.ID == routeID)
+            query = query.Where(x => x.Id == routeID)
                 .Include(s => s.StartDestination)
                 .Include(e => e.EndDestination);
 

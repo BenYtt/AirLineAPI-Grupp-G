@@ -27,7 +27,7 @@ namespace AirLineAPI.Controllers
 
         //Get: api/v1.0/Routes/                                 Get Routes
         [HttpGet(Name= "GetRoutes")]
-        public async Task<ActionResult<Route[]>> GetRoutes(int minMinutes, int maxMinutes)
+        public async Task<ActionResult<RouteDto[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
             try
             {
@@ -41,9 +41,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/<id>                                 Get Route
+        //Get: api/v1.0/Routes/<id>                                 Get Route by id
         [HttpGet("{id}", Name= "GetRouteById")]
-        public async Task<ActionResult<Route>> GetRoutesByID(long id)
+        public async Task<ActionResult<RouteDto>> GetRoutesByID(long id)
         {
             try
             {
@@ -63,9 +63,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route
+        //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route by fromcity
         [HttpGet("fromcity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartCity(string city)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCity(string city)
         {
             try
             {
@@ -79,9 +79,9 @@ namespace AirLineAPI.Controllers
         }
 
 
-        //Get: api/v1.0/Routes/tocity=<city>                                 Get Route
+        //Get: api/v1.0/Routes/tocity=<city>                                 Get Route to city
         [HttpGet("tocity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByEndCity(string city)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByEndCity(string city)
         {
             try
             {
@@ -94,9 +94,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route
+        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route by country
         [HttpGet("tocountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRouteByEndCountry(string country)
+        public async Task<ActionResult<RouteDto[]>> GetRouteByEndCountry(string country)
         {
             try
             {
@@ -109,9 +109,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route
+        //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route route by city
         [HttpGet("fromcountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country, double includeTime)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
