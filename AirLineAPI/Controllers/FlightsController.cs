@@ -69,20 +69,20 @@ namespace AirLineAPI.Controllers
         }
 
         //GET: api/v1.0/flights/manufacturer=boeing                                 Get flights by manufacturer
-        [HttpGet("manufacturer={manufacturer}")]
+        [HttpGet("manufacturer={manufacturer}", Name = "GetFlightsByManufacturer")]
         public async Task<ActionResult<FlightDto[]>> GetFlightsByManufacturer(string manufacturer)
         {
             try
             {
                 var results = await _flightRepository.GetFlightsByManufacturer(manufacturer);
+                var flightManufacturerResults = _mapper.Map<FlightDto[]>(results).Select(m => HateoasMainLinksFlight(m));
 
                 if (results == null)
                 {
-                    return NotFound($"Couldn't find destination {manufacturer}.");
+                    return NotFound($"Couldn't find any flight with manufacturer {manufacturer}.");
                 }
 
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
-                return Ok(mappedResult);
+                return Ok(flightManufacturerResults);
             }
             catch (Exception e)
             {
@@ -91,15 +91,20 @@ namespace AirLineAPI.Controllers
         }
 
         //GET: api/v1.0/flights/model=F-92                                 Get flights by model
-        [HttpGet("model/{model}")]
+        [HttpGet("model={model}", Name = "GetFlightsByModel")]
         public async Task<ActionResult<FlightDto[]>> GetFlightsByModel(string model)
         {
             try
             {
                 var results = await _flightRepository.GetFlightsByModel(model);
-                var mappedResult = _mapper.Map<FlightDto[]>(results);
+                var flightModelResults = _mapper.Map<FlightDto[]>(results).Select(m => HateoasMainLinksFlight(m));
 
-                return Ok(mappedResult);
+                if (results == null)
+                {
+                    return NotFound($"Couldn't find any flight with model {model}.");
+                }
+
+                return Ok(flightModelResults);
             }
             catch (Exception e)
             {
@@ -114,8 +119,8 @@ namespace AirLineAPI.Controllers
             try
             {
                 var mappedEntity = _mapper.Map<Flight>(flightDto);
-
                 _flightRepository.Add(mappedEntity);
+
                 if (await _flightRepository.Save())
                 {
                     return Created($"/api/v1.0/Flights/{mappedEntity.Id}", _mapper.Map<Flight>(mappedEntity));

@@ -51,6 +51,8 @@ namespace AirLineAPI.Controllers
             flightDto.Links.Add(UrlLink("all", "GetFlights", null));
             flightDto.Links.Add(UrlLink("_self", "GetFlightById", new { id = flightDto.Id }));
             flightDto.Links.Add(UrlLink("_next", "GetFlightById", new { id = flightDto.Id + 1 }));
+            flightDto.Links.Add(UrlLink("_Manufacturer = boeing", "GetFlightsByManufacturer", new { Manufacturer = "boeing" }));
+            flightDto.Links.Add(UrlLink("_model = 182", "GetFlightsByModel", new { Model = "182" }));
 
             return flightDto;
         }
@@ -61,7 +63,7 @@ namespace AirLineAPI.Controllers
 
             destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
             destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID }));
-            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID +1 }));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID + 1 }));
 
             return destinationDto;
         }
@@ -71,8 +73,8 @@ namespace AirLineAPI.Controllers
             var routeDto = route;
 
             routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
-            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id}));
-            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id +1}));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id }));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id + 1 }));
 
             return routeDto;
         }
