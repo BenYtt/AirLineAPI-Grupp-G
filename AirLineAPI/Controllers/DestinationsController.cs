@@ -26,6 +26,26 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
 
+        //api/v1.0/destinations     Get all destinations
+        [HttpGet(Name = "GetDestinations")]
+        public async Task<ActionResult<Destination[]>> GetDestinations()
+        {
+            try
+            {
+                var result = await _destinationRepository.GetDestinations();
+                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
+                if (result == null)
+                {
+                    return NotFound($"Could not find any destinations");
+                }
+                return Ok(destinationresult);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+        }
+
         //api/v1.0/destination/1      Get destination by id
         [HttpGet("{id}" , Name = "GetDestinationById")]
         public async Task<ActionResult<Destination>> GetDestinationByID(long id)
@@ -41,26 +61,6 @@ namespace AirLineAPI.Controllers
                 return Ok(HateoasMainLinksDestinations(destinationresult));
             }
             catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
-            }
-        }
-
-        //api/v1.0/destinations     Get all destinations
-        [HttpGet(Name = "GetDestinations")]
-        public async Task<ActionResult<Destination[]>> GetDestinations()
-        {
-            try
-            {
-                var result = await _destinationRepository.GetDestinations();
-                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
-                if (result == null)
-                {
-                    return NotFound($"Could not find any destinations");
-                }
-                return Ok(destinationresult);
-            }
-            catch(Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }

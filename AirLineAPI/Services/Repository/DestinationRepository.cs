@@ -17,24 +17,6 @@ namespace AirLineAPI.Services
             
         }
 
-        public async Task<Destination> GetDestinationByCity(string city)
-        {
-            _logger.LogInformation($"Getting destination with ID {city}");
-
-            IQueryable<Destination> destination = _context.Destinations;
-
-            return await destination.FirstOrDefaultAsync(d => d.City == city);
-        }
-
-        public async Task<Destination> GetDestinationByID(long destinationID)
-        {
-            _logger.LogInformation($"Getting destination with ID {destinationID}");
-            
-            IQueryable<Destination> destination = _context.Destinations;
-
-            return await destination.FirstOrDefaultAsync(d => d.ID == destinationID);
-        }
-
         public async Task<Destination[]> GetDestinations()
         {
             _logger.LogInformation($"Getting destinations");
@@ -42,6 +24,24 @@ namespace AirLineAPI.Services
             IQueryable<Destination> destinations = _context.Destinations;
 
             return await destinations.ToArrayAsync();
+        }
+
+        public async Task<Destination> GetDestinationByID(long destinationID)
+        {
+            _logger.LogInformation($"Getting destination with ID {destinationID}");
+
+            IQueryable<Destination> destination = _context.Destinations;
+
+            return await destination.FirstOrDefaultAsync(d => d.ID == destinationID);
+        }
+
+        public async Task<Destination> GetDestinationByCity(string city)
+        {
+            _logger.LogInformation($"Getting destination with ID {city}");
+
+            IQueryable<Destination> destination = _context.Destinations;
+
+            return await destination.FirstOrDefaultAsync(d => d.City == city);
         }
 
         public async Task<Destination[]> GetDestinationsByCountry(string country)
