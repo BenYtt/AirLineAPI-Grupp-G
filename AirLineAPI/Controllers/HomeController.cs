@@ -27,14 +27,13 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
         [HttpGet(Name = "GetRoot")]
         public IActionResult GetRoot()
         {
-            ///rootmodel för att kunna ha länkar i början av program
+
             RootModel rootModel = new RootModel();
 
             rootModel.Links.Add(
                 UrlLink("passengers", "GetAll", null));
             rootModel.Links.Add(
                UrlLink("timetable", "GetTimeTables", null));
-
 
             return Ok(rootModel);
         }

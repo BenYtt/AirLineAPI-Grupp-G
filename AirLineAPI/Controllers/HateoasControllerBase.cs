@@ -49,7 +49,7 @@ namespace AirLineAPI.Controllers
             var flightDto = flight;
 
             flightDto.Links.Add(UrlLink("all", "GetFlights", null));
-            flightDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = flightDto.ID }));
+            flightDto.Links.Add(UrlLink("_self", "GetFlightById", new { id = flightDto.ID }));
 
             return flightDto;
         }
@@ -59,16 +59,19 @@ namespace AirLineAPI.Controllers
             var destinationDto = destination;
 
             destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
-            destinationDto.Links.Add(UrlLink("_self", "GetDestinationAsync", new { id = destinationDto.ID }));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID }));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID +1 }));
 
             return destinationDto;
-        }  
+        }
+
         internal RouteDto HateoasMainLinksRoute(RouteDto route)
         {
             var routeDto = route;
 
             routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
-            routeDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = routeDto.ID }));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.ID}));
+            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.ID +1}));
 
             return routeDto;
         }
@@ -90,7 +93,5 @@ namespace AirLineAPI.Controllers
 
             throw new System.NotImplementedException();
         }
-
-
     }
 }
