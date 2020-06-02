@@ -57,6 +57,7 @@ namespace AirLineAPI.Controllers
             var destinationDto = destination;
 
             destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID +1 }));
             destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID }));
 
             return destinationDto;
