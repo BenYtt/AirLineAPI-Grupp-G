@@ -1,4 +1,5 @@
 ﻿using AirLineAPI.Model;
+using AirLineAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ namespace AirLineAPI.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ApiKeyAuthAttribute : Attribute, IAsyncActionFilter
     {
-        private const string ApiKeyHeaderName = "ApiKey";
+        private const string ApiKeyHeaderName = "UserName2";
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
@@ -23,8 +24,8 @@ namespace AirLineAPI.Filters
                 return;
             }
 
-            var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var apiKey = configuration.GetValue<string>("ApiKey");
+            var userlogin = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+            var apiKey = userlogin.Login(ApiKeyHeaderName, potentialApiKey);
 
             if (!apiKey.Equals(potentialApiKey))
             {
