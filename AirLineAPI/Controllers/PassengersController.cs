@@ -29,13 +29,17 @@ namespace AirLineAPI.Controllers
         }
         //api/v1.0/Passengers    Get all Passengers
          [HttpGet(Name = "GetAll")]
-         public async Task<IActionResult> Get()
+        public async Task<ActionResult<Passenger[]>> GetAllPassengers([FromQuery] bool timeTable)
         {
             try
             {
-               var result = await _passengerRepo.GetPassengers();
-               var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
-              
+                var result = await _passengerRepo.GetPassengers(timeTable);
+                var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
+                if (result == null)
+                {
+                    return NotFound("Could not find any passengers.");
+                }
+
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -71,17 +75,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/name=Greta      Get passenger by name
-        [HttpGet("name = {name}")]
+        [HttpGet("{id}/name", Name = "GetNameAsync")]
         public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
         {
             try
             { 
                 var result = await _passengerRepo.GetPassengerByName(name);
+                var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
                 {
                     return NotFound($"There is no passenger with name:{name}");
                 }
-                return Ok(result);
+                return Ok(HateoasMainLinks(mappedResult));
             }
             catch (Exception e)
             {
@@ -92,18 +97,19 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet("idnumber={idNumber}")]
+        [HttpGet("{id}/idNumber", Name = "GetIdnumberAsync")]
         public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
         {
             try
             { 
                 var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+                var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
                 {
                     return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
                 }
-               
-                return Ok(result);
+
+                return Ok(HateoasMainLinks(mappedResult));
             }
             catch (Exception e)
             {
