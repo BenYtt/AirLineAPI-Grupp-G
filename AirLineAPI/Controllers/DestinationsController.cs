@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class DestinationsController : HateoasControllerBase
@@ -47,7 +50,7 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destination/1      Get destination by id
-        [HttpGet("{id}" , Name = "GetDestinationById")]
+        [HttpGet("{id}", Name = "GetDestinationById")]
         public async Task<ActionResult<Destination>> GetDestinationById(long id)
         {
             try
@@ -104,7 +107,7 @@ namespace AirLineAPI.Controllers
             }
         }
 
-         // {"city": "name",
+        // {"city": "name",
         //"country": "name"}
         [HttpPost]
         public async Task<ActionResult<DestinationDto>> PostEvent(DestinationDto destinationDto)
@@ -170,7 +173,6 @@ namespace AirLineAPI.Controllers
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
             }
             return BadRequest();

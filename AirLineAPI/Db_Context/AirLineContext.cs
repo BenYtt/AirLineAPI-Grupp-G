@@ -10,10 +10,13 @@ namespace AirLineAPI.Db_Context
 {
     public class AirLineContext : DbContext
     {
-        public AirLineContext() { }
-       
+        public AirLineContext()
+        {
+        }
+
         private IConfiguration _configuration;
-        public AirLineContext(IConfiguration config, DbContextOptions<AirLineContext> options): base(options)
+
+        public AirLineContext(IConfiguration config, DbContextOptions<AirLineContext> options) : base(options)
         {
             this._configuration = config;
         }
@@ -24,6 +27,7 @@ namespace AirLineAPI.Db_Context
         public virtual DbSet<Route> Routes { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
         public virtual DbSet<PassengerTimeTable> PassengerTimeTables { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,8 +42,6 @@ namespace AirLineAPI.Db_Context
 
             modelBuilder.Entity<TimeTable>().Property(t => t.DepartureTime).HasColumnType("SMALLDATETIME");
             modelBuilder.Entity<TimeTable>().Property(t => t.ArrivalTime).HasColumnType("SMALLDATETIME");
-
         }
     }
 }
-

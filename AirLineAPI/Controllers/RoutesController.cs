@@ -10,10 +10,13 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
+    [ApiController]
     public class RoutesController : HateoasControllerBase
     {
         private readonly IRouteRepository _routeRepository;
@@ -26,7 +29,7 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/                                 Get Routes
-        [HttpGet(Name= "GetRoutes")]
+        [HttpGet(Name = "GetRoutes")]
         public async Task<ActionResult<RouteDto[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
             try
@@ -42,7 +45,7 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/<id>                                 Get Route by id
-        [HttpGet("{id}", Name= "GetRouteById")]
+        [HttpGet("{id}", Name = "GetRouteById")]
         public async Task<ActionResult<RouteDto>> GetRoutesById(long id)
         {
             try
@@ -77,7 +80,6 @@ namespace AirLineAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure:{e.Message}");
             }
         }
-
 
         //Get: api/v1.0/Routes/tocity=<city>                                 Get Route to city
         [HttpGet("tocity={city}")]
