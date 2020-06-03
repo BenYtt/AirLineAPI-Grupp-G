@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
+using AirLineAPI.Services.Interfaces;
 
 namespace AirLineAPI
 {
@@ -23,6 +24,7 @@ namespace AirLineAPI
         {
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<AirLineContext>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<IPassengerRepo, PassengerRepo>();
             services.AddScoped<ITimeTableRepository, TimeTableRepository>();
@@ -33,13 +35,9 @@ namespace AirLineAPI
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-
             });
 
-
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "AirLineAPI", Version = "v1" }));
-
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

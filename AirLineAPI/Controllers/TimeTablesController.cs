@@ -10,10 +10,13 @@ using Microsoft.AspNetCore.Http;
 using AirLineAPI.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
+    [ApiController]
     public class TimeTablesController : HateoasControllerBase
     {
         private readonly ITimeTableRepository _repository;

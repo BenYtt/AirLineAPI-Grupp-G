@@ -10,7 +10,6 @@ namespace AirLineAPI.Db_Context
     {
         public void Initialize(AirLineContext context)
         {
-
             context.Database.EnsureCreated();
 
             if (context.Flights.Any())
@@ -46,7 +45,6 @@ namespace AirLineAPI.Db_Context
                 context.Flights.Add(f);
             }
             context.SaveChanges();
-
 
             var passengers = new Passenger[]
             {
@@ -97,7 +95,6 @@ namespace AirLineAPI.Db_Context
             }
             context.SaveChanges();
 
-
             var timeTables = new TimeTable[]
             {
                 new TimeTable { Route = routes.Single(x => x.Name == "GBG-STHLM"), DepartureTime = new DateTime(2021, 9, 12, 13, 30, 0), Flight = flights.Single(x => x.Model == "737") },
@@ -107,15 +104,12 @@ namespace AirLineAPI.Db_Context
                 new TimeTable { Route = routes.Single(x => x.Name == "STAV-STHLM"), DepartureTime = new DateTime(2021, 11, 9, 16, 00, 0), Flight = flights.Single(x => x.Model == "T-43") },
             };
 
-
-
             foreach (var t in timeTables)
             {
                 t.ArrivalTime = t.DepartureTime.Add(routes.Single(x => x.Name == t.Route.Name).TravelTime);
                 context.Add(t);
             }
             context.SaveChanges();
-
 
             var passangerTimeTable = new PassengerTimeTable[]
            {
@@ -129,6 +123,21 @@ namespace AirLineAPI.Db_Context
             foreach (var p in passangerTimeTable)
             {
                 context.Add(p);
+            }
+            context.SaveChanges();
+
+            var user = new User[]
+           {
+                new User {Name = "user1", ApiKey = "1234"},
+                new User {Name = "user2", ApiKey = "5678"},
+                new User {Name = "user3", ApiKey = "abcd"},
+                new User {Name = "user4", ApiKey = "efgh"},
+                new User {Name = "user5", ApiKey = "ijkl"}
+           };
+
+            foreach (var u in user)
+            {
+                context.Users.Add(u);
             }
             context.SaveChanges();
         }

@@ -11,10 +11,13 @@ using AutoMapper;
 using AirLineAPI.Dto;
 using System.Data.OleDb;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
+    [ApiController]
     public class FlightsController : HateoasControllerBase
     {
         private readonly IFlightRepository _flightRepository;
