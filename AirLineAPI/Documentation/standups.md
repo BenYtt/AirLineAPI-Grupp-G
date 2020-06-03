@@ -1,5 +1,40 @@
 # Standups 
 
+## Onsdag 03/6
+
+## Sekriterare: Irvin
+
+**Summering av gårdagen**
+
+*  vi skapade en sprint och körde en del code clean upp.
+* sen fortsatte vi  jobba med filter
+
+### Hela Gruppen:
+
+* Vi jobbade med filter hela dagen tillsammans 
+
+## Vad ska vi göra idag
+
+**André:**
+
+* Vi jobbade med filter hela dagen tillsammans 
+
+**Irvin:**
+
+* Vi jobbade med filter hela dagen tillsammans 
+
+**Jakob:**
+
+* Vi jobbade med filter hela dagen tillsammans 
+
+**Anders:**
+
+* Vi jobbade med filter hela dagen tillsammans 
+
+
+
+
+
 ## Tisdag 02/6
 
 ## Sekriterare: Jakob Fjälling
