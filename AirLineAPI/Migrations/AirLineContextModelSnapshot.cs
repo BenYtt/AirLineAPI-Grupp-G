@@ -85,15 +85,15 @@ namespace AirLineAPI.Migrations
 
             modelBuilder.Entity("AirLineAPI.Model.PassengerTimeTable", b =>
                 {
-                    b.Property<long>("PassengerId")
+                    b.Property<long>("PassengerID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TimeTableId")
+                    b.Property<long>("TimeTableID")
                         .HasColumnType("bigint");
 
-                    b.HasKey("PassengerId", "TimeTableId");
+                    b.HasKey("PassengerID", "TimeTableID");
 
-                    b.HasIndex("TimeTableId");
+                    b.HasIndex("TimeTableID");
 
                     b.ToTable("PassengerTimeTables");
                 });
@@ -154,17 +154,35 @@ namespace AirLineAPI.Migrations
                     b.ToTable("TimeTables");
                 });
 
+            modelBuilder.Entity("AirLineAPI.Model.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("AirLineAPI.Model.PassengerTimeTable", b =>
                 {
                     b.HasOne("AirLineAPI.Model.Passenger", "Passenger")
                         .WithMany("PassengerTimeTables")
-                        .HasForeignKey("PassengerId")
+                        .HasForeignKey("PassengerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AirLineAPI.Model.TimeTable", "TimeTable")
                         .WithMany("PassengerTimeTables")
-                        .HasForeignKey("TimeTableId")
+                        .HasForeignKey("TimeTableID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

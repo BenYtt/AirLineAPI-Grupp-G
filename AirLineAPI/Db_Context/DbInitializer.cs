@@ -128,11 +128,11 @@ namespace AirLineAPI.Db_Context
 
             var user = new User[]
            {
-                new User {Name = "UserName1", ApiKey = "1234"},
-                new User {Name = "UserName2", ApiKey = "5678"},
-                new User {Name = "UserName3", ApiKey = "abcd"},
-                new User {Name = "UserName4", ApiKey = "efgh"},
-                new User {Name = "UserName5", ApiKey = "ijkl"}
+                new User {Name = "user1", ApiKey = "1234"},
+                new User {Name = "user2", ApiKey = "5678"},
+                new User {Name = "user3", ApiKey = "abcd"},
+                new User {Name = "user4", ApiKey = "efgh"},
+                new User {Name = "user5", ApiKey = "ijkl"}
            };
 
             foreach (var u in user)

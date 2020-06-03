@@ -1,10 +1,9 @@
 ﻿using AirLineAPI.Db_Context;
 using AirLineAPI.Model;
 using AirLineAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,24 +13,22 @@ namespace AirLineAPI.Services
     //:
     {
         private readonly AirLineContext _context;
-        private readonly IConfiguration _configuration;
 
-        public UserRepository(AirLineContext context, IConfiguration configuration)
+        public UserRepository(AirLineContext context)
         {
             _context = context;
-            _configuration = configuration;
         }
 
         public async Task<ServiceResponse<string>> Login(string username, string password)
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Name.ToLower().Equals(username.ToLower()));
+            var user = await _context.Users.Where(x => x.Name == username).FirstOrDefaultAsync();
             if (user == null)
             {
                 response.Success = false;
                 response.Message = "User not found";
             }
-            else if (!VerifyPassword(username, password))
+            else if (!await VerifyPassword(password))
             {
                 response.Success = false;
                 response.Message = "Password is wrong!";
@@ -40,14 +37,17 @@ namespace AirLineAPI.Services
             return response;
         }
 
-        private bool VerifyPassword(string username, string password)
+        private async Task<Boolean> VerifyPassword(string password)
         {
-            if (_context.Users.Any(n => n.Name == username) && _context.Users.Any(n => n.ApiKey == password))
+            //var a = _context.Users.Where(n => n.Name == username);
+            var b = await _context.Users.Where(n => n.ApiKey == password).FirstOrDefaultAsync();
+
+            if (b == null)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
     }
 }
