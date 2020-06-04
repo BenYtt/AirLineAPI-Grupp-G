@@ -1,4 +1,5 @@
 ﻿using AirLineAPI.HATEOAS;
+using AirLineAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,15 +8,10 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Dto
 {
-    public class FlightDto : HateoasLinkBase
+    public class FlightDto : HateoasLinkBase, IEntity
     {
-        [Required]
-        public long Id { get; set; }
-
-        [Required]
+        public int Id { get; set; }
         public string Manufacturer { get; set; }
-
-        [Required]
         public string Model { get; set; }
     }
 }
