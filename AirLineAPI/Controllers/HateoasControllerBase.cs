@@ -37,7 +37,7 @@ namespace AirLineAPI.Controllers
             PassengerDto passengerDto = passenger;
 
             passengerDto.Links.Add(UrlLink("all", "GetAll", null));
-            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.ID }));
+            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.Id }));
             passengerDto.Links.Add(UrlLink("name", "GetNameAsync", new { id = passengerDto.Name }));
             passengerDto.Links.Add(UrlLink("identificationNumber", "GetIdnumberAsync", new { id = passengerDto.IdentificationNumber }));
 
@@ -62,8 +62,8 @@ namespace AirLineAPI.Controllers
             var destinationDto = destination;
 
             destinationDto.Links.Add(UrlLink("all", "GetDestinations", null));
-            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID }));
-            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.ID + 1 }));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.Id }));
+            destinationDto.Links.Add(UrlLink("_self", "GetDestinationById", new { id = destinationDto.Id + 1 }));
 
             return destinationDto;
         }
@@ -85,7 +85,7 @@ namespace AirLineAPI.Controllers
 
             timeTableDto.Links.Add(UrlLink("all", "GetTimeTables", null));
 
-            timeTableDto.Links.Add(UrlLink("_self", "GettimetablesId", new { id = timeTableDto.ID }));
+            timeTableDto.Links.Add(UrlLink("_self", "GettimetablesId", new { id = timeTableDto.Id }));
 
             return timeTableDto;
         }
