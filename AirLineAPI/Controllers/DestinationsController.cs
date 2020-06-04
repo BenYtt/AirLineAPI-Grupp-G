@@ -70,17 +70,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destinations/country=Sweden      Get destination by Country
-        [HttpGet("country={country}")]
+        [HttpGet("country={country}", Name = "GetDestinationByCountry")]
         public async Task<ActionResult<Destination[]>> GetDestinationsByCountry(string country)
         {
             try
             {
                 var result = await _destinationRepository.GetDestinationsByCountry(country);
+                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
                 if (result == null)
                 {
                     return NotFound($"Could not find any destination with name {country}");
                 }
-                return Ok(result);
+                return Ok(destinationresult);
             }
             catch (Exception e)
             {
@@ -89,17 +90,18 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/destinations/city=stockholm      Get destination by City
-        [HttpGet("city={city}")]
-        public async Task<ActionResult<Destination[]>> GetDestinationsByCity(string city)
+        [HttpGet("city={city}", Name = "GetDestinationByCity")]
+        public async Task<ActionResult<DestinationDto[]>> GetDestinationsByCity(string city)
         {
             try
             {
                 var result = await _destinationRepository.GetDestinationByCity(city);
+                var destinationresult = _mapper.Map<DestinationDto[]>(result).Select(m => HateoasMainLinksDestinations(m));
                 if (result == null)
                 {
                     return NotFound($"Could not find any destination with city name {city}");
                 }
-                return Ok(result);
+                return Ok(destinationresult);
             }
             catch (Exception e)
             {
