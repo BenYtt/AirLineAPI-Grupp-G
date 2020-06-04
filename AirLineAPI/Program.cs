@@ -17,14 +17,21 @@ namespace AirLineAPI
         {
             var host = CreateHostBuilder(args).Build();
 
+            CreateDbIfNotExists(host);
+
+            host.Run();
+        }
+
+        private static void CreateDbIfNotExists(IHost host)
+        {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
                     var context = services.GetRequiredService<AirLineContext>();
-                    var initializer = new DbInitializer();
-                    initializer.Initialize(context);
+                    context.Database.EnsureCreated();
+                    context.Initialize(context);
                 }
                 catch (Exception ex)
                 {
@@ -32,8 +39,6 @@ namespace AirLineAPI
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
             }
-
-            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

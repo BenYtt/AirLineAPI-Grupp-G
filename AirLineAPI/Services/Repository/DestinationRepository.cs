@@ -11,10 +11,8 @@ namespace AirLineAPI.Services
 {
     public class DestinationRepository : Repository, IDestinationRepository
     {
-
-        public DestinationRepository(AirLineContext airLineContext, ILogger<DestinationRepository> logger): base (airLineContext, logger)
+        public DestinationRepository(AirLineContext airLineContext, ILogger<DestinationRepository> logger) : base(airLineContext, logger)
         {
-            
         }
 
         public async Task<Destination[]> GetDestinations()
@@ -32,7 +30,7 @@ namespace AirLineAPI.Services
 
             IQueryable<Destination> destination = _context.Destinations;
 
-            return await destination.FirstOrDefaultAsync(d => d.ID == destinationID);
+            return await destination.FirstOrDefaultAsync(d => d.Id == destinationID);
         }
 
         public async Task<Destination> GetDestinationByCity(string city)
@@ -50,7 +48,7 @@ namespace AirLineAPI.Services
 
             IQueryable<Destination> destinations = _context.Destinations;
 
-            return await destinations.Where(d => d.Country == country).ToArrayAsync();      
+            return await destinations.Where(d => d.Country == country).ToArrayAsync();
         }
     }
 }

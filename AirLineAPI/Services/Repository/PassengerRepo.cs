@@ -11,7 +11,10 @@ namespace AirLineAPI.Services
 {
     public class PassengerRepo : Repository, IPassengerRepo
     {
-        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger) { }
+        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger)
+        {
+        }
+
         public async Task<Passenger[]> GetPassengers(bool includeTimeTable = false)
         {
             _logger.LogInformation($"Getting passengers");
@@ -21,7 +24,6 @@ namespace AirLineAPI.Services
                 query = query.Include(x => x.PassengerTimeTables);
             }
             return await query.ToArrayAsync();
-        
         }
 
         public async Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false)
@@ -32,7 +34,7 @@ namespace AirLineAPI.Services
             {
                 query = query.Include(t => t.PassengerTimeTables);
             }
-            query = query.Where(x => x.ID == passengerId);
+            query = query.Where(x => x.Id == passengerId);
             return await query.FirstOrDefaultAsync();
         }
 
@@ -43,13 +45,12 @@ namespace AirLineAPI.Services
             query = query.Where(x => x.Name == name);
             return await query.FirstOrDefaultAsync();
         }
-            
+
         public async Task<Passenger> GetPassengerByIdentificationNumber(long identitificationNm)
         {
             _logger.LogInformation($"Getting passenger by identification number {identitificationNm}");
-            IQueryable<Passenger> query = _context.Passengers.Where(a=> a.IdentificationNumber==identitificationNm);
+            IQueryable<Passenger> query = _context.Passengers.Where(a => a.IdentificationNumber == identitificationNm);
             return await query.FirstOrDefaultAsync();
-
         }
     }
 }

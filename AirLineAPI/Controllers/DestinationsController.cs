@@ -118,7 +118,7 @@ namespace AirLineAPI.Controllers
                 _destinationRepository.Add(mappedEntity);
                 if (await _destinationRepository.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.ID}", _mapper.Map<Destination>(mappedEntity));
+                    return Created($"/api/v1.0/Destinations/{mappedEntity.Id}", _mapper.Map<Destination>(mappedEntity));
                 }
             }
             catch (Exception e)

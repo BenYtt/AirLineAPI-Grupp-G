@@ -15,27 +15,41 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
 using AirLineAPI.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace AirLineAPI
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AirLineContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddDbContext<AirLineContext>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IFlightRepository, FlightRepository>();
-            services.AddScoped<IPassengerRepo, PassengerRepo>();
-            services.AddScoped<ITimeTableRepository, TimeTableRepository>();
-            services.AddScoped<IDestinationRepository, DestinationRepository>();
-            services.AddScoped<IRouteRepository, RouteRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFlightRepository, FlightRepository>();
+            services.AddScoped<IPassengerRepo, PassengerRepo>();
+            services.AddScoped<ITimeTableRepository, TimeTableRepository>();
+            services.AddScoped<IDestinationRepository, DestinationRepository>();
+            services.AddScoped<IRouteRepository, RouteRepository>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "AirLineAPI", Version = "v1" }));
         }
