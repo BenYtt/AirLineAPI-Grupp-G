@@ -21,150 +21,165 @@ namespace AirLineAPI.Migrations
 
             modelBuilder.Entity("AirLineAPI.Model.Destination", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Destinations");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.Flight", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Flights");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.Passenger", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("IdentificationNumber")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.PassengerTimeTable", b =>
                 {
-                    b.Property<long>("PassengerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("TimeTableId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PassengerID")
+                        .HasColumnType("int");
 
-                    b.HasKey("PassengerId", "TimeTableId");
+                    b.Property<int>("TimeTableID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TimeTableId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PassengerID");
+
+                    b.HasIndex("TimeTableID");
 
                     b.ToTable("PassengerTimeTables");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.Route", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("EndDestinationID")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("EndDestinationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("StartDestinationID")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("StartDestinationId")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("TravelTime")
                         .HasColumnType("time");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("EndDestinationID");
+                    b.HasIndex("EndDestinationId");
 
-                    b.HasIndex("StartDestinationID");
+                    b.HasIndex("StartDestinationId");
 
                     b.ToTable("Routes");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.TimeTable", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ArrivalTime")
-                        .HasColumnType("SMALLDATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DepartureTime")
-                        .HasColumnType("SMALLDATETIME");
+                        .HasColumnType("datetime2");
 
-                    b.Property<long>("FlightID")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("RouteID")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("RouteId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("FlightID");
+                    b.HasIndex("FlightId");
 
-                    b.HasIndex("RouteID");
+                    b.HasIndex("RouteId");
 
                     b.ToTable("TimeTables");
+                });
+
+            modelBuilder.Entity("AirLineAPI.Model.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.PassengerTimeTable", b =>
                 {
                     b.HasOne("AirLineAPI.Model.Passenger", "Passenger")
                         .WithMany("PassengerTimeTables")
-                        .HasForeignKey("PassengerId")
+                        .HasForeignKey("PassengerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AirLineAPI.Model.TimeTable", "TimeTable")
                         .WithMany("PassengerTimeTables")
-                        .HasForeignKey("TimeTableId")
+                        .HasForeignKey("TimeTableID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -173,26 +188,22 @@ namespace AirLineAPI.Migrations
                 {
                     b.HasOne("AirLineAPI.Model.Destination", "EndDestination")
                         .WithMany()
-                        .HasForeignKey("EndDestinationID");
+                        .HasForeignKey("EndDestinationId");
 
                     b.HasOne("AirLineAPI.Model.Destination", "StartDestination")
                         .WithMany()
-                        .HasForeignKey("StartDestinationID");
+                        .HasForeignKey("StartDestinationId");
                 });
 
             modelBuilder.Entity("AirLineAPI.Model.TimeTable", b =>
                 {
                     b.HasOne("AirLineAPI.Model.Flight", "Flight")
                         .WithMany()
-                        .HasForeignKey("FlightID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FlightId");
 
                     b.HasOne("AirLineAPI.Model.Route", "Route")
                         .WithMany()
-                        .HasForeignKey("RouteID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RouteId");
                 });
 #pragma warning restore 612, 618
         }

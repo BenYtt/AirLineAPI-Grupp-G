@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using AirLineAPI.Services.Interfaces;
 
 namespace AirLineAPI.Model
 {
-    public class PassengerTimeTable
+    public class PassengerTimeTable : IEntity
     {
-        public long PassengerID { get; set; }
+        public int Id { get; set; }
+        public int PassengerID { get; set; }
         public Passenger Passenger { get; set; }
-        public long TimeTableID { get; set; }
+        public int TimeTableID { get; set; }
         public TimeTable TimeTable { get; set; }
     }
 }

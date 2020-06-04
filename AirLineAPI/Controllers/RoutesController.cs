@@ -10,10 +10,13 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using AirLineAPI.Dto;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
+    [ApiController]
     public class RoutesController : HateoasControllerBase
     {
         private readonly IRouteRepository _routeRepository;
@@ -26,8 +29,8 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/                                 Get Routes
-        [HttpGet(Name= "GetRoutes")]
-        public async Task<ActionResult<Route[]>> GetRoutes(int minMinutes, int maxMinutes)
+        [HttpGet(Name = "GetRoutes")]
+        public async Task<ActionResult<RouteDto[]>> GetRoutes(int minMinutes, int maxMinutes)
         {
             try
             {
@@ -41,13 +44,13 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/<id>                                 Get Route
-        [HttpGet("{id}", Name= "GetRouteById")]
-        public async Task<ActionResult<Route>> GetRoutesByID(long id)
+        //Get: api/v1.0/Routes/<id>                                 Get Route by id
+        [HttpGet("{id}", Name = "GetRouteById")]
+        public async Task<ActionResult<RouteDto>> GetRoutesById(long id)
         {
             try
             {
-                var result = await _routeRepository.GetRouteByID(id);
+                var result = await _routeRepository.GetRouteById(id);
                 var routeResult = _mapper.Map<RouteDto>(result);
 
                 if (result == null)
@@ -63,9 +66,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route
+        //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route by fromcity
         [HttpGet("fromcity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartCity(string city)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCity(string city)
         {
             try
             {
@@ -78,10 +81,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-
-        //Get: api/v1.0/Routes/tocity=<city>                                 Get Route
+        //Get: api/v1.0/Routes/tocity=<city>                                 Get Route to city
         [HttpGet("tocity={city}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByEndCity(string city)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByEndCity(string city)
         {
             try
             {
@@ -94,9 +96,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route
+        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route by country
         [HttpGet("tocountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRouteByEndCountry(string country)
+        public async Task<ActionResult<RouteDto[]>> GetRouteByEndCountry(string country)
         {
             try
             {
@@ -109,9 +111,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route
+        //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route route by city
         [HttpGet("fromcountry={country}")]
-        public async Task<ActionResult<Route[]>> GetRoutesByStartCountry(string country, double includeTime)
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
@@ -126,14 +128,14 @@ namespace AirLineAPI.Controllers
 
         //Put: api/v1.0/Routes/<id>                                 Put Route
         [HttpPut("{routeid}")]
-        public async Task<ActionResult<RouteDto>> PutRoute(int routeid, [FromBody] RouteDto routeDto)
+        public async Task<ActionResult<RouteDto>> PutRoute(int routeId, [FromBody] RouteDto routeDto)
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                var oldRoute = await _routeRepository.GetRouteById(routeId);
                 if (oldRoute == null)
                 {
-                    return NotFound($"there is no routes with id:{routeid}");
+                    return NotFound($"there is no routes with id:{routeId}");
                 }
                 var newRoute = _mapper.Map(routeDto, oldRoute);
                 _routeRepository.Update(newRoute);
@@ -156,7 +158,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteByID(routeid);
+                var oldRoute = await _routeRepository.GetRouteById(routeid);
                 if (oldRoute == null)
                 {
                     return NotFound($"there is no routes with id:{routeid}");
