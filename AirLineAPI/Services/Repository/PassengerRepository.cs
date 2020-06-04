@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Services
 {
-    public class PassengerRepo : Repository, IPassengerRepo
+    public class PassengerRepository : Repository, IPassengerRepository
     {
-        public PassengerRepo(AirLineContext context, ILogger<Repository> logger) : base(context, logger)
+        public PassengerRepository(AirLineContext context, ILogger<Repository> logger) : base(context, logger)
         {
         }
 
