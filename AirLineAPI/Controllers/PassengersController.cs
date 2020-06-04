@@ -75,8 +75,8 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/name=Greta      Get passenger by name
-        [HttpGet("{id}/name", Name = "GetNameAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerByName(string name)
+        [HttpGet("name={name}", Name = "GetNameAsync")]
+        public async Task<ActionResult<PassengerDto>> GetPassengerByName(string name)
         {
             try
             { 
@@ -97,8 +97,8 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet("{id}/idNumber", Name = "GetIdnumberAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(long idNumber)
+        [HttpGet("idNumber={idNumber}", Name = "GetIdnumberAsync")]
+        public async Task<ActionResult<PassengerDto>> GetPassengerByIdentificationNumber(long idNumber)
         {
             try
             { 
