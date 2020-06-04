@@ -16,7 +16,7 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+  
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class PassengersController : HateoasControllerBase
@@ -32,7 +32,7 @@ namespace AirLineAPI.Controllers
 
         //api/v1.0/Passengers    Get all Passengers
         [HttpGet(Name = "GetAll")]
-        public async Task<ActionResult<Passenger[]>> GetAllPassengers([FromQuery] bool timeTable)
+        public async Task<ActionResult<PassengerDto[]>> GetAllPassengers([FromQuery] bool timeTable)
         {
             try
             {

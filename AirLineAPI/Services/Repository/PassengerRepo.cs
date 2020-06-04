@@ -21,7 +21,7 @@ namespace AirLineAPI.Services
             IQueryable<Passenger> query = _context.Passengers;
             if (includeTimeTable)
             {
-                query = query.Include(x => x.PassengerTimeTables);
+                query = query.Include(x => x.PassengerTimeTables).ThenInclude(r => r.TimeTable);
             }
             return await query.ToArrayAsync();
         }
