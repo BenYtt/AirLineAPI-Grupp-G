@@ -67,13 +67,14 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route by fromcity
-        [HttpGet("fromcity={city}")]
-        public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCity(string city)
+        [HttpGet("fromCity={fromCity}", Name="GetRouteByStartCity")]
+        public async Task<ActionResult<RouteDto>> GetRoutesByStartCity(string fromCity)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByStartCity(city);
-                return Ok(result);
+                var result = await _routeRepository.GetRoutesByStartCity(fromCity);
+                var passengerresult = _mapper.Map<RouteDto>(result);
+                return Ok(HateoasMainLinksRoute(passengerresult));
             }
             catch (Exception e)
             {
@@ -82,13 +83,14 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/tocity=<city>                                 Get Route to city
-        [HttpGet("tocity={city}")]
-        public async Task<ActionResult<RouteDto[]>> GetRoutesByEndCity(string city)
+        [HttpGet("tocity={toCity}", Name = "GetRoutesByEndCity")]
+        public async Task<ActionResult<RouteDto[]>> GetRoutesByEndCity(string toCity)
         {
             try
             {
-                var result = await _routeRepository.GetRoutesByEndCity(city);
-                return Ok(result);
+                var result = await _routeRepository.GetRoutesByEndCity(toCity);
+                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -96,14 +98,15 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/toccountry=<country>                                 Get Route by country
-        [HttpGet("tocountry={country}")]
+        //Get: api/v1.0/Routes/Endccountry=<country>                                 Get Route by country
+        [HttpGet("Endcountry={EndCountry}", Name="GetRouteByEndCountry")]
         public async Task<ActionResult<RouteDto[]>> GetRouteByEndCountry(string country)
         {
             try
             {
                 var result = await _routeRepository.GetRoutesByEndCountry(country);
-                return Ok(result);
+                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -112,13 +115,14 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route route by city
-        [HttpGet("fromcountry={country}")]
+        [HttpGet("Fromcountry={FromCountry}", Name ="GetRoutesByStartCountry")]
         public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
                 var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
-                return Ok(result);
+                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
