@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirLineAPI.Services.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Model
 {
-    public class TimeTable
+    public class TimeTable : IEntity
     {
-        public long ID { get; set; }
-        [Required]
+        public int Id { get; set; }
         public Route Route { get; set; }
-        [Required]
         public Flight Flight { get; set; }
-        [Required]
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
         public ICollection<PassengerTimeTable> PassengerTimeTables { get; set; }

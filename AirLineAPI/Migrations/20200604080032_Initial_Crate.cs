@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AirLineAPI.Migrations
 {
-    public partial class First : Migration
+    public partial class Initial_Crate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,24 +11,24 @@ namespace AirLineAPI.Migrations
                 name: "Destinations",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(maxLength: 100, nullable: false),
-                    Country = table.Column<string>(maxLength: 100, nullable: false)
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Destinations", x => x.ID);
+                    table.PrimaryKey("PK_Destinations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Flights",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Manufacturer = table.Column<string>(maxLength: 30, nullable: false),
-                    Model = table.Column<string>(maxLength: 30, nullable: false)
+                    Manufacturer = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,14 +39,14 @@ namespace AirLineAPI.Migrations
                 name: "Passengers",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     IdentificationNumber = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Passengers", x => x.ID);
+                    table.PrimaryKey("PK_Passengers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,27 +67,27 @@ namespace AirLineAPI.Migrations
                 name: "Routes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    StartDestinationID = table.Column<long>(nullable: true),
-                    EndDestinationID = table.Column<long>(nullable: true),
+                    StartDestinationId = table.Column<int>(nullable: true),
+                    EndDestinationId = table.Column<int>(nullable: true),
                     TravelTime = table.Column<TimeSpan>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Routes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Routes_Destinations_EndDestinationID",
-                        column: x => x.EndDestinationID,
+                        name: "FK_Routes_Destinations_EndDestinationId",
+                        column: x => x.EndDestinationId,
                         principalTable: "Destinations",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Routes_Destinations_StartDestinationID",
-                        column: x => x.StartDestinationID,
+                        name: "FK_Routes_Destinations_StartDestinationId",
+                        column: x => x.StartDestinationId,
                         principalTable: "Destinations",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -95,53 +95,60 @@ namespace AirLineAPI.Migrations
                 name: "TimeTables",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RouteId = table.Column<long>(nullable: false),
-                    FlightId = table.Column<long>(nullable: false),
-                    DepartureTime = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
-                    ArrivalTime = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false)
+                    RouteId = table.Column<int>(nullable: true),
+                    FlightId = table.Column<int>(nullable: true),
+                    DepartureTime = table.Column<DateTime>(nullable: false),
+                    ArrivalTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeTables", x => x.ID);
+                    table.PrimaryKey("PK_TimeTables", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TimeTables_Flights_FlightId",
                         column: x => x.FlightId,
                         principalTable: "Flights",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TimeTables_Routes_RouteId",
                         column: x => x.RouteId,
                         principalTable: "Routes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PassengerTimeTables",
                 columns: table => new
                 {
-                    PassengerID = table.Column<long>(nullable: false),
-                    TimeTableID = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PassengerID = table.Column<int>(nullable: false),
+                    TimeTableID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PassengerTimeTables", x => new { x.PassengerID, x.TimeTableID });
+                    table.PrimaryKey("PK_PassengerTimeTables", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PassengerTimeTables_Passengers_PassengerID",
                         column: x => x.PassengerID,
                         principalTable: "Passengers",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PassengerTimeTables_TimeTables_TimeTableID",
                         column: x => x.TimeTableID,
                         principalTable: "TimeTables",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PassengerTimeTables_PassengerID",
+                table: "PassengerTimeTables",
+                column: "PassengerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PassengerTimeTables_TimeTableID",
@@ -149,14 +156,14 @@ namespace AirLineAPI.Migrations
                 column: "TimeTableID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Routes_EndDestinationID",
+                name: "IX_Routes_EndDestinationId",
                 table: "Routes",
-                column: "EndDestinationID");
+                column: "EndDestinationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Routes_StartDestinationID",
+                name: "IX_Routes_StartDestinationId",
                 table: "Routes",
-                column: "StartDestinationID");
+                column: "StartDestinationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTables_FlightId",
