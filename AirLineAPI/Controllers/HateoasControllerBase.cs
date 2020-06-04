@@ -74,7 +74,15 @@ namespace AirLineAPI.Controllers
 
             routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
             routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id }));
-            routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id + 1 }));
+            routeDto.Links.Add(UrlLink("_next", "GetRouteById", new { id = routeDto.Id + 1 }));
+            routeDto.Links.Add(UrlLink("_startCity", "GetRouteByStartCity", new { fromCity = "stockholm"}));
+            routeDto.Links.Add(UrlLink("_endCity", "GetRoutesByEndCity", new { toCity = "stockholm"}));
+            routeDto.Links.Add(UrlLink("_endCountry", "GetRouteByEndCountry", new { EndCountry = "Sweden"}));
+            routeDto.Links.Add(UrlLink("_fromCountry", "GetRoutesByStartCountry", new { FromCountry = "Sweden"}));
+
+
+
+
 
             return routeDto;
         }
