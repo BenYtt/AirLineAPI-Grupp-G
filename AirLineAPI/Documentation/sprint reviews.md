@@ -1,11 +1,20 @@
 # Sprint Reviews
 
-**Sprint 7: 25:e maj - 27:e maj** 
+**26/5 Irvin**
 
-### Sekreterare:  
+- Blev alla     issues klara?
 
-- 
-- 
+- -  Det      viktigaste
+
+- Issues  som inte blev klara?
+
+- -  Create hateoas för alla klasser
+
+om sprinten:
+
+Vi började veckan med att tilldela ansvarsområden för dom nya medlemmarna. Vi gjorde klart alla issues som vi kunde göra denna gången, Var en väldigt kort sprint på bara 2 dagar så finns inte så mycket att skriva. Vi hamnade lite före så körde fast på hateoas vi kunde inte göra mer än att vänta tills läraren går igenom dessa saker. Vi hade en kort sprint för vi la ner tid på att förklara projektet för dom nya. 
+
+
 
 **Sprint 4: 18:e maj - 20:e maj**
 
