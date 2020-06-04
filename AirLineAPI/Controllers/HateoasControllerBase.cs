@@ -37,9 +37,10 @@ namespace AirLineAPI.Controllers
             PassengerDto passengerDto = passenger;
 
             passengerDto.Links.Add(UrlLink("all", "GetAll", null));
-            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.Id }));
-            passengerDto.Links.Add(UrlLink("name", "GetNameAsync", new { id = passengerDto.Name }));
-            passengerDto.Links.Add(UrlLink("identificationNumber", "GetIdnumberAsync", new { id = passengerDto.IdentificationNumber }));
+            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.ID }));
+            passengerDto.Links.Add(UrlLink("_name=Greta", "GetNameAsync", new {Name="Greta" }));
+            passengerDto.Links.Add(UrlLink("_identificationNumber","GetIdnumberAsync", new {idNumber="197110316689"}));
+            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.ID + 1 }));
 
             return passengerDto;
         }
