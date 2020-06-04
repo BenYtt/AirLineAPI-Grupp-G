@@ -10,7 +10,7 @@ namespace AirLineAPI.Dto
     public class DestinationDto : HateoasLinkBase
     {
         [Required]
-        public long ID { get; set; }
+        public long Id { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
     }
