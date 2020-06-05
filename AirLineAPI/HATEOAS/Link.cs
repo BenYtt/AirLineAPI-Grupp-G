@@ -17,10 +17,5 @@ namespace AirLineAPI.HATEOAS
             Rel = rel;
             Type = type;
         }
-
-        public Link(string href)
-        {
-            Href = href;
-        }
     }
 }

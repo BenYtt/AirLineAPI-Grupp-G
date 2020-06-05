@@ -14,17 +14,17 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class TimeTablesController : HateoasControllerBase
     {
-        private readonly ITimeTableRepository _repository;
+        private readonly ITimeTableRepository _timeTableRepository;
         private readonly IMapper _mapper;
 
-        public TimeTablesController(ITimeTableRepository repository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
+        public TimeTablesController(ITimeTableRepository timeTableRepository, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
-            _repository = repository;
+            _timeTableRepository = timeTableRepository;
             _mapper = mapper;
         }
 
@@ -34,7 +34,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
+                var results = await _timeTableRepository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
                 var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
 
                 if (results == null)
@@ -52,11 +52,11 @@ namespace AirLineAPI.Controllers
         //    /API/v1.0/timetables/1    Get timetable by id
 
         [HttpGet("{id}", Name = "GetTimeTablesId")]
-        public async Task<ActionResult<TimeTableDto>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
+        public async Task<ActionResult<TimeTableDto>> GetTimeTableById(int id, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
-                var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoutes);
+                var results = await _timeTableRepository.GetTimeTableById(id, includePassengers, includeRoutes);
                 var Timetableresult = _mapper.Map<TimeTableDto>(results);
                 if (results == null)
                 {
@@ -77,7 +77,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var results = await _repository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
+                var results = await _timeTableRepository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
                 var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
@@ -94,11 +94,11 @@ namespace AirLineAPI.Controllers
         // /api/v1.0/timetables/enddestination%3dgothenburg?includepassengers=true&includeroutes=true    Get timtables with enddestination= gothenburg
 
         [HttpGet("endDestination={endDestination}", Name = "GetTimeTableByEndDestination")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
+        public async Task<ActionResult<TimeTableDto[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
-                var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                var results = await _timeTableRepository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
                 var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
@@ -118,8 +118,8 @@ namespace AirLineAPI.Controllers
             try
             {
                 var mappedEntity = _mapper.Map<TimeTable>(timetableDto);
-                _repository.Add(mappedEntity);
-                if (await _repository.Save())
+                _timeTableRepository.Add(mappedEntity);
+                if (await _timeTableRepository.Save())
                 {
                     return Created($"/api/v1.0/Timetables/{mappedEntity.Id}", _mapper.Map<TimeTable>(mappedEntity));
                 }
@@ -131,21 +131,21 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //https:/localhost:44333/api/v1.0/timetables/
-        [HttpPut("{timetableId}")]
-        public async Task<ActionResult> PutTimeTable(long timeTableId, TimeTableDto timeTableDto)
+        //https:/localhost:44333/api/v1.0/timetables/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TimeTableDto>> PutTimeTable(int id, TimeTableDto timeTableDto)
         {
             try
             {
-                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                var oldTimeTable = await _timeTableRepository.GetTimeTableById(id);
                 if (oldTimeTable == null)
                 {
-                    return NotFound($"Could not find timetable with id {timeTableId}");
+                    return NotFound($"Could not find timetable with id {id}");
                 }
 
                 var newTimeTable = _mapper.Map(timeTableDto, oldTimeTable);
-                _repository.Update(newTimeTable);
-                if (await _repository.Save())
+                _timeTableRepository.Update(newTimeTable);
+                if (await _timeTableRepository.Save())
                 {
                     return NoContent();
                 }
@@ -157,18 +157,18 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{timeTableId}")]
-        public async Task<ActionResult> DeleteTimeTable(int timeTableId)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTimeTable(int id)
         {
             try
             {
-                var oldTimeTable = await _repository.GetTimeTableByID(timeTableId);
+                var oldTimeTable = await _timeTableRepository.GetTimeTableById(id);
                 if (oldTimeTable == null)
                 {
-                    return NotFound($"Counld not find timetable with id {timeTableId}");
+                    return NotFound($"Counld not find timetable with id {id}");
                 }
-                _repository.Delete(oldTimeTable);
-                if (await _repository.Save())
+                _timeTableRepository.Delete(oldTimeTable);
+                if (await _timeTableRepository.Save())
                 {
                     return NoContent();
                 }

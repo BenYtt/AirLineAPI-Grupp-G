@@ -11,17 +11,15 @@ namespace AirLineAPI.Services
 {
     public class RouteRepository : Repository, IRouteRepository
     {
-
         public RouteRepository(AirLineContext context, ILogger<RouteRepository> logger) : base(context, logger)
         {
-
         }
 
-        public async Task<Route> GetRouteById(long routeId)
+        public async Task<Route> GetRouteById(int id)
         {
-            _logger.LogInformation($"Getting Route by id: {routeId}");
+            _logger.LogInformation($"Getting Route by id: {id}");
             IQueryable<Route> query = _context.Routes;
-            query = query.Where(x => x.Id == routeId)
+            query = query.Where(x => x.Id == id)
                 .Include(s => s.StartDestination)
                 .Include(e => e.EndDestination);
 
@@ -58,7 +56,6 @@ namespace AirLineAPI.Services
                 .Include(e => e.EndDestination);
             return await query.ToArrayAsync();
         }
-       
 
         public async Task<Route[]> GetRoutesByEndCountry(string country)
         {
@@ -106,24 +103,20 @@ namespace AirLineAPI.Services
                 query = _context.Routes.Where(r => r.TravelTime >= minTime && r.TravelTime <= maxTime)
                     .OrderBy(t => t.TravelTime);
             }
-
             else if (minMinutes > 0)
             {
                 _logger.LogInformation($"Getting routes with traveltime more than {minMinutes} minutes.");
                 query = _context.Routes.Where(r => r.TravelTime <= minTime)
                     .OrderBy(t => t.TravelTime);
             }
-
             else if (maxMinutes > 0)
             {
                 _logger.LogInformation($"Getting routes with traveltime less than {maxMinutes} minutes.");
                 query = _context.Routes.Where(r => r.TravelTime <= maxTime)
                     .OrderBy(t => t.TravelTime);
             }
-           
 
             _logger.LogInformation($"Get all routes where traveltime are minimum {minTime} and maximum {maxTime}");
-            
 
             return query;
         }

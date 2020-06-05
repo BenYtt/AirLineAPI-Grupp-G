@@ -8,9 +8,12 @@ namespace AirLineAPI.Services
 {
     public interface IPassengerRepository : IRepository
     {
-        Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false);
+        Task<Passenger> GetPassengerById(int id, bool includeTimeTable = false);
+
         Task<Passenger[]> GetPassengers(bool includeTimeTable = false);
+
         Task<Passenger> GetPassengerByName(string name);
+
         Task<Passenger> GetPassengerByIdentificationNumber(long identitificationNm);
     }
 }

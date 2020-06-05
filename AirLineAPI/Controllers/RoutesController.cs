@@ -14,7 +14,7 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class RoutesController : HateoasControllerBase
@@ -44,9 +44,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Get: api/v1.0/Routes/<id>                                 Get Route by id
+        //Get: api/v1.0/Routes/{id}                                 Get Route by id
         [HttpGet("{id}", Name = "GetRouteById")]
-        public async Task<ActionResult<RouteDto>> GetRoutesById(long id)
+        public async Task<ActionResult<RouteDto>> GetRoutesById(int id)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/fromcity=<city>                                 Get Route by fromcity
-        [HttpGet("fromCity={fromCity}", Name="GetRouteByStartCity")]
+        [HttpGet("fromCity={fromCity}", Name = "GetRouteByStartCity")]
         public async Task<ActionResult<RouteDto>> GetRoutesByStartCity(string fromCity)
         {
             try
@@ -99,7 +99,7 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/Endccountry=<country>                                 Get Route by country
-        [HttpGet("Endcountry={EndCountry}", Name="GetRouteByEndCountry")]
+        [HttpGet("Endcountry={EndCountry}", Name = "GetRouteByEndCountry")]
         public async Task<ActionResult<RouteDto[]>> GetRouteByEndCountry(string country)
         {
             try
@@ -115,13 +115,13 @@ namespace AirLineAPI.Controllers
         }
 
         //Get: api/v1.0/Routes/fromcountry=<city>                                 Get Route route by city
-        [HttpGet("Fromcountry={FromCountry}", Name ="GetRoutesByStartCountry")]
+        [HttpGet("Fromcountry={FromCountry}", Name = "GetRoutesByStartCountry")]
         public async Task<ActionResult<RouteDto[]>> GetRoutesByStartCountry(string country, double includeTime)
         {
             try
             {
                 var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
-                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -130,16 +130,16 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //Put: api/v1.0/Routes/<id>                                 Put Route
-        [HttpPut("{routeid}")]
-        public async Task<ActionResult<RouteDto>> PutRoute(int routeId, [FromBody] RouteDto routeDto)
+        //Put: api/v1.0/Routes/{id}                                 Put Route
+        [HttpPut("{id}")]
+        public async Task<ActionResult<RouteDto>> PutRoute(int id, [FromBody] RouteDto routeDto)
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteById(routeId);
+                var oldRoute = await _routeRepository.GetRouteById(id);
                 if (oldRoute == null)
                 {
-                    return NotFound($"there is no routes with id:{routeId}");
+                    return NotFound($"there is no routes with id:{id}");
                 }
                 var newRoute = _mapper.Map(routeDto, oldRoute);
                 _routeRepository.Update(newRoute);
@@ -156,16 +156,16 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //Delete: api/v1.0/Routes/<id>                                 Delete Route
-        [HttpDelete("{routeid}")]
-        public async Task<ActionResult> DeleteRoute(long routeid)
+        //Delete: api/v1.0/Routes/{id}                                 Delete Route
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRoute(int id)
         {
             try
             {
-                var oldRoute = await _routeRepository.GetRouteById(routeid);
+                var oldRoute = await _routeRepository.GetRouteById(id);
                 if (oldRoute == null)
                 {
-                    return NotFound($"there is no routes with id:{routeid}");
+                    return NotFound($"there is no routes with id:{id}");
                 }
 
                 _routeRepository.Delete(oldRoute);

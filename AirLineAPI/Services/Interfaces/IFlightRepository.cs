@@ -10,7 +10,7 @@ namespace AirLineAPI.Services
     {
         Task<Flight[]> GetFlights();
 
-        Task<Flight> GetFlightById(long flightID);
+        Task<Flight> GetFlightById(int id);
 
         Task<Flight[]> GetFlightsByManufacturer(string manufacturer);
 
