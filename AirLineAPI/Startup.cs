@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using AirLineAPI.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 
 namespace AirLineAPI
 {
@@ -44,7 +45,7 @@ namespace AirLineAPI
             services.AddScoped<IDestinationRepository, DestinationRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
 
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "AirLineAPI", Version = "v1" }));
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "AirLineAPI", Version = "v1.0" }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -61,7 +62,8 @@ namespace AirLineAPI
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AirLineAPI v1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "AirLineAPI v1.0");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseMvc();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Model
 {
-    public class TimeTable : IEntity
+    public class TimeTable
     {
         public int Id { get; set; }
         public Route Route { get; set; }

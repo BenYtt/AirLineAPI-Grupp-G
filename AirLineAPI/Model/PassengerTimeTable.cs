@@ -7,7 +7,7 @@ using AirLineAPI.Services.Interfaces;
 
 namespace AirLineAPI.Model
 {
-    public class PassengerTimeTable : IEntity
+    public class PassengerTimeTable
     {
         public int Id { get; set; }
         public int PassengerID { get; set; }

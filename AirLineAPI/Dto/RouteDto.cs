@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Dto
 {
-    public class RouteDto : HateoasLinkBase, IEntity
+    public class RouteDto : HateoasLinkBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

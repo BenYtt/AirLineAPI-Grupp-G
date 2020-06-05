@@ -7,7 +7,7 @@ using AirLineAPI.Services.Interfaces;
 
 namespace AirLineAPI.Dto
 {
-    public class PassengerDto : HateoasLinkBase, IEntity
+    public class PassengerDto : HateoasLinkBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

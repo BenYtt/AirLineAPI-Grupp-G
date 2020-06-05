@@ -18,13 +18,13 @@ namespace AirLineAPI.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (!context.HttpContext.Request.Query.TryGetValue(ApiKeyHeaderName, out var potentialApiKeyName))
+            if (!context.HttpContext.Request.Headers.TryGetValue(ApiKeyHeaderName, out var potentialApiKeyName))
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
-            if (!context.HttpContext.Request.Query.TryGetValue(ApiKeyHeaderPassword, out var potentialApiKeypassword))
+            if (!context.HttpContext.Request.Headers.TryGetValue(ApiKeyHeaderPassword, out var potentialApiKeypassword))
             {
                 context.Result = new UnauthorizedResult();
                 return;
