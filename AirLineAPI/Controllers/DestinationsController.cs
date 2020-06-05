@@ -15,7 +15,7 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class DestinationsController : HateoasControllerBase
