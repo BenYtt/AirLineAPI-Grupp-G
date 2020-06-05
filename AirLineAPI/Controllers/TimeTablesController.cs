@@ -14,7 +14,7 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class TimeTablesController : HateoasControllerBase
@@ -41,7 +41,6 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound($"Could not find any timetables");
                 }
-
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -71,19 +70,20 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        // API/v1.0/timetables/startdestination=gothenburg     Get timtables with startdestination gothenburg
+        // /api/v1.0/timetables/startdestination%3dgothenburg?includepassengers=true     Get timtables with startdestination gothenburg
 
-        [HttpGet("startDestination={startDestination}")]
-        public async Task<ActionResult<TimeTable[]>> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
+        [HttpGet("startDestination={startDestination}", Name = "GetTimeTableByStartDestination")]
+        public async Task<ActionResult<TimeTableDto[]>> GetTimeTableByStartDestination(string startDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
+                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
                     return NotFound($"Could not find Timetable at start destination");
                 }
-                return Ok(results);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {
@@ -91,19 +91,20 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        // API/v1.0/timetables/enddestination=gothenburg     Get timtables with enddestination= gothenburg
+        // /api/v1.0/timetables/enddestination%3dgothenburg?includepassengers=true&includeroutes=true    Get timtables with enddestination= gothenburg
 
-        [HttpGet("endDestination={endDestination}")]
+        [HttpGet("endDestination={endDestination}", Name = "GetTimeTableByEndDestination")]
         public async Task<ActionResult<TimeTable[]>> GetTimeTableByEndDestination(string endDestination, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
+                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
                     return NotFound($"There is no flight with the enddestination : {endDestination}");
                 }
-                return Ok(results);
+                return Ok(passengerresult);
             }
             catch (Exception e)
             {

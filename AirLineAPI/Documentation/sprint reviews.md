@@ -14,6 +14,19 @@ om sprinten:
 
 Vi började veckan med att tilldela ansvarsområden för dom nya medlemmarna. Vi gjorde klart alla issues som vi kunde göra denna gången, Var en väldigt kort sprint på bara 2 dagar så finns inte så mycket att skriva. Vi hamnade lite före så körde fast på hateoas vi kunde inte göra mer än att vänta tills läraren går igenom dessa saker. Vi hade en kort sprint för vi la ner tid på att förklara projektet för dom nya. 
 
+**27/5 -29/5**  Irvin
+
+- Blev alla     issues klara?
+
+- -  Det      viktigaste
+
+- Issues  som inte blev klara?
+
+- -  Code clean up 
+
+ om sprinten
+
+Det har gått bra vi blev klara med nästa allt. Vi prioriterade att göra klart dom viktigaste issuse först  som hateoas och swagger men det tog mer tid än väntat att bestämma oss för hur vi ville ha det med hateoas. Vi hann inte klart med code clean up men vi kommer göra klart den på nästa sprint. Detta var också en väldigt kort sprint på bara 2 dagar så finns inte så mycket att skriva.
 
 
 **Sprint 4: 18:e maj - 20:e maj**

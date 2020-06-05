@@ -21,10 +21,10 @@ namespace AirLineAPI.Controllers
     [ApiController]
     public class PassengersController : HateoasControllerBase
     {
-        private readonly IPassengerRepo _passengerRepo;
+        private readonly IPassengerRepository _passengerRepo;
         private readonly IMapper _mapper;
 
-        public PassengersController(IPassengerRepo passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
+        public PassengersController(IPassengerRepository passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
             _passengerRepo = passengerRepo;
             _mapper = mapper;
@@ -32,12 +32,12 @@ namespace AirLineAPI.Controllers
 
         //api/v1.0/Passengers    Get all Passengers
         [HttpGet(Name = "GetAll")]
-        public async Task<ActionResult<Passenger[]>> GetAllPassengers([FromQuery] bool timeTable)
+        public async Task<ActionResult<PassengerDto[]>> GetAllPassengers([FromQuery] bool timeTable)
         {
             try
             {
                 var result = await _passengerRepo.GetPassengers(timeTable);
-                var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinks(m));
+                var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinksPassenger(m));
                 if (result == null)
                 {
                     return NotFound("Could not find any passengers.");
@@ -54,8 +54,8 @@ namespace AirLineAPI.Controllers
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
         //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
-        [HttpGet("{id}", Name = "GetpassengerAsync")]
-        public async Task<ActionResult<Passenger>> GetPassengerById(long id, [FromQuery] bool timeTable)
+        [HttpGet("{id}", Name = "GetPassengerAsync")]
+        public async Task<ActionResult<PassengerDto>> GetPassengerById(long id, [FromQuery] bool timeTable)
         {
             try
 
@@ -65,10 +65,10 @@ namespace AirLineAPI.Controllers
                 if (result == null)
 
                 {
-                    return NotFound($"There is no passenger with id:{id}");
+                    return NotFound($"There is no passenger with ID:{id}");
                 }
 
-                return Ok(HateoasMainLinks(mappedResult));
+                return Ok(HateoasMainLinksPassenger(mappedResult));
             }
             catch (Exception e)
             {
@@ -88,7 +88,7 @@ namespace AirLineAPI.Controllers
                 {
                     return NotFound($"There is no passenger with name:{name}");
                 }
-                return Ok(HateoasMainLinks(mappedResult));
+                return Ok(HateoasMainLinksPassenger(mappedResult));
             }
             catch (Exception e)
             {
@@ -109,7 +109,7 @@ namespace AirLineAPI.Controllers
                     return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
                 }
 
-                return Ok(HateoasMainLinks(mappedResult));
+                return Ok(HateoasMainLinksPassenger(mappedResult));
             }
             catch (Exception e)
             {
@@ -126,7 +126,7 @@ namespace AirLineAPI.Controllers
                 _passengerRepo.Add(mappedEntity);
                 if (await _passengerRepo.Save())
                 {
-                    return Created($"/api/v1.0/Destinations/{mappedEntity.Id}", _mapper.Map<Passenger>(mappedEntity));
+                    return Created($"/api/v1.0/Passengers/{mappedEntity.Id}", _mapper.Map<Passenger>(mappedEntity));
                 }
             }
             catch (Exception e)
@@ -138,7 +138,7 @@ namespace AirLineAPI.Controllers
 
         //https:/localhost:44333/api/v1.0/passengers/
         [HttpPut("{Id}")]
-        public async Task<ActionResult<PassengerDto>> PutEvent(long id, PassengerDto passengerDto)
+        public async Task<ActionResult<PassengerDto>> PutEvent(int id, PassengerDto passengerDto)
         {
             try
             {
