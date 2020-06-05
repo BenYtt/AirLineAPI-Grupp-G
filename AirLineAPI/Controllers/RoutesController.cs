@@ -130,6 +130,26 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //POST: api/v1.0/routes                                 POST Routes
+        [HttpPost]
+        public async Task<ActionResult<RouteDto>> PostEvent([FromBody]RouteDto routeDto)
+        {
+            try
+            {
+                var mappedEntity = _mapper.Map<Route>(routeDto);
+                _routeRepository.Add(mappedEntity);
+                if (await _routeRepository.Save())
+                {
+                    return Created($"/api/v1.0/Routes/{mappedEntity.Id}", _mapper.Map<Route>(mappedEntity));
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+            }
+            return BadRequest();
+        }
+
         //Put: api/v1.0/Routes/{id}                                 Put Route
         [HttpPut("{id}")]
         public async Task<ActionResult<RouteDto>> PutRoute(int id, [FromBody] RouteDto routeDto)
