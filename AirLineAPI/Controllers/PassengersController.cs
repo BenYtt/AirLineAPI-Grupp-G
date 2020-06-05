@@ -30,9 +30,6 @@ namespace AirLineAPI.Controllers
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Show all attractions.
-        /// </summary>
         //api/v1.0/Passengers    Get all Passengers
         [HttpGet(Name = "GetPassengers")]
         public async Task<ActionResult<PassengerDto[]>> GetAllPassengers(bool timeTable)
