@@ -36,6 +36,11 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRoutes(minMinutes, maxMinutes);
                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+
+                if (result == null)
+                {
+                    return NotFound($"There are no routes");
+                }
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -74,6 +79,12 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRoutesByStartCity(fromCity);
                 var passengerresult = _mapper.Map<RouteDto>(result);
+
+                if (result == null)
+                {
+                    return NotFound($"There is no route from city:{fromCity}");
+                }
+
                 return Ok(HateoasMainLinksRoute(passengerresult));
             }
             catch (Exception e)
@@ -90,6 +101,12 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRoutesByEndCity(toCity);
                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+
+                if (result == null)
+                {
+                    return NotFound($"There is no route to city: {toCity}");
+                }
+
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -106,6 +123,10 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRoutesByEndCountry(country);
                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+                if (result == null)
+                {
+                    return NotFound($"There is no route with end country: {country}");
+                }
                 return Ok(passengerresult);
             }
             catch (Exception e)
@@ -122,6 +143,12 @@ namespace AirLineAPI.Controllers
             {
                 var result = await _routeRepository.GetRoutesByStartCountry(country, includeTime);
                 var passengerresult = _mapper.Map<RouteDto[]>(result).Select(m => HateoasMainLinksRoute(m));
+
+                if (result == null)
+                {
+                    return NotFound($"There is no route with start country: {country}");
+                }
+
                 return Ok(passengerresult);
             }
             catch (Exception e)
