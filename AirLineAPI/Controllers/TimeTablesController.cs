@@ -35,13 +35,13 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTables(minMinutes, maxMinutes, includePassengers, includeRoutes);
-                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
+                var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
 
                 if (results == null)
                 {
                     return NotFound($"Could not find any timetables");
                 }
-                return Ok(passengerresult);
+                return Ok(Timetableresult);
             }
             catch (Exception e)
             {
@@ -51,18 +51,18 @@ namespace AirLineAPI.Controllers
 
         //    /API/v1.0/timetables/1    Get timetable by id
 
-        [HttpGet("{id}", Name = "GettimetablesId")]
-        public async Task<ActionResult<TimeTable>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
+        [HttpGet("{id}", Name = "GetTimeTablesId")]
+        public async Task<ActionResult<TimeTableDto>> GetTimeTableByID(long id, bool includePassengers = false, bool includeRoutes = false)
         {
             try
             {
                 var results = await _repository.GetTimeTableByID(id, includePassengers, includeRoutes);
-                var passengerresult = _mapper.Map<TimeTableDto>(results);
+                var Timetableresult = _mapper.Map<TimeTableDto>(results);
                 if (results == null)
                 {
                     return NotFound($"Could not find any timetable with id {id}");
                 }
-                return Ok(HateoasMainLinksTimeTable(passengerresult));
+                return Ok(HateoasMainLinksTimeTable(Timetableresult));
             }
             catch (Exception e)
             {
@@ -78,12 +78,12 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByStartDestination(startDestination, includePassengers, includeRoutes);
-                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
+                var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
                     return NotFound($"Could not find Timetable at start destination");
                 }
-                return Ok(passengerresult);
+                return Ok(Timetableresult);
             }
             catch (Exception e)
             {
@@ -99,12 +99,12 @@ namespace AirLineAPI.Controllers
             try
             {
                 var results = await _repository.GetTimeTableByEndDestination(endDestination, includePassengers, includeRoutes);
-                var passengerresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
+                var Timetableresult = _mapper.Map<TimeTableDto[]>(results).Select(m => HateoasMainLinksTimeTable(m));
                 if (results == null)
                 {
                     return NotFound($"There is no flight with the enddestination : {endDestination}");
                 }
-                return Ok(passengerresult);
+                return Ok(Timetableresult);
             }
             catch (Exception e)
             {
