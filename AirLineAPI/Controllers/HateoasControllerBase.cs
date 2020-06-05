@@ -38,9 +38,10 @@ namespace AirLineAPI.Controllers
 
             passengerDto.Links.Add(UrlLink("all","GetAll", null));
             passengerDto.Links.Add(UrlLink("_self","GetPassengerAsync", new { id = passengerDto.Id }));
+            passengerDto.Links.Add(UrlLink("_next","GetPassengerAsync", new { id = passengerDto.Id + 1 }));
             passengerDto.Links.Add(UrlLink("_name=Greta","GetNameAsync", new {Name="Greta" }));
             passengerDto.Links.Add(UrlLink("_identificationNumber","GetIdnumberAsync", new {idNumber="197110316689"}));
-            passengerDto.Links.Add(UrlLink("_next","GetPassengerAsync", new { id = passengerDto.Id + 1 }));
+           
 
             return passengerDto;
         }
@@ -78,14 +79,10 @@ namespace AirLineAPI.Controllers
             routeDto.Links.Add(UrlLink("all", "GetRoutes", null));
             routeDto.Links.Add(UrlLink("_self", "GetRouteById", new { id = routeDto.Id }));
             routeDto.Links.Add(UrlLink("_next", "GetRouteById", new { id = routeDto.Id + 1 }));
-            routeDto.Links.Add(UrlLink("_startCity", "GetRouteByStartCity", new { fromCity = "stockholm"}));
-            routeDto.Links.Add(UrlLink("_endCity", "GetRoutesByEndCity", new { toCity = "stockholm"}));
-            routeDto.Links.Add(UrlLink("_endCountry", "GetRouteByEndCountry", new { EndCountry = "Sweden"}));
-            routeDto.Links.Add(UrlLink("_fromCountry", "GetRoutesByStartCountry", new { FromCountry = "Sweden"}));
-
-
-
-
+            routeDto.Links.Add(UrlLink("_startCity", "GetRouteByStartCity", new { fromCity="stockholm"}));
+            routeDto.Links.Add(UrlLink("_endCity", "GetRoutesByEndCity", new { toCity="stockholm"}));
+            routeDto.Links.Add(UrlLink("_endCountry", "GetRouteByEndCountry", new { EndCountry="Sweden"}));
+            routeDto.Links.Add(UrlLink("_fromCountry", "GetRoutesByStartCountry", new { FromCountry="Sweden"}));
 
             return routeDto;
         }
@@ -95,8 +92,10 @@ namespace AirLineAPI.Controllers
             var timeTableDto = timeTable;
 
             timeTableDto.Links.Add(UrlLink("all", "GetTimeTables", null));
-
             timeTableDto.Links.Add(UrlLink("_self", "GettimetablesId", new { id = timeTableDto.Id }));
+            timeTableDto.Links.Add(UrlLink("_next", "GettimetablesId", new { id = timeTableDto.Id +1}));
+            timeTableDto.Links.Add(UrlLink("_startDestination", "GetTimeTableByStartDestination", new { startDestination="gothenburg", includePassengers=true, includeRoutes=true}));
+            timeTableDto.Links.Add(UrlLink("_endDestination", "GetTimeTableByEndDestination", new { endDestination="gothenburg", includePassengers=true, includeRoutes=true}));
 
             return timeTableDto;
         }
