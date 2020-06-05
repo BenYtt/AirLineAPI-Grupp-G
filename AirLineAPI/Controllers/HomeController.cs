@@ -28,13 +28,15 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
         public IActionResult GetRoot()
         {
             RootModel rootModel = new RootModel();
-            
-            rootModel.Links.Add(
-                UrlLink("passengers", "GetAll", null));
-            rootModel.Links.Add(
-              UrlLink("timetable", "GetTimeTables", null));
+
             rootModel.Links.Add(
                 UrlLink("destinations", "GetDestinations", null));
+            rootModel.Links.Add(
+                UrlLink("Flights", "GetFlights", null));
+            rootModel.Links.Add(
+                UrlLink("Passengers", "GetAll", null));
+            rootModel.Links.Add(
+              UrlLink("TimeTable", "GetTimeTables", null));
 
             return Ok(rootModel);
         }
