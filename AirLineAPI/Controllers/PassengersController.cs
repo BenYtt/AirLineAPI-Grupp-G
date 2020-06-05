@@ -97,7 +97,7 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet("idNumber={idNumber}", Name = "GetPassengerByIdentificationNumber")]
+        [HttpGet("IdentificationNumber={IdentificationNumber}", Name = "GetPassengerByIdentificationNumber")]
         public async Task<ActionResult<PassengerDto>> GetPassengerByIdentificationNumber(long IdentificationNumber)
         {
             try

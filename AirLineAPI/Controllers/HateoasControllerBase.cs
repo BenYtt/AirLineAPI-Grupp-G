@@ -40,7 +40,7 @@ namespace AirLineAPI.Controllers
             passengerDto.Links.Add(UrlLink("_self", "GetPassengerById", new { id = passengerDto.Id }));
             passengerDto.Links.Add(UrlLink("_next", "GetPassengerById", new { id = passengerDto.Id + 1 }));
             passengerDto.Links.Add(UrlLink("_name=Greta", "GetPassengerByName", new { Name = "Greta" }));
-            passengerDto.Links.Add(UrlLink("_identificationNumber", "GetPassengerByIdentificationNumber", new { idNumber = "197110316689" }));
+            passengerDto.Links.Add(UrlLink("_identificationNumber", "GetPassengerByIdentificationNumber", new { IdentificationNumber = "199002128812" }));
 
             return passengerDto;
         }
