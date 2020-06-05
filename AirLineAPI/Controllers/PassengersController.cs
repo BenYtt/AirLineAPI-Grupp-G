@@ -16,27 +16,27 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class PassengersController : HateoasControllerBase
     {
-        private readonly IPassengerRepository _passengerRepo;
+        private readonly IPassengerRepository _passengerRepository;
         private readonly IMapper _mapper;
 
         public PassengersController(IPassengerRepository passengerRepo, IMapper mapper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) : base(actionDescriptorCollectionProvider)
         {
-            _passengerRepo = passengerRepo;
+            _passengerRepository = passengerRepo;
             _mapper = mapper;
         }
 
         //api/v1.0/Passengers    Get all Passengers
-        [HttpGet(Name = "GetAll")]
-        public async Task<ActionResult<PassengerDto[]>> GetAllPassengers([FromQuery] bool timeTable)
+        [HttpGet(Name = "GetPassengers")]
+        public async Task<ActionResult<PassengerDto[]>> GetAllPassengers(bool timeTable)
         {
             try
             {
-                var result = await _passengerRepo.GetPassengers(timeTable);
+                var result = await _passengerRepository.GetPassengers(timeTable);
                 var passengerresult = _mapper.Map<PassengerDto[]>(result).Select(m => HateoasMainLinksPassenger(m));
                 if (result == null)
                 {
@@ -51,16 +51,16 @@ namespace AirLineAPI.Controllers
             }
         }
 
+        //api/v1.0/passengers/{id}                          Get a passenger
         //api/v1.0/passengers?timeTable=true             Get passengers with time table
-        //api/v1.0/passengers/1                          Get a passenger
         //api/v1.0/passengers/1?timeTable=true           Get a passenger with time table
-        [HttpGet("{id}", Name = "GetPassengerAsync")]
-        public async Task<ActionResult<PassengerDto>> GetPassengerById(long id, [FromQuery] bool timeTable)
+        [HttpGet("{id}", Name = "GetPassengerById")]
+        public async Task<ActionResult<PassengerDto>> GetPassengerById(int id, bool timeTable)
         {
             try
 
             {
-                var result = await _passengerRepo.GetPassengerById(id, timeTable);
+                var result = await _passengerRepository.GetPassengerById(id, timeTable);
                 var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
 
@@ -77,12 +77,12 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/name=Greta      Get passenger by name
-        [HttpGet("name={name}", Name = "GetNameAsync")]
+        [HttpGet("name={name}", Name = "GetPassengerByName")]
         public async Task<ActionResult<PassengerDto>> GetPassengerByName(string name)
         {
             try
             {
-                var result = await _passengerRepo.GetPassengerByName(name);
+                var result = await _passengerRepository.GetPassengerByName(name);
                 var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
                 {
@@ -97,16 +97,16 @@ namespace AirLineAPI.Controllers
         }
 
         //api/v1.0/passengers/identityNm=197110316689      Get passenger by Identification number
-        [HttpGet("idNumber={idNumber}", Name = "GetIdnumberAsync")]
-        public async Task<ActionResult<PassengerDto>> GetPassengerByIdentificationNumber(long idNumber)
+        [HttpGet("IdentificationNumber={IdentificationNumber}", Name = "GetPassengerByIdentificationNumber")]
+        public async Task<ActionResult<PassengerDto>> GetPassengerByIdentificationNumber(long IdentificationNumber)
         {
             try
             {
-                var result = await _passengerRepo.GetPassengerByIdentificationNumber(idNumber);
+                var result = await _passengerRepository.GetPassengerByIdentificationNumber(IdentificationNumber);
                 var mappedResult = _mapper.Map<PassengerDto>(result);
                 if (result == null)
                 {
-                    return NotFound($"There is no passenger with Identificationnumber:{idNumber}");
+                    return NotFound($"There is no passenger with Identificationnumber:{IdentificationNumber}");
                 }
 
                 return Ok(HateoasMainLinksPassenger(mappedResult));
@@ -123,8 +123,8 @@ namespace AirLineAPI.Controllers
             try
             {
                 var mappedEntity = _mapper.Map<Passenger>(passengerDto);
-                _passengerRepo.Add(mappedEntity);
-                if (await _passengerRepo.Save())
+                _passengerRepository.Add(mappedEntity);
+                if (await _passengerRepository.Save())
                 {
                     return Created($"/api/v1.0/Passengers/{mappedEntity.Id}", _mapper.Map<Passenger>(mappedEntity));
                 }
@@ -142,7 +142,7 @@ namespace AirLineAPI.Controllers
         {
             try
             {
-                var oldpassenger = await _passengerRepo.GetPassengerById(id);
+                var oldpassenger = await _passengerRepository.GetPassengerById(id);
 
                 if (oldpassenger == null)
                 {
@@ -150,8 +150,8 @@ namespace AirLineAPI.Controllers
                 }
 
                 var newPassenger = _mapper.Map(passengerDto, oldpassenger);
-                _passengerRepo.Update(newPassenger);
-                if (await _passengerRepo.Save())
+                _passengerRepository.Update(newPassenger);
+                if (await _passengerRepository.Save())
                 {
                     return NoContent();
                 }
@@ -163,21 +163,21 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //Delete: api/v1.0/Passenger/<id>                                 Delete Passenger
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeletePassenger(long passengerid)
+        //Delete: api/v1.0/Passenger/{id}                                 Delete Passenger
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePassenger(int id)
         {
             try
             {
-                var oldpassenger = await _passengerRepo.GetPassengerById(passengerid);
+                var oldpassenger = await _passengerRepository.GetPassengerById(id);
                 if (oldpassenger == null)
                 {
-                    return NotFound($"there is no pasenger with id:{passengerid}");
+                    return NotFound($"there is no pasenger with id:{id}");
                 }
 
-                _passengerRepo.Delete(oldpassenger);
+                _passengerRepository.Delete(oldpassenger);
 
-                if (await _passengerRepo.Save())
+                if (await _passengerRepository.Save())
                 {
                     return NoContent();
                 }

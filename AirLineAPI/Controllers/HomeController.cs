@@ -34,11 +34,11 @@ namespace BaldBeardedBuilder.HATEOAS.Controllers
             rootModel.Links.Add(
                 UrlLink("Flights", "GetFlights", null));
             rootModel.Links.Add(
-                UrlLink("Passengers", "GetAll", null));
+                UrlLink("Passengers", "GetPassengers", null));
             rootModel.Links.Add(
                 UrlLink("TimeTable", "GetTimeTables", null));
             rootModel.Links.Add(
-                UrlLink("RouteTable", "GetRoutes", null));  
+                UrlLink("RouteTable", "GetRoutes", null));
 
             return Ok(rootModel);
         }

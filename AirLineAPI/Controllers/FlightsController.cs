@@ -15,7 +15,7 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
-    [ApiKeyAuth]
+    //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]
     public class FlightsController : HateoasControllerBase
@@ -50,9 +50,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //GET: api/v1.0/flights/i                                 Get flights by id
+        //GET: api/v1.0/flights/{id}                                 Get flights by id
         [HttpGet("{id}", Name = "GetFlightById")]
-        public async Task<ActionResult<FlightDto>> GetFlightById(long id)
+        public async Task<ActionResult<FlightDto>> GetFlightById(int id)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace AirLineAPI.Controllers
         //PUT: api/v1.0/flights                                 PUT Flight
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<FlightDto>> PutFlightById(long id, [FromBody]FlightDto flightDto)
+        public async Task<ActionResult<FlightDto>> PutFlightById(int id, [FromBody]FlightDto flightDto)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace AirLineAPI.Controllers
 
         //DELETE: api/v1.0/flights/1                                 Delete Flight
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteFlightById(long id)
+        public async Task<ActionResult> DeleteFlightById(int id)
         {
             try
             {

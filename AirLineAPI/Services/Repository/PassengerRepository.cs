@@ -2,8 +2,6 @@
 using AirLineAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,15 +24,15 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Passenger> GetPassengerById(long passengerId, bool includeTimeTable = false)
+        public async Task<Passenger> GetPassengerById(int id, bool includeTimeTable = false)
         {
-            _logger.LogInformation($"Getting passenger by id {passengerId}");
+            _logger.LogInformation($"Getting passenger by id {id}");
             IQueryable<Passenger> query = _context.Passengers;
             if (includeTimeTable)
             {
                 query = query.Include(t => t.PassengerTimeTables);
             }
-            query = query.Where(x => x.Id == passengerId);
+            query = query.Where(x => x.Id == id);
             return await query.FirstOrDefaultAsync();
         }
 

@@ -12,7 +12,6 @@ namespace AirLineAPI.Services
         protected readonly AirLineContext _context;
         protected readonly ILogger<Repository> _logger;
 
-
         public Repository(AirLineContext context, ILogger<Repository> logger)
         {
             _context = context;

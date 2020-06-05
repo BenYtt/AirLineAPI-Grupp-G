@@ -2,7 +2,6 @@
 using AirLineAPI.Model;
 using AirLineAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,10 +38,9 @@ namespace AirLineAPI.Services
 
         private async Task<Boolean> VerifyPassword(string password)
         {
-            //var a = _context.Users.Where(n => n.Name == username);
-            var b = await _context.Users.Where(n => n.ApiKey == password).FirstOrDefaultAsync();
+            var passwordValidation = await _context.Users.Where(n => n.ApiKey == password).FirstOrDefaultAsync();
 
-            if (b == null)
+            if (passwordValidation == null)
             {
                 return false;
             }

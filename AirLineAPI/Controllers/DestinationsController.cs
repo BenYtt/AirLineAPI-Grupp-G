@@ -49,9 +49,9 @@ namespace AirLineAPI.Controllers
             }
         }
 
-        //api/v1.0/destination/1      Get destination by id
+        //api/v1.0/destination/{id}      Get destination by id
         [HttpGet("{id}", Name = "GetDestinationById")]
-        public async Task<ActionResult<Destination>> GetDestinationById(long id)
+        public async Task<ActionResult<DestinationDto>> GetDestinationById(int id)
         {
             try
             {
@@ -131,15 +131,15 @@ namespace AirLineAPI.Controllers
         }
 
         //https:/localhost:44333/api/v1.0/destinations/
-        [HttpPut("{destinationId}")]
-        public async Task<ActionResult> PutDestination(int destinationId, DestinationDto destinationDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutDestination(int id, DestinationDto destinationDto)
         {
             try
             {
-                var oldDestination = await _destinationRepository.GetDestinationById(destinationId);
+                var oldDestination = await _destinationRepository.GetDestinationById(id);
                 if (oldDestination == null)
                 {
-                    return NotFound($"Could not find destination with id {destinationId}");
+                    return NotFound($"Could not find destination with id {id}");
                 }
 
                 var newDestination = _mapper.Map(destinationDto, oldDestination);
@@ -156,16 +156,16 @@ namespace AirLineAPI.Controllers
             return BadRequest();
         }
 
-        //https:/localhost:44333/api/v1.0/destinations/Id
-        [HttpDelete("{destinationId}")]
-        public async Task<ActionResult> DeleteDestination(int destinationId)
+        //https:/localhost:44333/api/v1.0/destinations/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteDestination(int id)
         {
             try
             {
-                var OldDestination = await _destinationRepository.GetDestinationById(destinationId);
+                var OldDestination = await _destinationRepository.GetDestinationById(id);
                 if (OldDestination == null)
                 {
-                    return NotFound($"Counld not find destination with id {destinationId}");
+                    return NotFound($"Counld not find destination with id {id}");
                 }
                 _destinationRepository.Delete(OldDestination);
                 if (await _destinationRepository.Save())

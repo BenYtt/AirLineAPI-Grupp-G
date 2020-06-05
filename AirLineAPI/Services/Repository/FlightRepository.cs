@@ -2,8 +2,6 @@
 using AirLineAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,11 +22,11 @@ namespace AirLineAPI.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Flight> GetFlightById(long flightID)
+        public async Task<Flight> GetFlightById(int id)
         {
-            _logger.LogInformation($"Getting flight from id: {flightID}");
+            _logger.LogInformation($"Getting flight from id: {id}");
 
-            IQueryable<Flight> query = _context.Flights.Where(f => f.Id == flightID);
+            IQueryable<Flight> query = _context.Flights.Where(f => f.Id == id);
 
             return await query.SingleOrDefaultAsync();
         }

@@ -9,11 +9,15 @@ namespace AirLineAPI.Services
     public interface IRouteRepository : IRepository
     {
         Task<Route[]> GetRoutes(int minTime, int maxTime);
-        Task<Route> GetRouteById(long RouteId);
+
+        Task<Route> GetRouteById(int id);
+
         Task<Route[]> GetRoutesByStartCity(string city);
+
         Task<Route[]> GetRoutesByEndCity(string city);
+
         Task<Route[]> GetRoutesByEndCountry(string country);
+
         Task<Route[]> GetRoutesByStartCountry(string country, double maxtime);
-        
     }
 }
