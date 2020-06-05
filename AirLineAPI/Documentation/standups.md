@@ -1,6 +1,46 @@
-# Standups 
+# Standups
 
-## Torsdag 04/6
+## Fredag 5/6 
+
+## Sekriterare: Irvin
+
+**Summering av gårdagen**
+
+*  Vi fixade en ny Db setup så att filtern kunde funka för var och en.
+
+### Hela Gruppen:
+
+* Alla jobbade med sina egna issues.
+
+## Vad ska vi göra idag
+
+**André:**
+
+* Get flights in heteoas Homecontroller FLIGHT -233
+* Code clean up på hela projektet FLIGHT-239
+
+**Irvin:**
+
+* Code clean up timetable FLIGHT-221
+* Fixed tablediagram (hade ingen issue)
+
+**Jakob:**
+
+* Create link for destinations in homecontroller FLIGHT-224
+* Error handling routes  (hade ingen issue)
+
+**Anders:**
+
+* Create link for rotes in homecontroller FLIGHT-241
+* Post request in routes  (hade ingen issue)
+
+
+
+
+
+
+
+## Torsdag 4/6
 
 ## Sekriterare: Irvin
 
