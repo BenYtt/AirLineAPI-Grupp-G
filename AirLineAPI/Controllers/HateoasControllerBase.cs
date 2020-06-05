@@ -32,15 +32,16 @@ namespace AirLineAPI.Controllers
             return new Link(url, relation, method);
         }
 
-        internal PassengerDto HateoasMainLinks(PassengerDto passenger)
+        internal PassengerDto HateoasMainLinksPassenger(PassengerDto passenger)
         {
-            PassengerDto passengerDto = passenger;
+            var passengerDto = passenger;
 
-            passengerDto.Links.Add(UrlLink("all", "GetAll", null));
-            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.Id }));
-            passengerDto.Links.Add(UrlLink("_name=Greta", "GetNameAsync", new {Name="Greta" }));
+            passengerDto.Links.Add(UrlLink("all","GetAll", null));
+            passengerDto.Links.Add(UrlLink("_self","GetPassengerAsync", new { id = passengerDto.Id }));
+            passengerDto.Links.Add(UrlLink("_next","GetPassengerAsync", new { id = passengerDto.Id + 1 }));
+            passengerDto.Links.Add(UrlLink("_name=Greta","GetNameAsync", new {Name="Greta" }));
             passengerDto.Links.Add(UrlLink("_identificationNumber","GetIdnumberAsync", new {idNumber="197110316689"}));
-            passengerDto.Links.Add(UrlLink("_self", "GetpassengerAsync", new { id = passengerDto.Id + 1 }));
+           
 
             return passengerDto;
         }

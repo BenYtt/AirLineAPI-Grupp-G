@@ -46,7 +46,7 @@ namespace AirLineAPI
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
-            services.AddScoped<IPassengerRepo, PassengerRepo>();
+            services.AddScoped<IPassengerRepository, PassengerRepository>();
             services.AddScoped<ITimeTableRepository, TimeTableRepository>();
             services.AddScoped<IDestinationRepository, DestinationRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();

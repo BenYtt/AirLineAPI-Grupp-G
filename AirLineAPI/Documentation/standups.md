@@ -1,5 +1,46 @@
 # Standups 
 
+## Torsdag 04/6
+
+## Sekriterare: Irvin
+
+**Summering av gårdagen**
+
+*  Vi jobbade tillsammans och  gjorde klart filter hela dagen 
+
+### Hela Gruppen:
+
+* Vi fixade en ny Db setup så att filtern kunde funka för var och en 
+* Vi försökte fixa så att man kan inkludera TimeTable på passenger 
+
+## Vad ska vi göra idag
+
+**André:**
+
+* fixade en Db setup
+* hjälpte alla med  Db setup
+* hjälpte alla med att lägga till funktionalitet till Hateoas 
+
+**Irvin:**
+
+* fixade code clean up 
+* fixade en Db setup
+* Lade till funktionalitet till Hateoas passenger
+
+**Jakob:**
+
+* Lade till funktionalitet till Hateoas destination
+* fixade en Db setup
+
+**Anders:**
+
+* Lade till funktionalitet till Hateoas route
+* fixade en Db setup
+
+
+
+
+
 ## Onsdag 03/6
 
 ## Sekriterare: Irvin
