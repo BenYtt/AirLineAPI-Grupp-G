@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Dto
 {
-    public class TimeTableDto : HateoasLinkBase, IEntity
+    public class TimeTableDto : HateoasLinkBase
     {
         public int Id { get; set; }
         public Route Route { get; set; }

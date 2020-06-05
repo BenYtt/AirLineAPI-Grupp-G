@@ -16,6 +16,8 @@ using AirLineAPI.Filters;
 
 namespace AirLineAPI.Controllers
 {
+    // Vi stänger av den för att du ska kunna köra controllern.
+    // Kommer att vara aktiv bara på Destinations.
     //[ApiKeyAuth]
     [Route("api/v1.0/[controller]")]
     [ApiController]

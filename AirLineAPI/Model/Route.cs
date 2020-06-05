@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirLineAPI.Model
 {
-    public class Route : IEntity
+    public class Route
     {
         public int Id { get; set; }
         public string Name { get; set; }

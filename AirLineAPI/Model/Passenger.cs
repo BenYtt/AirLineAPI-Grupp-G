@@ -8,7 +8,7 @@ using AirLineAPI.Services.Interfaces;
 
 namespace AirLineAPI.Model
 {
-    public class Passenger : IEntity
+    public class Passenger
     {
         public int Id { get; set; }
         public string Name { get; set; }
