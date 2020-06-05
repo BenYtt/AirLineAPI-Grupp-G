@@ -5,7 +5,7 @@
 
 | Column | Datatype | Null |
 | --------- | ------------ | --------- |
-| *Id*      | `long`     |           |
+| *Id*      | int  |           |
 | *Manufacturer* | `string`   |      |
 | *Model* | `string` |           |
 
@@ -13,16 +13,16 @@
 
 | Column   | Datatype | Null |
 | -------------- | ------------ | --------- |
-| *Id*           | `long`     |           |
+| *Id*           | int  |           |
 | *Name* | `string` |           |
-| *IdentificationNumber* | `int` |           |
+| *IdentificationNumber* | long |           |
 | *PassengerTimeTables* | `ICollection<PassengerTimeTable>` | null |
 
 ### TimeTable
 
 | Column | Datatype | Null |
 | -------------- | ------------ | --------- |
-| *Id*           | `long`     |           |
+| *Id*           | int  |           |
 | *Route* | `Route` |           |
 | *Flight* | `Flight` |           |
 | *DepartureDate* | `DateTime`  |           |
@@ -33,7 +33,7 @@
 
 | Column   | Datatype | Null |
 | --------------- | ------------ | --------- |
-| *Id*            | `long`     |           |
+| *Id*            | int  |           |
 | *City* | `string` |           |
 | *Country* | `string` |           |
 
@@ -41,38 +41,115 @@
 
 | Column             | Datatype      | Null |
 | ------------------ | ------------- | ---- |
-| *Id*               | `long`        |      |
+| *Id*               | int           |      |
 | *Name*             | `string`      |      |
 | *StartDestination* | `Destination` |      |
 | *EndDestination*   | `Destination` |      |
 | *TravelTime*       | `TimeSpan`    |      |
 
+### User
+
+| Column | Datatype | Null |
+| ------ | -------- | ---- |
+| *Id*   | int      |      |
+| Name   | `string` |      |
+| ApiKey | `string` |      |
+
 ## Join Tables
 
-PassengerTimeTable
+### PassengerTimeTable
 
 | Column        | Datatype    | Null |
 | ------------- | ----------- | ---- |
-| *PassengerID* | `long`      |      |
+| Id            | int         |      |
+| *PassengerID* | int         |      |
 | *Passenger*   | `Passenger` |      |
-| *TimeTableId* | `long`      |      |
+| *TimeTableId* | int         |      |
 | *TimeTable*   | `TimeTable` |      |
 
 ## Requests
 
 ### GET
 
+### Flights
+
+| /flights                | Get all flights                  |      |
+| ----------------------- | -------------------------------- | ---- |
+| /flights/<id>           | Get one flight by id             |      |
+| /flights/<manufacturer> | Get all flights from manufacture |      |
+| /flights/<model>        | Get all flights by model         |      |
+
+### Passengers
+
+| /passengers                        | Get all passengers                        |      |
+| ---------------------------------- | ----------------------------------------- | ---- |
+| /passengers/<id>                   | Get one passenger by id                   |      |
+| /passengers/<name>                 | Get all passengers with that name         |      |
+| /passengers/<IdentificationNumber> | Get one passenger by IdentificationNumber |      |
+| /passengers/?includeTimeTables     | Gets all passengers and their timetables. |      |
+
+### Destinations
+
+| /destinations                  | Get all destinations                       |      |
+| ------------------------------ | ------------------------------------------ | ---- |
+| /destinations/<ID>             | Get one destination by id                  |      |
+| destinations/country=<country> | Get all destinations in a specific country |      |
+| destinations/city=<city>       | Get destination by name                    |      |
+
+### Routes
+
+| /routes                         | Get all routes                               |      |
+| ------------------------------- | -------------------------------------------- | ---- |
+| /routes/<id>                    | Get one route by id                          |      |
+| /routes/startdestination=<city> | All routes from a specific startdesination   |      |
+| /routes/enddestination=<city>   | All routes from a specific enddesination     |      |
+| /routes/startcountry=<country>  | All routes, starting from a specific country |      |
+| /routes/endcountry=<country>    | All routes, going to a specific country      |      |
+
+
+
+### TimeTables
+
+| /timetables                         | Get all timetables                                |      |
+| ----------------------------------- | ------------------------------------------------- | ---- |
+| /timetables/<id>                    | Get one timetable by id                           |      |
+| /timetables/startdestination=<city> | All time tables from a specific start destination |      |
+| /timetables/enddestination=<city>   | All time tables from a specific end destination   |      |
+| /timetables/startcountry=<country>  | All time tables from a specific country           |      |
+| /timetables/endcountry=<country>    | All time tables to a specific country             |      |
+|                                     |                                                   |      |
+
 
 
 ### POST
 
-
+|                |                  |
+| -------------- | ---------------- |
+| /Flights/      | Post flight      |
+| /Timetables/   | Post timetable   |
+| /Passengers/   | Post passenger   |
+| /Destinations/ | Post destination |
+| /Routes/       | Post route       |
 
 ### PUT
 
-
+|                  |                 |
+| ---------------- | --------------- |
+| /Flights/Id      | Put flight      |
+| /Timetables/Id   | Put timetable   |
+| /Passengers/Id   | Put passenger   |
+| /Destinations/Id | Put destination |
+| /Routes/Id       | Put route       |
 
 ### DELETE
+
+|                  |                    |
+| ---------------- | ------------------ |
+| /Flights/Id      | Delete flight      |
+| /Timetables/Id   | Delete timetable   |
+| /Passengers/Id   | Delete passenger   |
+| /Destinations/Id | Delete destination |
+| /Routes/Id       | Delete route       |
 
 
 
